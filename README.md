@@ -4,10 +4,11 @@ JSUA Material Design Vocabulary
 X font
 X text
 X elevation
-_ spacing/margin, etc.
+X layout/responsiveness, etc.
 _ overflow
-_ layout/responsiveness, etc.
+_ panels
 _ components
+_ spacing/margin, etc.
 _ motion
 
 Typography
@@ -166,6 +167,31 @@ Elevation
 
 ```js
 elevation.depth(24)
+```
+
+Layout
+-------------------------------------------------
+
+```js
+apply(matchMedia("(max-width: 599)").select("[data-lynx-hints~=page]"), 
+  data("layout", "x-small"));
+apply(matchMedia("(min-width: 600px) and (max-width: 839)").select("[data-lynx-hints~=page]"), 
+  data("layout", "small"));
+apply(matchMedia("(min-width: 840px) and (max-width: 959)").select("[data-lynx-hints~=page]"), 
+  data("layout", "medium"));
+apply(matchMedia("(min-width: 960px)").select("[data-lynx-hints~=page]"), 
+  data("layout", "large"));
+  
+apply("[data-layout=large]",
+  style([
+    gridLayout(12, "16px"),
+    items(gridColumn(4))
+  ]));
+  
+apply("[data-layout-large] > [data-lynx-hints~=section]",
+  style([
+    gridColumn(8)
+  ]));
 ```
 
 Motion

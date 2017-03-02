@@ -23,7 +23,7 @@ describe("colorPalette", function () {
     });
   });
   
-  describe("primaryText", function () {
+  describe("primaryText(backgroundColor)", function () {
     it("should return a contrasting text color and opacity for a specified background color", function () {
       var textColor = colorPalette.primaryText("#ffffff");
       textColor.color.should.equal("#000000");
@@ -35,7 +35,7 @@ describe("colorPalette", function () {
     });
   });
   
-  describe("secondaryText", function () {
+  describe("secondaryText(backgroundColor)", function () {
     it("should return a contrasting text color and opacity for a specified background color", function () {
       var textColor = colorPalette.secondaryText("#ffffff");
       textColor.color.should.equal("#000000");
@@ -47,7 +47,7 @@ describe("colorPalette", function () {
     });
   });
   
-  describe("disabledText", function () {
+  describe("disabledText(backgroundColor)", function () {
     it("should return a contrasting text color and opacity for a specified background color", function () {
       var textColor = colorPalette.disabledText("#ffffff");
       textColor.color.should.equal("#000000");
@@ -59,7 +59,7 @@ describe("colorPalette", function () {
     });
   });
   
-  describe("divider", function () {
+  describe("divider(backgroundColor)", function () {
     it("should return a contrasting text color and opacity for a specified background color", function () {
       var textColor = colorPalette.divider("#ffffff");
       textColor.color.should.equal("#000000");
