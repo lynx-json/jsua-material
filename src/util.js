@@ -1,3 +1,5 @@
+import * as colorPalette from "./color-palette";
+
 export function wrapChildren(element) {
   if (element.children.length === 1 && element.children[0].role === "presentation") {
     return element.children[0];
@@ -16,4 +18,13 @@ export function wrapChildren(element) {
   
   element.appendChild(wrapper);
   return wrapper;
+}
+
+export function getDividerStyle(backgroundColor) {
+  var dividerColor = colorPalette.divider(backgroundColor);
+  if (dividerColor.color === "#ffffff") {
+    return `1px solid rgba(255, 255, 255, ${dividerColor.opacity})`;
+  } else {
+    return `1px solid rgba(0, 0, 0, ${dividerColor.opacity})`;
+  }
 }

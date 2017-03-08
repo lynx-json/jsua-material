@@ -180,4 +180,17 @@ describe("text", function () {
       el.style.opacity.should.equal(secondary);
     });
   });
+  
+  describe("input", function () {
+    // text.subHeading1, // Regular 16 (device), Regular 15 (desktop), Leading 24 [Small Labels (paired with text)], Color Primary
+    it("should apply Primary Regular 16px with 18px line height", function () {
+      exec(el, text.input(backgroundColor));
+      el.style.fontFamily.should.equal(robotoFont);
+      el.style.fontWeight.should.equal(regular);
+      el.style.fontSize.should.equal("16px");
+      el.style.color.should.equal("#000000");
+      el.style.opacity.should.equal(primary);
+      el.style.lineHeight.should.equal("18px");
+    });
+  });
 });

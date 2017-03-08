@@ -136,3 +136,13 @@ export function display4(backgroundColor) {
     secondaryText(backgroundColor)
   ];
 }
+
+export function input(backgroundColor) {
+  return [
+    el => el.style.fontFamily = "Roboto, sans-serif",
+    el => el.style.fontWeight = "400",
+    el => el.style.fontSize = "16px",
+    el => el.style.lineHeight = "18px",
+    primaryText(backgroundColor)
+  ];
+}
