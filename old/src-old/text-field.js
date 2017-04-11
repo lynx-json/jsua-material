@@ -48,7 +48,9 @@ export function textField(element, options) {
     var group = shadow.getElementById("group");
     query(group).each([
       el => el.style.display = "flex",
-      el => el.style.flexDirection = "column"
+      el => el.style.flexDirection = "column",
+      el => el.style.alignItems = "stretch",
+      el => el.style.width = "100%"
     ]);
     
     var label = shadow.getElementById("label");
@@ -60,21 +62,13 @@ export function textField(element, options) {
     
     var input = shadow.getElementById("input");
     query(input).each([
-      el => el.style.borderBottom = getDividerStyle(backgroundColor),
-      el => el.style.paddingBottom = "7px", // 8px - 1px border
+      el => el.style.display = "flex",
+      el => el.style.flexDirection = "column",
+      el => el.style.alignItems = "stretch",
       el => el.style.marginTop = "8px",
-      el => el.style.marginBottom = "8px",
-      text.input(backgroundColor)
+      el => el.style.marginBottom = "8px"
     ]);
     input.addEventListener("slotchange", floatLabel);
-    input.addEventListener("focusin", function () {
-      input.style.borderBottom = "2px solid " + colorScheme.accent;
-      input.style.paddingBottom = "6px";
-    });
-    input.addEventListener("focusout", function () {
-      input.style.borderBottom = getDividerStyle(backgroundColor);
-      input.style.paddingBottom = "7px";
-    });
   }
   
   addShadowDOM(element);

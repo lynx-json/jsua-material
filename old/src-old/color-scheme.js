@@ -15,11 +15,17 @@ var darkTheme = [
 ];
 
 var theme = lightTheme;
-var primary = theme[1];
-var accent = theme[0];
+var primary = colorPalette.getColor("Indigo");
+var accent = colorPalette.getColor("Amber");
 var error = colorPalette.getColor("Red");
 
 export const colorScheme = {
+  get lightTheme() {
+    return lightTheme;
+  },
+  get darkTheme() {
+    return darkTheme;
+  },
   get theme() {
     return theme;
   },

@@ -21,7 +21,7 @@ describe("text", function () {
   
   describe("button", function () {
     it("should apply Primary MEDIUM (ALL CAPS) 14px", function () {
-      exec(el, text.button(backgroundColor));
+      text.button(backgroundColor));
       el.style.fontFamily.should.equal(robotoFont);
       el.style.fontWeight.should.equal(medium);
       el.style.fontSize.should.equal("14px");
@@ -32,13 +32,14 @@ describe("text", function () {
   });
   
   describe("caption", function () {
-    it("should apply Secondary Regular 12px", function () {
+    it("should apply Secondary Regular 12px with 14px line height", function () {
       exec(el, text.caption(backgroundColor));
       el.style.fontFamily.should.equal(robotoFont);
       el.style.fontWeight.should.equal(regular);
       el.style.fontSize.should.equal("12px");
       el.style.color.should.equal("#000000");
       el.style.opacity.should.equal(secondary);
+      el.style.lineHeight.should.equal("14px");
     });
   });
   

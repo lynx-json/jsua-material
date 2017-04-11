@@ -1,11 +1,14 @@
 import * as text from "./text";
 import { query, on } from "jsua-query";
 import elevation from "./elevation";
+import { colorScheme } from "./color-scheme";
 import * as colorPalette from "./color-palette";
+
 import { getDividerStyle } from "./util";
 
 export function expansionPanel(options) {
-  var backgroundColor = options.backgroundColor || "#ffffff";
+  options = options || {};
+  var backgroundColor = options.backgroundColor || colorScheme.theme[2];
   var collapsedIcon = options.collapsedIcon || "keyboard_arrow_down";
   var expandedIcon = options.expandedIcon || "keyboard_arrow_up";
   
