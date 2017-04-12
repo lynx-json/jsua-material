@@ -24,9 +24,22 @@ function calculateTextColor(options) {
 }
 
 export default function backgroundExamples() {
-  createBackgroundExample("Color: #CCCCCC", function (el) {
+  createBackgroundExample("Known color and shade (Blue Grey, 900)", function (el) {
     var options = {
-      color: "#CCCCCC"
+      color: "Blue Grey",
+      shade: 900
+    };
+    material.background(el, options);
+
+    material.text.body(el.firstElementChild, {
+      color: calculateTextColor(options)
+    });
+  });
+
+  createBackgroundExample("Custom color and shade (#ff0000, 300)", function (el) {
+    var options = {
+      color: "#ff0000",
+      shade: 300
     };
     material.background(el, options);
 

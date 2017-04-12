@@ -39,9 +39,22 @@ function calculateTextColor(options) {
 }
 
 function backgroundExamples() {
-  createBackgroundExample("Color: #CCCCCC", function (el) {
+  createBackgroundExample("Known color and shade (Blue Grey, 900)", function (el) {
     var options = {
-      color: "#CCCCCC"
+      color: "Blue Grey",
+      shade: 900
+    };
+    material.background(el, options);
+
+    material.text.body(el.firstElementChild, {
+      color: calculateTextColor(options)
+    });
+  });
+
+  createBackgroundExample("Custom color and shade (#ff0000, 300)", function (el) {
+    var options = {
+      color: "#ff0000",
+      shade: 300
     };
     material.background(el, options);
 
@@ -305,17 +318,82 @@ function backgroundExamples() {
   });
 }
 
-},{"../src":21,"./util":4,"get-contrast":8}],2:[function(require,module,exports){
+},{"../src":24,"./util":5,"get-contrast":9}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.textExamples = exports.backgroundExamples = undefined;
+exports.default = backgroundExamples;
+
+var _src = require("../src");
+
+var material = _interopRequireWildcard(_src);
+
+var _util = require("./util");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function createElevationExample(label, level) {
+  (0, _util.createExample)(function (el) {
+    var labelElement = document.createElement("pre");
+    labelElement.textContent = label;
+    el.appendChild(labelElement);
+
+    material.background(el);
+    material.text.body(labelElement);
+    material.elevation(el, {
+      level: level
+    });
+
+    el.style.padding = "16px";
+    el.style.margin = "32px";
+  });
+}
+
+function backgroundExamples() {
+  createElevationExample("Elevation 0", 0);
+  createElevationExample("Elevation 1", 1);
+  createElevationExample("Elevation 2", 2);
+  createElevationExample("Elevation 3", 3);
+  createElevationExample("Elevation 4", 4);
+  createElevationExample("Elevation 5", 5);
+  createElevationExample("Elevation 6", 6);
+  createElevationExample("Elevation 7", 7);
+  createElevationExample("Elevation 8", 8);
+  createElevationExample("Elevation 9", 9);
+  createElevationExample("Elevation 10", 10);
+  createElevationExample("Elevation 11", 11);
+  createElevationExample("Elevation 12", 12);
+  createElevationExample("Elevation 13", 13);
+  createElevationExample("Elevation 14", 14);
+  createElevationExample("Elevation 15", 15);
+  createElevationExample("Elevation 16", 16);
+  createElevationExample("Elevation 17", 17);
+  createElevationExample("Elevation 18", 18);
+  createElevationExample("Elevation 19", 19);
+  createElevationExample("Elevation 20", 20);
+  createElevationExample("Elevation 21", 21);
+  createElevationExample("Elevation 22", 22);
+  createElevationExample("Elevation 23", 23);
+  createElevationExample("Elevation 24", 24);
+}
+
+},{"../src":24,"./util":5}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.textExamples = exports.elevationExamples = exports.backgroundExamples = undefined;
 
 var _backgroundExamples = require("./background-examples");
 
 var _backgroundExamples2 = _interopRequireDefault(_backgroundExamples);
+
+var _elevationExamples = require("./elevation-examples");
+
+var _elevationExamples2 = _interopRequireDefault(_elevationExamples);
 
 var _textExamples = require("./text-examples");
 
@@ -324,9 +402,10 @@ var _textExamples2 = _interopRequireDefault(_textExamples);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.backgroundExamples = _backgroundExamples2.default;
+exports.elevationExamples = _elevationExamples2.default;
 exports.textExamples = _textExamples2.default;
 
-},{"./background-examples":1,"./text-examples":3}],3:[function(require,module,exports){
+},{"./background-examples":1,"./elevation-examples":2,"./text-examples":4}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -404,7 +483,7 @@ function textExamples() {
   });
 }
 
-},{"../src":21,"./util":4}],4:[function(require,module,exports){
+},{"../src":24,"./util":5}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -418,7 +497,7 @@ function createExample(cb) {
   cb(element);
 }
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var cssColorNames = require('css-color-names');
@@ -427,7 +506,7 @@ module.exports = function cssColorList() {
   return Object.keys(cssColorNames);
 }
 
-},{"css-color-names":6}],6:[function(require,module,exports){
+},{"css-color-names":7}],7:[function(require,module,exports){
 module.exports={
   "aqua": "#00ffff",
   "aliceblue": "#f0f8ff",
@@ -579,7 +658,7 @@ module.exports={
   "rebeccapurple": "#663399"
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports={
   "aliceblue": "#f0f8ff",
   "antiquewhite": "#faebd7",
@@ -731,7 +810,7 @@ module.exports={
   "yellowgreen": "#9acd32"
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var rgb = require('rgb')
 var wcag = require('wcag-contrast')
 var isBlank = require('is-blank')
@@ -791,7 +870,7 @@ function isNotTransparent(color, options) {
   }
 }
 
-},{"css-color-names":7,"is-blank":10,"is-named-css-color":12,"rgb":15,"wcag-contrast":16}],9:[function(require,module,exports){
+},{"css-color-names":8,"is-blank":11,"is-named-css-color":13,"rgb":16,"wcag-contrast":17}],10:[function(require,module,exports){
 'use strict';
 module.exports = function (hex) {
 	if (typeof hex !== 'string') {
@@ -809,7 +888,7 @@ module.exports = function (hex) {
 	return [num >> 16, num >> 8 & 255, num & 255];
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var isEmpty = require('is-empty')
 var isWhitespace = require('is-whitespace')
 
@@ -825,7 +904,7 @@ module.exports = function isBlank (object) {
   }
 }
 
-},{"is-empty":11,"is-whitespace":13}],11:[function(require,module,exports){
+},{"is-empty":12,"is-whitespace":14}],12:[function(require,module,exports){
 
 /**
  * Expose `isEmpty`.
@@ -855,7 +934,7 @@ function isEmpty (val) {
   for (var key in val) if (has.call(val, key)) return false;
   return true;
 }
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict'
 
 var cssColors = require('css-color-list')
@@ -869,7 +948,7 @@ module.exports = function isNamedCssColor (color) {
   return cssColorRegex.test(color)
 }
 
-},{"css-color-list":5}],13:[function(require,module,exports){
+},{"css-color-list":6}],14:[function(require,module,exports){
 /*!
  * is-whitespace <https://github.com/jonschlinkert/is-whitespace>
  *
@@ -890,7 +969,7 @@ function regex() {
   return cache || (cache = new RegExp('^[\\s\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF"]+$'));
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 // # Relative luminance
 //
 // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
@@ -921,7 +1000,7 @@ module.exports = function(rgb) {
     return r * rc + g * gc + b * bc;
 };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*
 color
 */"use strict"
@@ -1059,7 +1138,7 @@ color.matches = function(string){
 
 module.exports = color
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var luminance = require('relative-luminance');
 var hexRgb = require('hex-rgb');
 
@@ -1108,7 +1187,7 @@ function score(contrast) {
     return (contrast >= 7) ? 'AAA' : (contrast >= 4.5) ? 'AA' : '';
 }
 
-},{"hex-rgb":9,"relative-luminance":14}],17:[function(require,module,exports){
+},{"hex-rgb":10,"relative-luminance":15}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1189,7 +1268,7 @@ background.card = function card(element, options) {
 
 background.dialog = background.card;
 
-},{"./color":20,"./color-palette":19,"./util":23}],18:[function(require,module,exports){
+},{"./color":21,"./color-palette":20,"./util":26}],19:[function(require,module,exports){
 module.exports={
   "Red": {
     "50": "#FFEBEE",
@@ -1487,7 +1566,7 @@ module.exports={
   "White": "#FFFFFF"
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1569,7 +1648,7 @@ function getColor(name, shade) {
   return color;
 }
 
-},{"./color-palette.json":18}],20:[function(require,module,exports){
+},{"./color-palette.json":19}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1625,13 +1704,59 @@ var colorScheme = {
 
 exports.default = colorScheme;
 
-},{"./color-palette":19}],21:[function(require,module,exports){
+},{"./color-palette":20}],22:[function(require,module,exports){
+module.exports={
+  "shadows": [
+    "none",
+    "0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)",
+    "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
+    "0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)",
+    "0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)",
+    "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0px rgba(0, 0, 0, 0.12)",
+    "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)",
+    "0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12)",
+    "0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)",
+    "0px 5px 6px -3px rgba(0, 0, 0, 0.2), 0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.12)",
+    "0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12)",
+    "0px 6px 7px -4px rgba(0, 0, 0, 0.2), 0px 11px 15px 1px rgba(0, 0, 0, 0.14), 0px 4px 20px 3px rgba(0, 0, 0, 0.12)",
+    "0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.12)",
+    "0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 13px 19px 2px rgba(0, 0, 0, 0.14), 0px 5px 24px 4px rgba(0, 0, 0, 0.12)",
+    "0px 7px 9px -4px rgba(0, 0, 0, 0.2), 0px 14px 21px 2px rgba(0, 0, 0, 0.14), 0px 5px 26px 4px rgba(0, 0, 0, 0.12)",
+    "0px 8px 9px -5px rgba(0, 0, 0, 0.2), 0px 15px 22px 2px rgba(0, 0, 0, 0.14), 0px 6px 28px 5px rgba(0, 0, 0, 0.12)",
+    "0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12)",
+    "0px 8px 11px -5px rgba(0, 0, 0, 0.2), 0px 17px 26px 2px rgba(0, 0, 0, 0.14), 0px 6px 32px 5px rgba(0, 0, 0, 0.12)",
+    "0px 9px 11px -5px rgba(0, 0, 0, 0.2), 0px 18px 28px 2px rgba(0, 0, 0, 0.14), 0px 7px 34px 6px rgba(0, 0, 0, 0.12)",
+    "0px 9px 12px -6px rgba(0, 0, 0, 0.2), 0px 19px 29px 2px rgba(0, 0, 0, 0.14), 0px 7px 36px 6px rgba(0, 0, 0, 0.12)", 
+    "0px 10px 13px -6px rgba(0, 0, 0, 0.2), 0px 20px 31px 3px rgba(0, 0, 0, 0.14), 0px 8px 38px 7px rgba(0, 0, 0, 0.12)",
+    "0px 10px 13px -6px rgba(0, 0, 0, 0.2), 0px 21px 33px 3px rgba(0, 0, 0, 0.14), 0px 8px 40px 7px rgba(0, 0, 0, 0.12)",
+    "0px 10px 14px -6px rgba(0, 0, 0, 0.2), 0px 22px 35px 3px rgba(0, 0, 0, 0.14), 0px 8px 42px 7px rgba(0, 0, 0, 0.12)",
+    "0px 11px 14px -7px rgba(0, 0, 0, 0.2), 0px 23px 36px 3px rgba(0, 0, 0, 0.14), 0px 9px 44px 8px rgba(0, 0, 0, 0.12)",
+    "0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12)"
+  ]
+}
+
+},{}],23:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.text = exports.color = exports.background = undefined;
+exports.default = elevation;
+
+var _elevation = require("./elevation.json");
+
+function elevation(el, options) {
+  var level = options && options.level || 0;
+  el.style.boxShadow = _elevation.shadows[level];
+}
+
+},{"./elevation.json":22}],24:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.text = exports.elevation = exports.color = exports.background = undefined;
 
 var _background = require("./background");
 
@@ -1641,6 +1766,10 @@ var _color = require("./color");
 
 var _color2 = _interopRequireDefault(_color);
 
+var _elevation = require("./elevation");
+
+var _elevation2 = _interopRequireDefault(_elevation);
+
 var _text = require("./text");
 
 var _text2 = _interopRequireDefault(_text);
@@ -1649,9 +1778,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.background = _background2.default;
 exports.color = _color2.default;
+exports.elevation = _elevation2.default;
 exports.text = _text2.default;
 
-},{"./background":17,"./color":20,"./text":22}],22:[function(require,module,exports){
+},{"./background":18,"./color":21,"./elevation":23,"./text":25}],25:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1830,7 +1960,7 @@ text.button = function button(element, options) {
   element.style.textTransform = "uppercase";
 };
 
-},{"./color":20,"./color-palette":19,"./util":23}],23:[function(require,module,exports){
+},{"./color":21,"./color-palette":20,"./util":26}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1887,5 +2017,5 @@ function getSecondaryTextOpacity(color) {
   return darkTextOpacity.secondary;
 }
 
-},{"./color":20}]},{},[2])(2)
+},{"./color":21}]},{},[3])(3)
 });
