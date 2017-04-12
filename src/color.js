@@ -14,7 +14,7 @@ var darkTheme = [
   colorPalette.getColor("Grey", 800)
 ];
 
-var theme = lightTheme;
+var theme = "light";
 var primary = colorPalette.getColor("Indigo");
 var secondary = colorPalette.getColor("Amber");
 
@@ -35,19 +35,20 @@ const colorScheme = {
     return theme;
   },
   set theme(val) {
-    if (val === "light") {
-      theme = lightTheme;
-    } else if (val === "dark") {
-      theme = darkTheme;
+    theme = val;
+  },
+  getThemeColors(theme) {
+    if (theme === "light") {
+      return lightTheme;
+    } else if (theme === "dark") {
+      return darkTheme
     } else {
       throw new Error("Theme must be either 'light' or 'dark'");
     }
+  },
+  getColor(options) {
+    return colorPalette.getColor(options.color, options.shade)
   }
 }
 
-export {
-  lightTheme,
-  darkTheme,
-  colorScheme as
-  default
-};
+export default colorScheme;

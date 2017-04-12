@@ -1,17 +1,9 @@
 // material.background(el, { color: "Indigo", shade: 700 });
 import color from "./color";
-import {
-  lightTheme,
-  darkTheme
-} from "./color";
 import * as colorPalette from "./color-palette";
-
-function getTheme(options) {
-  if (options && options.theme === "light") return lightTheme;
-  if (options && options.theme === "dark") return darkTheme;
-
-  return color.theme;
-}
+import {
+  getTheme
+} from "./util";
 
 export default function background(element, options) {
   var theme = getTheme(options);

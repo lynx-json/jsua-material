@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "examples": "cp src/color-palette.json examples/color-palette.json && cp src/elevation.json examples/elevation.json; browserify examples/demo.js -s demo -t babelify > ./examples/bundle.js",
+    "examples": "cp src/color-palette.json examples/color-palette.json && cp src/elevation.json examples/elevation.json; browserify examples/index.js -s demo -t babelify > ./examples/bundle.js",
     "test": "mocha test --compilers js:babel-register --require babel-polyfill",
     "build": "cp src/color-palette.json lib/color-palette.json && cp src/elevation.json lib/elevation.json; babel src -d lib",
     "install": "npm run build"
