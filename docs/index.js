@@ -4,6 +4,7 @@ import cardExamples from "./card-examples";
 import elevationExamples from "./elevation-examples";
 import expansionPanelExamples from "./expansion-panel-examples";
 import gridExamples from "./grid-examples";
+import init from "./init";
 import raisedButtonExamples from "./raised-button-examples";
 import textExamples from "./text-examples";
 
@@ -13,6 +14,7 @@ export {
   elevationExamples,
   expansionPanelExamples,
   gridExamples,
+  init,
   raisedButtonExamples,
   textExamples
 };

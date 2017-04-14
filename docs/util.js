@@ -13,3 +13,9 @@ export function clearExamples() {
     examplesElement.removeChild(examplesElement.firstChild);
   }
 }
+
+export function matchesMedia(mediaQuery) {
+  return function (el) {
+    if (window.matchMedia(mediaQuery).matches) return el;
+  };
+}
