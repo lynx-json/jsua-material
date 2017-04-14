@@ -21,9 +21,47 @@ function createExpansionPanelExample(label, cb) {
 export default function motionExamples() {
   clearExamples();
 
-  createExpansionPanelExample("Click to Show/Hide", function (el) {
+  createExpansionPanelExample("Light theme (default)", function (el) {
     var header = el.firstElementChild;
     material.expansionPanel(el);
+    material.expansionPanel.header(header);
+    el.style.margin = "24px";
+    material.elevation(el, {
+      level: 2
+    });
+  });
+
+  createExpansionPanelExample("Dark theme", function (el) {
+    var header = el.firstElementChild;
+    var options = {
+      theme: "dark"
+    };
+
+    material.expansionPanel(el, options);
+    material.background(el, options);
+    material.text.subheading(el.firstElementChild, options);
+    material.text.body(el.lastElementChild, options);
+
+    material.expansionPanel.header(header);
+    el.style.margin = "24px";
+    material.elevation(el, {
+      level: 2
+    });
+  });
+
+  createExpansionPanelExample("Custom background", function (el) {
+    var header = el.firstElementChild;
+    var options = {
+      color: "white"
+    };
+
+    material.expansionPanel(el, options);
+    material.background(el, {
+      color: material.color.primary
+    });
+    material.text.subheading(el.firstElementChild, options);
+    material.text.body(el.lastElementChild, options);
+
     material.expansionPanel.header(header);
     el.style.margin = "24px";
     material.elevation(el, {
