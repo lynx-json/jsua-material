@@ -1,7 +1,7 @@
 JSUA Material
 =================================================
 
-[Examples](./examples/index.html)
+[Examples](https://johnhowes.github.io/jsua-material/)
 
 Color
 -------------------------------------------------

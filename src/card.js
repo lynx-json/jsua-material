@@ -1,20 +1,17 @@
-// import * as text from "./text";
-// import {
-//   query,
-//   on
-// } from "jsua-query";
-// import elevation from "./elevation";
-// 
-// export function card(backgroundColor) {
-//   return [
-//     el => el.style.backgroundColor = backgroundColor,
-//     text.body(backgroundColor),
-//     elevation(2),
-//     on("mouseover", elevation(8)),
-//     on("mouseout", elevation(2)),
-//     el => el.style.display = "flex",
-//     el => el.style.flexDirection = "row",
-//     el => el.style.flexWrap = "nowrap",
-//     el => el.style.borderRadius = "2px"
-//   ];
-// }
+import {
+  query,
+  on
+} from "jsua-query";
+import elevation from "./elevation";
+
+export default function card(element, options) {
+  query(element)
+    .each([
+      elevation.card,
+      on("mouseover", elevation.cardHover),
+      on("mouseout", elevation.card),
+      el => el.style.display = "flex",
+      el => el.style.flexDirection = "column",
+      el => el.style.borderRadius = "2px"
+    ]);
+}
