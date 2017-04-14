@@ -4,6 +4,7 @@ import color from "./color";
 import elevation from "./elevation";
 import expansionPanel from "./expansion-panel";
 import grid from "./grid";
+import menu from "./menu";
 import raisedButton from "./raised-button";
 import text from "./text";
 
@@ -14,6 +15,7 @@ export {
   elevation,
   expansionPanel,
   grid,
+  menu,
   raisedButton,
   text
 };

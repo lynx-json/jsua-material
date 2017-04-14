@@ -31,7 +31,7 @@ background.accent = function accent(element, options) {
   background(element, options);
 };
 
-background.statusBar = function statusBar(element, options) {
+background.statusBar = function (element, options) {
   var theme = getTheme(options);
 
   options = Object.assign({
@@ -41,7 +41,7 @@ background.statusBar = function statusBar(element, options) {
   background(element, options);
 };
 
-background.appBar = function appBar(element, options) {
+background.appBar = function (element, options) {
   var theme = getTheme(options);
 
   options = Object.assign({
@@ -51,7 +51,17 @@ background.appBar = function appBar(element, options) {
   background(element, options);
 };
 
-background.card = function card(element, options) {
+background.card = function (element, options) {
+  var theme = getTheme(options);
+
+  options = Object.assign({
+    color: theme[3]
+  }, options);
+
+  background(element, options);
+};
+
+background.menu = function (element, options) {
   var theme = getTheme(options);
 
   options = Object.assign({
@@ -62,3 +72,4 @@ background.card = function card(element, options) {
 };
 
 background.dialog = background.card;
+background.hover = background.appBar;

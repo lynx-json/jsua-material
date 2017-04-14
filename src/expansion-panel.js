@@ -116,7 +116,7 @@ expansionPanel.header = function (element) {
   var panel = findNearestAncestor(element, "[data-material-component=material-expansion-panel]");
 
   if (!panel) {
-    throw new Error("The element must be contained within a material expansion panel.");
+    throw new Error("The element must be contained within a material expansion panel component.");
   }
 
   var headerSlot = panel.firstElementChild.firstElementChild;

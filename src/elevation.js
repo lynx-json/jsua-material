@@ -5,20 +5,18 @@ import {
 export default function elevation(el, options) {
   var level = options && options.level || 0;
   el.style.boxShadow = shadows[level];
+  el.style.zIndex = level;
 }
 
-elevation.card = function (el, options) {
-  options = Object.assign({
-    level: 2
-  }, options);
-
-  elevation(el, options);
-}
-
-elevation.cardHover = function (el, options) {
-  options = Object.assign({
-    level: 8
-  }, options);
-
-  elevation(el, options);
-}
+elevation.none = el => elevation(el, {
+  level: 0
+});
+elevation.card = el => elevation(el, {
+  level: 2
+});
+elevation.cardHover = el => elevation(el, {
+  level: 8
+});
+elevation.menu = el => elevation(el, {
+  level: 8
+});

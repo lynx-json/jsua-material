@@ -12,7 +12,6 @@ function createRaisedButtonExample(label, cb) {
     el.appendChild(labelElement);
     material.background(el);
     el.style.padding = "16px";
-    el.style.margin = "24px";
 
     cb(el);
   });

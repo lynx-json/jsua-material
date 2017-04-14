@@ -62,4 +62,18 @@ export default function () {
       span: 8,
       offset: 2
     }));
+
+  query(document.getElementById("menu"))
+    .each([
+      material.menu
+    ]);
+
+  query(document.getElementById("menu-label"))
+    .each(material.menu.header);
+
+  query(app)
+    .select("[data-material-component=material-menu] > * > [data-material-slot=content] > *")
+    .each([
+      material.menu.item
+    ]);
 }
