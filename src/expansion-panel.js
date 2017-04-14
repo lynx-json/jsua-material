@@ -72,6 +72,7 @@ export default function expansionPanel(element, options) {
 
   query(componentHeader)
     .each([
+      el => el.style.cursor = "default",
       el => el.style.display = "flex",
       el => el.style.flexDirection = "row",
       el => el.style.flexWrap = "nowrap",
@@ -95,14 +96,14 @@ export default function expansionPanel(element, options) {
       el => el.style.width = "24px",
       el => el.style.height = "24px",
       el => el.style.overflow = "hidden",
-      el => el.style.cursor = "pointer",
+      el => el.style.cursor = "default",
       el => el.style.borderRadius = "2px",
       el => el.style.border = "1px solid transparent",
       on("mouseover", el => el.style.border = getDividerStyle()),
       on("mouseout", el => el.style.border = "1px solid transparent")
     ]);
 
-  toggleSlot.addEventListener("click", function () {
+  componentHeader.addEventListener("click", function () {
     if (element.dataset.materialExpansionPanelState !== "expanded") {
       show();
     } else {
