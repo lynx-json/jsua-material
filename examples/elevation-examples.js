@@ -1,7 +1,8 @@
 import * as material from "../src";
 
 import {
-  createExample
+  createExample,
+  clearExamples
 } from "./util";
 
 function createElevationExample(label, level) {
@@ -22,6 +23,7 @@ function createElevationExample(label, level) {
 }
 
 export default function backgroundExamples() {
+  clearExamples();
   createElevationExample("Elevation 0", 0);
   createElevationExample("Elevation 1", 1);
   createElevationExample("Elevation 2", 2);

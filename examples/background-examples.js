@@ -2,10 +2,12 @@ import * as material from "../src";
 import contrast from "get-contrast";
 
 import {
-  createExample
+  createExample,
+  clearExamples
 } from "./util";
 
 function createBackgroundExample(label, cb) {
+
   createExample(function (el) {
     var labelElement = document.createElement("pre");
     labelElement.textContent = label;
@@ -24,6 +26,8 @@ function calculateTextColor(options) {
 }
 
 export default function backgroundExamples() {
+  clearExamples();
+
   createBackgroundExample("Known color and shade (Blue Grey, 900)", function (el) {
     var options = {
       color: "Blue Grey",

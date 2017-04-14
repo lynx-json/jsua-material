@@ -1,7 +1,8 @@
 import * as material from "../src";
 
 import {
-  createExample
+  createExample,
+  clearExamples
 } from "./util";
 
 function createTextExample(label, cb) {
@@ -17,6 +18,8 @@ function createTextExample(label, cb) {
 }
 
 export default function textExamples() {
+  clearExamples();
+
   createTextExample("Display 4", function (el) {
     material.text.display4(el);
   });
