@@ -25,22 +25,21 @@ export default function expansionPanel(element, options) {
 
   var textColor = getTextColor(options);
 
-  var component = createComponent(element, {
+  createComponent(element, {
     innerHTML: innerHTML,
     name: "material-expansion-panel"
   });
 
-  component.style.display = "flex";
-  component.style.flexDirection = "column";
-  component.style.alignItems = "stretch";
+  element.style.display = "flex";
+  element.style.flexDirection = "column";
+  element.style.alignItems = "stretch";
 
-  var expandCollapseWrapper = component.lastElementChild;
+  var expandCollapseWrapper = element.lastElementChild;
   expandCollapseWrapper.style.maxHeight = "0px";
   expandCollapseWrapper.style.overflowY = "hidden";
   expandCollapseWrapper.style.opacity = 0;
-  expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
 
-  var contentContainer = component.lastElementChild.firstElementChild;
+  var contentContainer = element.lastElementChild.firstElementChild;
   contentContainer.style.display = "flex";
   contentContainer.flexDirection = "column";
   contentContainer.style.paddingLeft = "24px";
@@ -48,7 +47,7 @@ export default function expansionPanel(element, options) {
   contentContainer.style.paddingBottom = "16px";
   contentContainer.style.marginRight = "24px";
 
-  function show() {
+  element.materialExpand = function expand() {
     expandCollapseWrapper.style.maxHeight = contentContainer.offsetHeight + "px";
     expandCollapseWrapper.style.opacity = 1;
     componentHeader.style.minHeight = "64px";
@@ -58,7 +57,7 @@ export default function expansionPanel(element, options) {
       .each(el => el.textContent = "keyboard_arrow_up");
   }
 
-  function hide() {
+  element.materialCollapse = function collapse() {
     expandCollapseWrapper.style.maxHeight = "0px";
     expandCollapseWrapper.style.opacity = 0;
     componentHeader.style.minHeight = "48px";
@@ -68,7 +67,7 @@ export default function expansionPanel(element, options) {
       .each(el => el.textContent = "keyboard_arrow_down");
   }
 
-  var componentHeader = component.firstElementChild;
+  var componentHeader = element.firstElementChild;
 
   query(componentHeader)
     .each([
@@ -83,10 +82,10 @@ export default function expansionPanel(element, options) {
       el => el.style.transition = "min-height 175ms ease-in-out"
     ]);
 
-  var headerSlot = component.firstElementChild.firstElementChild;
+  var headerSlot = element.firstElementChild.firstElementChild;
   headerSlot.style.flexGrow = 1;
 
-  var toggleSlot = component.firstElementChild.lastElementChild;
+  var toggleSlot = element.firstElementChild.lastElementChild;
 
   query(toggleSlot)
     .select("i.material-icons")
@@ -103,11 +102,18 @@ export default function expansionPanel(element, options) {
       on("mouseout", el => el.style.border = "1px solid transparent")
     ]);
 
+  var state = (options && options.state) || "collapsed";
+  if (state === "expanded") {
+    element.materialExpand();
+  }
+
+  expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
+
   componentHeader.addEventListener("click", function () {
     if (element.dataset.materialExpansionPanelState !== "expanded") {
-      show();
+      element.materialExpand();
     } else {
-      hide();
+      element.materialCollapse();
     }
   });
 }

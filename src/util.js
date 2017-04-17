@@ -85,12 +85,22 @@ export function wrapChildren(element) {
 }
 
 export function createComponent(element, options) {
-  var component = document.createElement("div");
+  var componentTemplate = document.createElement("div");
+  var slots = {};
+  element.getSlot = function (name) {
+    return slots[name];
+  };
 
   if (options.innerHTML) {
-    component.innerHTML = options.innerHTML;
+    componentTemplate.innerHTML = options.innerHTML;
 
-    query(component)
+    query(componentTemplate)
+      .select("[data-material-slot]")
+      .each(slot => {
+        slots[slot.dataset.materialSlot] = slot;
+      });
+
+    query(componentTemplate)
       .select("[data-material-slot=content]")
       .each(function (contentSlot) {
         while (element.firstChild) {
@@ -98,8 +108,8 @@ export function createComponent(element, options) {
         }
       });
 
-    while (component.firstChild) {
-      element.appendChild(component.firstChild);
+    while (componentTemplate.firstChild) {
+      element.appendChild(componentTemplate.firstChild);
     }
   }
 

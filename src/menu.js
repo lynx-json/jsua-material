@@ -23,8 +23,6 @@ export default function menu(element, options) {
     </div>
   `;
 
-  // var textColor = getTextColor(options);
-
   element = createComponent(element, {
     innerHTML: innerHTML,
     name: "material-menu"
@@ -51,7 +49,7 @@ export default function menu(element, options) {
     elevation.menu
   ];
 
-  element.open = function () {
+  element.materialOpen = function () {
     query(menu).each([
       () => state = "open",
       openStyle,
@@ -59,7 +57,7 @@ export default function menu(element, options) {
     ]);
   };
 
-  element.close = function () {
+  element.materialClose = function () {
     query(menu).each([
       () => state = "closed",
       closedStyle
@@ -68,9 +66,9 @@ export default function menu(element, options) {
 
   function toggleState() {
     if (state === "open") {
-      element.close();
+      element.materialClose();
     } else {
-      element.open();
+      element.materialOpen();
     }
   }
 
@@ -99,10 +97,10 @@ export default function menu(element, options) {
     el => el.style.position = "absolute",
     el => el.style.top = 0,
     el => el.style.right = 0,
-    el => el.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out",
+    el => el.style.transition = "all 175ms ease-in-out",
     background.menu,
     el => el.style.overflow = "hidden",
-    on("focusout", () => element.close())
+    on("focusout", () => element.materialClose())
   ]);
 
   query(menu).filter(() => state === "open")
@@ -136,14 +134,14 @@ menu.item = function (element) {
       el => el.style.paddingBottom = "20px",
       el => el.style.paddingTop = "12px",
       el => el.style.cursor = "default",
-      on("click", () => menuComponent.close())
+      on("click", () => menuComponent.materialClose())
     ]);
 };
 
 menu.header = function (element) {
   var menuComponent = findMenuComponent(element);
 
-  var headerSlot = menuComponent.firstElementChild.firstElementChild;
+  var headerSlot = menuComponent.getSlot("header");
   clearChildren(headerSlot);
   headerSlot.appendChild(element);
 };

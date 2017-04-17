@@ -68,4 +68,16 @@ export default function motionExamples() {
       level: 2
     });
   });
+
+  createExpansionPanelExample("Expanded", function (el) {
+    var header = el.firstElementChild;
+    material.expansionPanel(el, {
+      state: "expanded"
+    });
+    material.expansionPanel.header(header);
+    el.style.margin = "24px";
+    material.elevation(el, {
+      level: 2
+    });
+  });
 }

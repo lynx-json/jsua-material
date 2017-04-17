@@ -526,6 +526,18 @@ function motionExamples() {
       level: 2
     });
   });
+
+  createExpansionPanelExample("Expanded", function (el) {
+    var header = el.firstElementChild;
+    material.expansionPanel(el, {
+      state: "expanded"
+    });
+    material.expansionPanel.header(header);
+    el.style.margin = "24px";
+    material.elevation(el, {
+      level: 2
+    });
+  });
 }
 
 },{"../src":329,"./util":11}],5:[function(require,module,exports){
@@ -724,14 +736,21 @@ var material = _interopRequireWildcard(_src);
 
 var _util = require("./util");
 
+var _jsuaQuery = require("jsua-query");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function createMenuExample(label, cb) {
   (0, _util.createExample)(function (el) {
     var labelElement = document.createElement("pre");
     labelElement.textContent = label;
-    labelElement.style.marginBottom = "16px";
     el.appendChild(labelElement);
+
+    for (var i = 0; i < 5; i++) {
+      var item = document.createElement("div");
+      item.textContent = "Item " + i;
+      el.appendChild(item);
+    }
 
     cb(el);
   });
@@ -742,13 +761,14 @@ function cardExamples() {
 
   createMenuExample("Light theme (default)", function (el) {
     material.menu(el);
-    material.background.card(el);
-    material.text.headline(el.firstElementChild);
-    material.text.body(el.lastElementChild);
+    material.menu.header(el.querySelector("pre"));
+    (0, _jsuaQuery.query)(el.getSlot("content")).map(function (el) {
+      return el.children;
+    }).each(material.menu.item);
   });
 }
 
-},{"../src":329,"./util":11}],9:[function(require,module,exports){
+},{"../src":329,"./util":11,"jsua-query":334}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9014,22 +9034,21 @@ function expansionPanel(element, options) {
 
   var textColor = (0, _util.getTextColor)(options);
 
-  var component = (0, _util.createComponent)(element, {
+  (0, _util.createComponent)(element, {
     innerHTML: innerHTML,
     name: "material-expansion-panel"
   });
 
-  component.style.display = "flex";
-  component.style.flexDirection = "column";
-  component.style.alignItems = "stretch";
+  element.style.display = "flex";
+  element.style.flexDirection = "column";
+  element.style.alignItems = "stretch";
 
-  var expandCollapseWrapper = component.lastElementChild;
+  var expandCollapseWrapper = element.lastElementChild;
   expandCollapseWrapper.style.maxHeight = "0px";
   expandCollapseWrapper.style.overflowY = "hidden";
   expandCollapseWrapper.style.opacity = 0;
-  expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
 
-  var contentContainer = component.lastElementChild.firstElementChild;
+  var contentContainer = element.lastElementChild.firstElementChild;
   contentContainer.style.display = "flex";
   contentContainer.flexDirection = "column";
   contentContainer.style.paddingLeft = "24px";
@@ -9037,7 +9056,7 @@ function expansionPanel(element, options) {
   contentContainer.style.paddingBottom = "16px";
   contentContainer.style.marginRight = "24px";
 
-  function show() {
+  element.materialExpand = function expand() {
     expandCollapseWrapper.style.maxHeight = contentContainer.offsetHeight + "px";
     expandCollapseWrapper.style.opacity = 1;
     componentHeader.style.minHeight = "64px";
@@ -9045,9 +9064,9 @@ function expansionPanel(element, options) {
     (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each(function (el) {
       return el.textContent = "keyboard_arrow_up";
     });
-  }
+  };
 
-  function hide() {
+  element.materialCollapse = function collapse() {
     expandCollapseWrapper.style.maxHeight = "0px";
     expandCollapseWrapper.style.opacity = 0;
     componentHeader.style.minHeight = "48px";
@@ -9055,9 +9074,9 @@ function expansionPanel(element, options) {
     (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each(function (el) {
       return el.textContent = "keyboard_arrow_down";
     });
-  }
+  };
 
-  var componentHeader = component.firstElementChild;
+  var componentHeader = element.firstElementChild;
 
   (0, _jsuaQuery.query)(componentHeader).each([function (el) {
     return el.style.cursor = "default";
@@ -9079,10 +9098,10 @@ function expansionPanel(element, options) {
     return el.style.transition = "min-height 175ms ease-in-out";
   }]);
 
-  var headerSlot = component.firstElementChild.firstElementChild;
+  var headerSlot = element.firstElementChild.firstElementChild;
   headerSlot.style.flexGrow = 1;
 
-  var toggleSlot = component.firstElementChild.lastElementChild;
+  var toggleSlot = element.firstElementChild.lastElementChild;
 
   (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each([function (el) {
     return el.style.color = textColor;
@@ -9106,11 +9125,18 @@ function expansionPanel(element, options) {
     return el.style.border = "1px solid transparent";
   })]);
 
+  var state = options && options.state || "collapsed";
+  if (state === "expanded") {
+    element.materialExpand();
+  }
+
+  expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
+
   componentHeader.addEventListener("click", function () {
     if (element.dataset.materialExpansionPanelState !== "expanded") {
-      show();
+      element.materialExpand();
     } else {
-      hide();
+      element.materialCollapse();
     }
   });
 }
@@ -9275,8 +9301,6 @@ function menu(element, options) {
 
   var innerHTML = "\n    <div role=\"presentation\">\n      <div data-material-slot=\"header\" role=\"presentation\"></div>\n      <div data-material-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">arrow_drop_down</i></div>\n    </div>\n    <div role=\"presentation\">\n      <div data-material-slot=\"content\" role=\"presentation\"></div>\n    </div>\n  ";
 
-  // var textColor = getTextColor(options);
-
   element = (0, _util.createComponent)(element, {
     innerHTML: innerHTML,
     name: "material-menu"
@@ -9307,7 +9331,7 @@ function menu(element, options) {
     return el.style.paddingBottom = "8px";
   }, _elevation2.default.menu];
 
-  element.open = function () {
+  element.materialOpen = function () {
     (0, _jsuaQuery.query)(menu).each([function () {
       return state = "open";
     }, openStyle, function (el) {
@@ -9315,7 +9339,7 @@ function menu(element, options) {
     }]);
   };
 
-  element.close = function () {
+  element.materialClose = function () {
     (0, _jsuaQuery.query)(menu).each([function () {
       return state = "closed";
     }, closedStyle]);
@@ -9323,9 +9347,9 @@ function menu(element, options) {
 
   function toggleState() {
     if (state === "open") {
-      element.close();
+      element.materialClose();
     } else {
-      element.open();
+      element.materialOpen();
     }
   }
 
@@ -9368,11 +9392,11 @@ function menu(element, options) {
   }, function (el) {
     return el.style.right = 0;
   }, function (el) {
-    return el.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
+    return el.style.transition = "all 175ms ease-in-out";
   }, _background2.default.menu, function (el) {
     return el.style.overflow = "hidden";
   }, (0, _jsuaQuery.on)("focusout", function () {
-    return element.close();
+    return element.materialClose();
   })]);
 
   (0, _jsuaQuery.query)(menu).filter(function () {
@@ -9414,14 +9438,14 @@ menu.item = function (element) {
   }, function (el) {
     return el.style.cursor = "default";
   }, (0, _jsuaQuery.on)("click", function () {
-    return menuComponent.close();
+    return menuComponent.materialClose();
   })]);
 };
 
 menu.header = function (element) {
   var menuComponent = findMenuComponent(element);
 
-  var headerSlot = menuComponent.firstElementChild.firstElementChild;
+  var headerSlot = menuComponent.getSlot("header");
   (0, _util.clearChildren)(headerSlot);
   headerSlot.appendChild(element);
 };
@@ -9803,19 +9827,27 @@ function wrapChildren(element) {
 }
 
 function createComponent(element, options) {
-  var component = document.createElement("div");
+  var componentTemplate = document.createElement("div");
+  var slots = {};
+  element.getSlot = function (name) {
+    return slots[name];
+  };
 
   if (options.innerHTML) {
-    component.innerHTML = options.innerHTML;
+    componentTemplate.innerHTML = options.innerHTML;
 
-    (0, _jsuaQuery.query)(component).select("[data-material-slot=content]").each(function (contentSlot) {
+    (0, _jsuaQuery.query)(componentTemplate).select("[data-material-slot]").each(function (slot) {
+      slots[slot.dataset.materialSlot] = slot;
+    });
+
+    (0, _jsuaQuery.query)(componentTemplate).select("[data-material-slot=content]").each(function (contentSlot) {
       while (element.firstChild) {
         contentSlot.appendChild(element.firstChild);
       }
     });
 
-    while (component.firstChild) {
-      element.appendChild(component.firstChild);
+    while (componentTemplate.firstChild) {
+      element.appendChild(componentTemplate.firstChild);
     }
   }
 
