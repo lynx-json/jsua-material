@@ -748,7 +748,8 @@ function createMenuExample(label, cb) {
 
     for (var i = 0; i < 5; i++) {
       var item = document.createElement("div");
-      item.textContent = "Item " + i;
+      item.appendChild(document.createElement("pre"));
+      item.firstElementChild.textContent = "Item " + i;
       el.appendChild(item);
     }
 
@@ -761,6 +762,35 @@ function cardExamples() {
 
   createMenuExample("Light theme (default)", function (el) {
     material.menu(el);
+    material.menu.header(el.querySelector("pre"));
+    (0, _jsuaQuery.query)(el.getSlot("content")).map(function (el) {
+      return el.children;
+    }).each(material.menu.item);
+  });
+
+  createMenuExample("Dark theme (default)", function (el) {
+    var options = {
+      theme: "dark"
+    };
+    material.menu(el, options);
+    material.background(el, options);
+
+    material.menu.header(el.querySelector("pre"), options);
+    material.text.subheading(el.querySelector("pre"), options);
+
+    (0, _jsuaQuery.query)(el.getSlot("content")).map(function (el) {
+      return el.children;
+    }).each([function (el) {
+      return material.menu.item(el, options);
+    }, function (el) {
+      return material.text.body(el.firstElementChild, options);
+    }]);
+  });
+
+  createMenuExample("Open State", function (el) {
+    material.menu(el, {
+      state: "open"
+    });
     material.menu.header(el.querySelector("pre"));
     (0, _jsuaQuery.query)(el.getSlot("content")).map(function (el) {
       return el.children;
@@ -9360,6 +9390,10 @@ function menu(element, options) {
   (0, _jsuaQuery.query)(menuHeader).each([function (el) {
     return el.style.cursor = "default";
   }, function (el) {
+    return el.style.paddingLeft = "16px";
+  }, function (el) {
+    return el.style.paddingRight = "16px";
+  }, function (el) {
     return el.style.minHeight = "48px";
   }, function (el) {
     return el.style.display = "flex";
@@ -9372,6 +9406,28 @@ function menu(element, options) {
   }, function (el) {
     return el.style.alignItems = "center";
   }, (0, _jsuaQuery.on)("click", toggleState)]);
+
+  var textColor = (0, _util.getTextColor)(options);
+  var toggleSlot = element.getSlot("toggle");
+  (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each([function (el) {
+    return el.style.color = textColor;
+  }, function (el) {
+    return el.style.width = "24px";
+  }, function (el) {
+    return el.style.height = "24px";
+  }, function (el) {
+    return el.style.overflow = "hidden";
+  }, function (el) {
+    return el.style.cursor = "default";
+  }, function (el) {
+    return el.style.borderRadius = "2px";
+  }, function (el) {
+    return el.style.border = "1px solid transparent";
+  }, (0, _jsuaQuery.on)("mouseover", function (el) {
+    return el.style.border = (0, _util.getDividerStyle)();
+  }), (0, _jsuaQuery.on)("mouseout", function (el) {
+    return el.style.border = "1px solid transparent";
+  })]);
 
   (0, _jsuaQuery.query)(menu).each([function (el) {
     return el.style.display = "flex";
@@ -9393,19 +9449,23 @@ function menu(element, options) {
     return el.style.right = 0;
   }, function (el) {
     return el.style.transition = "all 175ms ease-in-out";
-  }, _background2.default.menu, function (el) {
+  }, function (el) {
+    return _background2.default.menu(el, options);
+  }, function (el) {
     return el.style.overflow = "hidden";
   }, (0, _jsuaQuery.on)("focusout", function () {
     return element.materialClose();
   })]);
 
-  (0, _jsuaQuery.query)(menu).filter(function () {
-    return state === "open";
-  }).each(openStyle);
+  element.materialRefresh = function () {
+    if (state === "open") {
+      element.materialOpen();
+    } else {
+      element.materialClose();
+    }
+  };
 
-  (0, _jsuaQuery.query)(menu).filter(function () {
-    return state === "closed";
-  }).each(closedStyle);
+  element.materialRefresh();
 }
 
 function findMenuComponent(element) {
@@ -9418,10 +9478,12 @@ function findMenuComponent(element) {
   return menuComponent;
 }
 
-menu.item = function (element) {
+menu.item = function (element, options) {
   var menuComponent = findMenuComponent(element);
 
-  (0, _jsuaQuery.query)(element).each([(0, _jsuaQuery.on)("mouseover", _background2.default.hover), (0, _jsuaQuery.on)("mouseout", function (el) {
+  (0, _jsuaQuery.query)(element).each([(0, _jsuaQuery.on)("mouseover", function (el) {
+    return _background2.default.hover(el, options);
+  }), (0, _jsuaQuery.on)("mouseout", function (el) {
     return el.style.backgroundColor = "initial";
   }), function (el) {
     return el.style.display = "flex";
@@ -9440,6 +9502,8 @@ menu.item = function (element) {
   }, (0, _jsuaQuery.on)("click", function () {
     return menuComponent.materialClose();
   })]);
+
+  menuComponent.materialRefresh();
 };
 
 menu.header = function (element) {
@@ -9448,6 +9512,8 @@ menu.header = function (element) {
   var headerSlot = menuComponent.getSlot("header");
   (0, _util.clearChildren)(headerSlot);
   headerSlot.appendChild(element);
+
+  menuComponent.materialRefresh();
 };
 
 },{"./background":320,"./elevation":326,"./text":332,"./util":333,"jsua-query":334}],331:[function(require,module,exports){

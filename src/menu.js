@@ -8,7 +8,9 @@ import text from "./text";
 import {
   clearChildren,
   createComponent,
-  findNearestAncestor
+  findNearestAncestor,
+  getDividerStyle,
+  getTextColor
 } from "./util";
 
 export default function menu(element, options) {
@@ -78,6 +80,8 @@ export default function menu(element, options) {
 
   query(menuHeader).each([
     el => el.style.cursor = "default",
+    el => el.style.paddingLeft = "16px",
+    el => el.style.paddingRight = "16px",
     el => el.style.minHeight = "48px",
     el => el.style.display = "flex",
     el => el.style.flexDirection = "row",
@@ -86,6 +90,22 @@ export default function menu(element, options) {
     el => el.style.alignItems = "center",
     on("click", toggleState)
   ]);
+
+  var textColor = getTextColor(options);
+  var toggleSlot = element.getSlot("toggle");
+  query(toggleSlot)
+    .select("i.material-icons")
+    .each([
+      el => el.style.color = textColor,
+      el => el.style.width = "24px",
+      el => el.style.height = "24px",
+      el => el.style.overflow = "hidden",
+      el => el.style.cursor = "default",
+      el => el.style.borderRadius = "2px",
+      el => el.style.border = "1px solid transparent",
+      on("mouseover", el => el.style.border = getDividerStyle()),
+      on("mouseout", el => el.style.border = "1px solid transparent")
+    ]);
 
   query(menu).each([
     el => el.style.display = "flex",
@@ -98,16 +118,20 @@ export default function menu(element, options) {
     el => el.style.top = 0,
     el => el.style.right = 0,
     el => el.style.transition = "all 175ms ease-in-out",
-    background.menu,
+    el => background.menu(el, options),
     el => el.style.overflow = "hidden",
     on("focusout", () => element.materialClose())
   ]);
 
-  query(menu).filter(() => state === "open")
-    .each(openStyle);
+  element.materialRefresh = function () {
+    if (state === "open") {
+      element.materialOpen();
+    } else {
+      element.materialClose();
+    }
+  }
 
-  query(menu).filter(() => state === "closed")
-    .each(closedStyle);
+  element.materialRefresh();
 }
 
 function findMenuComponent(element) {
@@ -120,12 +144,12 @@ function findMenuComponent(element) {
   return menuComponent;
 }
 
-menu.item = function (element) {
+menu.item = function (element, options) {
   var menuComponent = findMenuComponent(element);
 
   query(element)
     .each([
-      on("mouseover", background.hover),
+      on("mouseover", el => background.hover(el, options)),
       on("mouseout", el => el.style.backgroundColor = "initial"),
       el => el.style.display = "flex",
       el => el.style.flexDirection = "row",
@@ -136,6 +160,8 @@ menu.item = function (element) {
       el => el.style.cursor = "default",
       on("click", () => menuComponent.materialClose())
     ]);
+
+  menuComponent.materialRefresh();
 };
 
 menu.header = function (element) {
@@ -144,4 +170,6 @@ menu.header = function (element) {
   var headerSlot = menuComponent.getSlot("header");
   clearChildren(headerSlot);
   headerSlot.appendChild(element);
+
+  menuComponent.materialRefresh();
 };

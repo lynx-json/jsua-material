@@ -17,7 +17,8 @@ function createMenuExample(label, cb) {
 
     for (var i = 0; i < 5; i++) {
       let item = document.createElement("div");
-      item.textContent = `Item ${i}`;
+      item.appendChild(document.createElement("pre"))
+      item.firstElementChild.textContent = `Item ${i}`;
       el.appendChild(item);
     }
 
@@ -37,7 +38,27 @@ export default function cardExamples() {
   });
 
   createMenuExample("Dark theme (default)", function (el) {
-    material.menu(el);
+    var options = {
+      theme: "dark"
+    };
+    material.menu(el, options);
+    material.background(el, options);
+
+    material.menu.header(el.querySelector("pre"), options);
+    material.text.subheading(el.querySelector("pre"), options);
+
+    query(el.getSlot("content"))
+      .map(el => el.children)
+      .each([
+        el => material.menu.item(el, options),
+        el => material.text.body(el.firstElementChild, options)
+      ]);
+  });
+
+  createMenuExample("Open State", function (el) {
+    material.menu(el, {
+      state: "open"
+    });
     material.menu.header(el.querySelector("pre"));
     query(el.getSlot("content"))
       .map(el => el.children)

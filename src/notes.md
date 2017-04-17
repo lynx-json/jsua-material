@@ -20,5 +20,9 @@ headerSlot.appendChild(el);
 element.materialExpand();
 
 
+menu(element, { theme: "dark" });
+// Should set the background? There's no background specified.
+// Should set the default foreground on each child (typically a slot).
+menu.item(element, { })
 
 ```
