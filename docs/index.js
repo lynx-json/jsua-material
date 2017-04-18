@@ -8,6 +8,7 @@ import init from "./init";
 import menuExamples from "./menu-examples";
 import raisedButtonExamples from "./raised-button-examples";
 import textExamples from "./text-examples";
+import textFieldExamples from "./text-field-examples";
 import textInputExamples from "./text-input-examples";
 
 export {
@@ -20,5 +21,6 @@ export {
   menuExamples,
   raisedButtonExamples,
   textExamples,
+  textFieldExamples,
   textInputExamples
 };

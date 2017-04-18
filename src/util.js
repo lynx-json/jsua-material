@@ -134,7 +134,7 @@ export function clearChildren(element) {
 export function findNearestAncestor(element, selector) {
   var current = element.parentElement;
 
-  while (current !== null) {
+  while (current !== null && current !== undefined) {
     if (matches(current, selector)) return current;
     current = current.parentElement;
   }
