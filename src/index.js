@@ -7,6 +7,7 @@ import grid from "./grid";
 import menu from "./menu";
 import raisedButton from "./raised-button";
 import text from "./text";
+import textInput from "./text-input";
 
 export {
   background,
@@ -17,5 +18,6 @@ export {
   grid,
   menu,
   raisedButton,
-  text
+  text,
+  textInput
 };

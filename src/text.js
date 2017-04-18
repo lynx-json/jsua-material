@@ -163,3 +163,12 @@ text.button = function button(element, options) {
   text(element, options);
   element.style.textTransform = "uppercase";
 };
+
+text.input = function input(element, options) {
+  options = Object.assign({
+    fontSize: "16px",
+    lineHeight: "18px"
+  }, options);
+
+  text(element, options);
+}

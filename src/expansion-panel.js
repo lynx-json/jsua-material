@@ -98,7 +98,7 @@ export default function expansionPanel(element, options) {
       el => el.style.cursor = "default",
       el => el.style.borderRadius = "2px",
       el => el.style.border = "1px solid transparent",
-      on("mouseover", el => el.style.border = getDividerStyle()),
+      on("mouseover", el => el.style.border = getDividerStyle(options)),
       on("mouseout", el => el.style.border = "1px solid transparent")
     ]);
 

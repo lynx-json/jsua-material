@@ -8,6 +8,7 @@ import init from "./init";
 import menuExamples from "./menu-examples";
 import raisedButtonExamples from "./raised-button-examples";
 import textExamples from "./text-examples";
+import textInputExamples from "./text-input-examples";
 
 export {
   backgroundExamples,
@@ -18,5 +19,6 @@ export {
   init,
   menuExamples,
   raisedButtonExamples,
-  textExamples
+  textExamples,
+  textInputExamples
 };

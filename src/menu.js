@@ -80,8 +80,8 @@ export default function menu(element, options) {
 
   query(menuHeader).each([
     el => el.style.cursor = "default",
-    el => el.style.paddingLeft = "16px",
-    el => el.style.paddingRight = "16px",
+    el => el.style.paddingLeft = "24px",
+    el => el.style.paddingRight = "24px",
     el => el.style.minHeight = "48px",
     el => el.style.display = "flex",
     el => el.style.flexDirection = "row",
