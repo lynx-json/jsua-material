@@ -37,7 +37,7 @@ export default function cardExamples() {
       .each(material.menu.item);
   });
 
-  createMenuExample("Dark theme (default)", function (el) {
+  createMenuExample("Dark theme", function (el) {
     var options = {
       theme: "dark"
     };

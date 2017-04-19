@@ -732,7 +732,7 @@ var largeScreen = "(min-width: 840px)";
 var mediumScreen = "(min-width: 600px) and (max-width: 839px)";
 var smallScreen = "(max-width: 599px)";
 
-},{"../src":331,"./util":13,"jsua-query":337}],8:[function(require,module,exports){
+},{"../src":331,"./util":13,"jsua-query":338}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -778,7 +778,7 @@ function cardExamples() {
     }).each(material.menu.item);
   });
 
-  createMenuExample("Dark theme (default)", function (el) {
+  createMenuExample("Dark theme", function (el) {
     var options = {
       theme: "dark"
     };
@@ -808,7 +808,7 @@ function cardExamples() {
   });
 }
 
-},{"../src":331,"./util":13,"jsua-query":337}],9:[function(require,module,exports){
+},{"../src":331,"./util":13,"jsua-query":338}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -956,10 +956,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function createInputExample(label, cb) {
   (0, _util.createExample)(function (el) {
-    el.innerHTML = "\n      <input type=\"text\" value=\"Hello\" />\n    ";
+    el.innerHTML = "\n      <div>Label</div>\n      <input type=\"text\" value=\"Hello\" />\n    ";
 
-    el.style.padding = "16px";
-    cb(el.firstElementChild);
+    cb(el);
   });
 }
 
@@ -967,27 +966,16 @@ function cardExamples() {
   (0, _util.clearExamples)();
 
   createInputExample("Light theme (default)", function (el) {
-    material.textInput(el);
-  });
-
-  createInputExample("Dark theme", function (el) {
-    var options = {
-      theme: "dark"
-    };
-
-    material.background(el.parentElement, options);
-    material.textInput(el, options);
-  });
-
-  createInputExample("Custom background", function (el) {
-    material.background.primary(el.parentElement);
-    material.textInput(el, {
-      color: "white"
-    });
+    var label = el.firstElementChild;
+    var input = el.lastElementChild;
+    material.textField(el);
+    material.textField.label(label);
+    material.textField.input(input);
+    material.textInput(input);
   });
 }
 
-},{"../src":331,"./util":13,"jsua-query":337}],12:[function(require,module,exports){
+},{"../src":331,"./util":13,"jsua-query":338}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1038,7 +1026,7 @@ function cardExamples() {
   });
 }
 
-},{"../src":331,"./util":13,"jsua-query":337}],13:[function(require,module,exports){
+},{"../src":331,"./util":13,"jsua-query":338}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8313,7 +8301,7 @@ function regex() {
 );
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":341}],319:[function(require,module,exports){
+},{"_process":342}],319:[function(require,module,exports){
 // # Relative luminance
 //
 // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
@@ -8623,7 +8611,7 @@ background.menu = function (element, options) {
 background.dialog = background.card;
 background.hover = background.appBar;
 
-},{"./color":326,"./color-palette":325,"./util":336}],323:[function(require,module,exports){
+},{"./color":326,"./color-palette":325,"./util":337}],323:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8649,7 +8637,7 @@ function card(element, options) {
   }]);
 }
 
-},{"./elevation":328,"jsua-query":337}],324:[function(require,module,exports){
+},{"./elevation":328,"jsua-query":338}],324:[function(require,module,exports){
 module.exports={
   "Red": {
     "50": "#FFEBEE",
@@ -9295,7 +9283,7 @@ expansionPanel.header = function (element) {
   headerSlot.appendChild(element);
 };
 
-},{"./color":326,"./util":336,"jsua-query":337}],330:[function(require,module,exports){
+},{"./color":326,"./util":337,"jsua-query":338}],330:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9357,13 +9345,13 @@ grid.column = function column(element, options) {
   }
 };
 
-},{"./util":336}],331:[function(require,module,exports){
+},{"./util":337}],331:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.textInput = exports.text = exports.raisedButton = exports.menu = exports.grid = exports.expansionPanel = exports.elevation = exports.color = exports.card = exports.background = undefined;
+exports.textInput = exports.textField = exports.text = exports.raisedButton = exports.menu = exports.grid = exports.expansionPanel = exports.elevation = exports.color = exports.card = exports.background = undefined;
 
 var _background = require("./background");
 
@@ -9405,6 +9393,10 @@ var _textInput = require("./text-input");
 
 var _textInput2 = _interopRequireDefault(_textInput);
 
+var _textField = require("./text-field");
+
+var _textField2 = _interopRequireDefault(_textField);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.background = _background2.default;
@@ -9416,9 +9408,10 @@ exports.grid = _grid2.default;
 exports.menu = _menu2.default;
 exports.raisedButton = _raisedButton2.default;
 exports.text = _text2.default;
+exports.textField = _textField2.default;
 exports.textInput = _textInput2.default;
 
-},{"./background":322,"./card":323,"./color":326,"./elevation":328,"./expansion-panel":329,"./grid":330,"./menu":332,"./raised-button":333,"./text":335,"./text-input":334}],332:[function(require,module,exports){
+},{"./background":322,"./card":323,"./color":326,"./elevation":328,"./expansion-panel":329,"./grid":330,"./menu":332,"./raised-button":333,"./text":336,"./text-field":334,"./text-input":335}],332:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9633,7 +9626,7 @@ menu.header = function (element) {
   menuComponent.materialRefresh();
 };
 
-},{"./background":322,"./elevation":328,"./text":335,"./util":336,"jsua-query":337}],333:[function(require,module,exports){
+},{"./background":322,"./elevation":328,"./text":336,"./util":337,"jsua-query":338}],333:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9724,7 +9717,114 @@ function raisedButton(element, options) {
   }]);
 }
 
-},{"./elevation":328,"jsua-query":337}],334:[function(require,module,exports){
+},{"./elevation":328,"jsua-query":338}],334:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = textField;
+
+var _jsuaQuery = require("jsua-query");
+
+var _util = require("./util");
+
+var _text = require("./text");
+
+var _text2 = _interopRequireDefault(_text);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function textField(element, options) {
+  element.materialRefresh = function () {
+    var input = element.getSlot("input").firstElementChild;
+    var label = element.getSlot("label");
+
+    if (input && label) {
+      var onInput = function onInput() {
+        if (input.value === "") {
+          label.style.transform = "translateY(8px)";
+          label.style.opacity = 0;
+        } else {
+          label.style.transform = "none";
+          label.style.opacity = 1;
+        }
+      };
+
+      if (input.placeholder !== undefined) {
+        input.placeholder = label.textContent;
+      }
+
+      if (input.value === "") {
+        label.style.transform = "translateY(8px)";
+        label.style.opacity = 0;
+      }
+
+      input.removeEventListener("input", onInput);
+      input.addEventListener("input", onInput);
+    }
+  };
+
+  var innerHTML = "\n      <div data-material-slot=\"label\" role=\"presentation\"></div>\n      <div data-material-slot=\"input\" role=\"presentation\"></div>\n      <div data-material-slot=\"content\" role=\"presentation\"></div>\n    ";
+
+  (0, _util.createComponent)(element, {
+    innerHTML: innerHTML,
+    name: "text-field"
+  });
+
+  (0, _jsuaQuery.query)(element).each([function (el) {
+    return el.style.display = "flex";
+  }, function (el) {
+    return el.style.flexDirection = "column";
+  }, function (el) {
+    return el.style.alignItems = "stretch";
+  }, function (el) {
+    return el.style.width = "100%";
+  }]);
+
+  (0, _jsuaQuery.query)(element.getSlot("label")).each([function (el) {
+    return el.style.marginTop = "16px";
+  }, function (el) {
+    return el.style.transition = "transform 175ms ease-in-out, opacity 175ms ease-in-out";
+  }]);
+
+  (0, _jsuaQuery.query)(element.getSlot("input")).each([function (el) {
+    return el.style.display = "flex";
+  }, function (el) {
+    return el.style.flexDirection = "column";
+  }, function (el) {
+    return el.style.alignItems = "stretch";
+  }, function (el) {
+    return el.style.marginTop = "8px";
+  }, function (el) {
+    return el.style.marginBottom = "8px";
+  }]);
+}
+
+function findTextFieldComponent(element) {
+  var component = (0, _util.findNearestAncestor)(element, "[data-material-component=text-field]");
+
+  if (!component) {
+    throw new Error("The element must be contained within a material text field component.");
+  }
+
+  return component;
+}
+
+textField.label = function (element, options) {
+  var component = findTextFieldComponent(element);
+  component.addToSlot("label", element);
+  _text2.default.caption(element, options);
+  component.materialRefresh();
+};
+
+textField.input = function (element) {
+  var component = findTextFieldComponent(element);
+  component.addToSlot("input", element);
+  component.materialRefresh();
+};
+
+},{"./text":336,"./util":337,"jsua-query":338}],335:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9771,7 +9871,7 @@ function textInput(element, options) {
   }])]);
 }
 
-},{"./color":326,"./text":335,"./util":336,"jsua-query":337}],335:[function(require,module,exports){
+},{"./color":326,"./text":336,"./util":337,"jsua-query":338}],336:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9959,7 +10059,7 @@ text.input = function input(element, options) {
   text(element, options);
 };
 
-},{"./color":326,"./color-palette":325,"./util":336}],336:[function(require,module,exports){
+},{"./color":326,"./color-palette":325,"./util":337}],337:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10068,8 +10168,32 @@ function wrapChildren(element) {
 function createComponent(element, options) {
   var componentTemplate = document.createElement("div");
   var slots = {};
-  element.getSlot = function (name) {
+
+  function getSlot(name) {
     return slots[name];
+  };
+  element.getSlot = getSlot;
+
+  element.clearSlot = function (name) {
+    var slot = getSlot(name);
+
+    if (!slot) {
+      throw new Error("Slot " + name + " does not exist.");
+    }
+
+    while (slot.firstElementChild) {
+      slot.removeChild(slot.firstElementChild);
+    }
+  };
+
+  element.addToSlot = function (name, element) {
+    var slot = getSlot(name);
+
+    if (!slot) {
+      throw new Error("Slot " + name + " does not exist.");
+    }
+
+    slot.appendChild(element);
   };
 
   if (options.innerHTML) {
@@ -10119,7 +10243,7 @@ function findNearestAncestor(element, selector) {
   return null;
 }
 
-},{"./color":326,"jsua-query":337}],337:[function(require,module,exports){
+},{"./color":326,"jsua-query":338}],338:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10139,7 +10263,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.query = _query2.default;
 exports.on = _on2.default;
-},{"./on":338,"./query":339}],338:[function(require,module,exports){
+},{"./on":339,"./query":340}],339:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10156,7 +10280,7 @@ function on(name, fn) {
     });
   };
 }
-},{"./util":340}],339:[function(require,module,exports){
+},{"./util":341}],340:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10598,7 +10722,7 @@ function query(selection) {
 
   return q;
 }
-},{"./util":340}],340:[function(require,module,exports){
+},{"./util":341}],341:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10614,7 +10738,7 @@ function executeFunctionOrArrayOfFunctions(fn, element, evt) {
 
   fn(element, evt);
 }
-},{}],341:[function(require,module,exports){
+},{}],342:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};

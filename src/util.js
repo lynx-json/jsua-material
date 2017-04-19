@@ -87,8 +87,32 @@ export function wrapChildren(element) {
 export function createComponent(element, options) {
   var componentTemplate = document.createElement("div");
   var slots = {};
-  element.getSlot = function (name) {
+
+  function getSlot(name) {
     return slots[name];
+  };
+  element.getSlot = getSlot;
+
+  element.clearSlot = function (name) {
+    var slot = getSlot(name);
+
+    if (!slot) {
+      throw new Error(`Slot ${name} does not exist.`);
+    }
+
+    while (slot.firstElementChild) {
+      slot.removeChild(slot.firstElementChild);
+    }
+  };
+
+  element.addToSlot = function (name, element) {
+    var slot = getSlot(name);
+
+    if (!slot) {
+      throw new Error(`Slot ${name} does not exist.`);
+    }
+
+    slot.appendChild(element);
   };
 
   if (options.innerHTML) {

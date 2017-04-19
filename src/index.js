@@ -8,6 +8,7 @@ import menu from "./menu";
 import raisedButton from "./raised-button";
 import text from "./text";
 import textInput from "./text-input";
+import textField from "./text-field";
 
 export {
   background,
@@ -19,5 +20,6 @@ export {
   menu,
   raisedButton,
   text,
+  textField,
   textInput
 };
