@@ -956,9 +956,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function createInputExample(label, cb) {
   (0, _util.createExample)(function (el) {
-    el.innerHTML = "\n      <div>Label</div>\n      <input type=\"text\" value=\"Hello\" />\n    ";
+    el.innerHTML = "\n      <div>\n        <div>" + label + "</div>\n        <input type=\"text\" value=\"Hello\" />\n      </div>\n    ";
 
-    cb(el);
+    el.style.padding = "16px";
+
+    cb(el.firstElementChild);
   });
 }
 
@@ -966,12 +968,45 @@ function cardExamples() {
   (0, _util.clearExamples)();
 
   createInputExample("Light theme (default)", function (el) {
-    var label = el.firstElementChild;
-    var input = el.lastElementChild;
-    material.textField(el);
-    material.textField.label(label);
-    material.textField.input(input);
-    material.textInput(input);
+    (0, _jsuaQuery.query)(el).each(material.textField());
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.textField.label());
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.textField.singleLine());
+  });
+
+  createInputExample("Dark theme", function (el) {
+    var options = {
+      theme: "dark"
+    };
+    material.background(el.parentElement, options);
+    (0, _jsuaQuery.query)(el).each(material.textField(options));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.textField.label(options));
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.textField.singleLine(options));
+  });
+
+  createInputExample("Empty input", function (el) {
+    el.lastElementChild.value = "";
+    (0, _jsuaQuery.query)(el).each(material.textField());
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.textField.label());
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.textField.singleLine());
+  });
+
+  createInputExample("Floating label off", function (el) {
+    el.lastElementChild.value = "";
+    (0, _jsuaQuery.query)(el).each(material.textField());
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.textField.label());
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.textField.singleLine({
+      floatingLabel: false
+    }));
+  });
+
+  createInputExample("Error state", function (textField) {
+    (0, _jsuaQuery.query)(textField).each(material.textField());
+    (0, _jsuaQuery.query)(textField.firstElementChild).each(material.textField.label());
+    (0, _jsuaQuery.query)(textField.lastElementChild).each([material.textField.singleLine(), function (el) {
+      return textField.materialSetError();
+    }, (0, _jsuaQuery.on)("input", function () {
+      return textField.materialClearError();
+    })]);
   });
 }
 
@@ -9037,6 +9072,7 @@ var darkTheme = [colorPalette.getColor("Black"), colorPalette.getColor("Grey", 9
 var theme = "light";
 var primary = colorPalette.getColor("Indigo");
 var secondary = colorPalette.getColor("Amber");
+var error = colorPalette.getColor("Red");
 
 var colorScheme = {
   get primary() {
@@ -9050,6 +9086,12 @@ var colorScheme = {
   },
   set secondary(val) {
     secondary = colorPalette.getColor(val);
+  },
+  get error() {
+    return error;
+  },
+  set error(val) {
+    error = colorPalette.getColor(val);
   },
   get theme() {
     return theme;
@@ -9733,98 +9775,141 @@ var _text = require("./text");
 
 var _text2 = _interopRequireDefault(_text);
 
+var _color = require("./color");
+
+var _color2 = _interopRequireDefault(_color);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function textField(element, options) {
-  element.materialRefresh = function () {
-    var input = element.getSlot("input").firstElementChild;
-    var label = element.getSlot("label");
+function floatingLabel(options) {
+  var textColor = (0, _util.getTextColor)(options);
+  var opacity = (0, _util.getPrimaryTextOpacity)(options);
 
-    if (input && label) {
-      var onInput = function onInput() {
-        if (input.value === "") {
-          label.style.transform = "translateY(8px)";
-          label.style.opacity = 0;
-        } else {
-          label.style.transform = "none";
-          label.style.opacity = 1;
-        }
-      };
+  return function (inputElement) {
+    if (options && options.floatingLabel === false) return;
+    if (inputElement.placeholder === undefined) return;
 
-      if (input.placeholder !== undefined) {
-        input.placeholder = label.textContent;
-      }
+    var restingStyle = [function (el) {
+      return el.style.transform = "translateY(8px)";
+    }, function (el) {
+      return el.style.opacity = 0;
+    }];
 
-      if (input.value === "") {
-        label.style.transform = "translateY(8px)";
-        label.style.opacity = 0;
-      }
+    var floatingStyle = [function (el) {
+      return el.style.transform = "none";
+    }, function (el) {
+      return el.style.opacity = opacity;
+    }];
 
-      input.removeEventListener("input", onInput);
-      input.addEventListener("input", onInput);
-    }
+    var labelStyle = inputElement.value === "" ? restingStyle : floatingStyle;
+
+    (0, _jsuaQuery.query)(inputElement.parentElement).select("[data-material-component~=text-field-label]").each([function (el) {
+      return inputElement.placeholder = el.textContent;
+    }, labelStyle]);
   };
+}
 
-  var innerHTML = "\n      <div data-material-slot=\"label\" role=\"presentation\"></div>\n      <div data-material-slot=\"input\" role=\"presentation\"></div>\n      <div data-material-slot=\"content\" role=\"presentation\"></div>\n    ";
+function textField(options) {
+  var hasError = false;
+  var hasFocus = false;
 
-  (0, _util.createComponent)(element, {
-    innerHTML: innerHTML,
-    name: "text-field"
-  });
+  function errorState() {
+    return [function (el) {
+      return el.materialSetError = function () {
+        return (0, _util.raiseEvent)(el, "material-error-on");
+      };
+    }, function (el) {
+      return el.materialClearError = function () {
+        return (0, _util.raiseEvent)(el, "material-error-off");
+      };
+    }, updateStateVisualization()];
+  }
 
-  (0, _jsuaQuery.query)(element).each([function (el) {
+  function updateStateVisualization() {
+    function getLabelColor() {
+      if (hasError) return _color2.default.error;
+      if (hasFocus) return _color2.default.primary;
+
+      return (0, _util.getTextColor)(options);
+    }
+
+    function getBorderStyle() {
+      if (hasFocus && hasError) return "2px solid " + _color2.default.error;
+      if (hasError) return "1px solid " + _color2.default.error;
+      if (hasFocus) return "2px solid " + _color2.default.primary;
+      return (0, _util.getDividerStyle)(options);
+    }
+
+    return function (el) {
+      (0, _jsuaQuery.query)(el).select("[data-material-component~=text-field-label]").each(function (el) {
+        return el.style.color = getLabelColor();
+      });
+
+      (0, _jsuaQuery.query)(el).select("[data-material-component~=text-field-control]").each([function (el) {
+        return el.style.borderBottom = getBorderStyle();
+      }, function (el) {
+        if (hasFocus) {
+          el.style.paddingBottom = "6px";
+        } else {
+          el.style.paddingBottom = "7px";
+        }
+      }]);
+    };
+  }
+
+  return [(0, _util.component)("text-field"), errorState(), (0, _jsuaQuery.on)("material-error-on", [function (el) {
+    return hasError = true;
+  }, updateStateVisualization()]), (0, _jsuaQuery.on)("material-error-off", [function (el) {
+    return hasError = false;
+  }, updateStateVisualization()]), function (el) {
     return el.style.display = "flex";
   }, function (el) {
     return el.style.flexDirection = "column";
   }, function (el) {
     return el.style.alignItems = "stretch";
-  }, function (el) {
-    return el.style.width = "100%";
-  }]);
+  }, (0, _jsuaQuery.on)("focusin", [function (el) {
+    return hasFocus = true;
+  }, updateStateVisualization()]), (0, _jsuaQuery.on)("focusout", [function (el) {
+    return hasFocus = false;
+  }, updateStateVisualization()])];
+}
 
-  (0, _jsuaQuery.query)(element.getSlot("label")).each([function (el) {
+textField.label = function (options) {
+  return [(0, _util.component)("text-field-label"), function (el) {
+    return _text2.default.caption(el, options);
+  }, function (el) {
     return el.style.marginTop = "16px";
   }, function (el) {
     return el.style.transition = "transform 175ms ease-in-out, opacity 175ms ease-in-out";
-  }]);
+  }];
+};
 
-  (0, _jsuaQuery.query)(element.getSlot("input")).each([function (el) {
-    return el.style.display = "flex";
-  }, function (el) {
-    return el.style.flexDirection = "column";
-  }, function (el) {
-    return el.style.alignItems = "stretch";
-  }, function (el) {
+textField.control = function (options) {
+  return [(0, _util.component)("text-field-control"), floatingLabel(options), function (el) {
     return el.style.marginTop = "8px";
   }, function (el) {
     return el.style.marginBottom = "8px";
-  }]);
-}
-
-function findTextFieldComponent(element) {
-  var component = (0, _util.findNearestAncestor)(element, "[data-material-component=text-field]");
-
-  if (!component) {
-    throw new Error("The element must be contained within a material text field component.");
-  }
-
-  return component;
-}
-
-textField.label = function (element, options) {
-  var component = findTextFieldComponent(element);
-  component.addToSlot("label", element);
-  _text2.default.caption(element, options);
-  component.materialRefresh();
+  }, (0, _jsuaQuery.on)("input", floatingLabel(options))];
 };
 
-textField.input = function (element) {
-  var component = findTextFieldComponent(element);
-  component.addToSlot("input", element);
-  component.materialRefresh();
+textField.singleLine = function (options) {
+  return [(0, _util.component)("text-field-single-line"), textField.control(options), function (el) {
+    return el.style.backgroundColor = "inherit";
+  }, function (el) {
+    return _text2.default.input(el, options);
+  }, function (el) {
+    return el.style.outline = "none";
+  }, function (el) {
+    return el.style.border = "none";
+  }, function (el) {
+    return el.style.borderBottom = (0, _util.getDividerStyle)(options);
+  }, function (el) {
+    return el.style.paddingBottom = "7px";
+  } // 8px - 1px border
+  ];
 };
 
-},{"./text":336,"./util":337,"jsua-query":338}],335:[function(require,module,exports){
+},{"./color":326,"./text":336,"./util":337,"jsua-query":338}],335:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9847,6 +9932,7 @@ var _color2 = _interopRequireDefault(_color);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function textInput(element, options) {
+  var focusColor = options && options.focusColor || _color2.default.secondary;
   (0, _jsuaQuery.query)(element).each([function (el) {
     return el.style.backgroundColor = "inherit";
   }, function (el) {
@@ -9861,7 +9947,7 @@ function textInput(element, options) {
     return el.style.paddingBottom = "7px";
   }, // 8px - 1px border
   (0, _jsuaQuery.on)("focusin", [function (el) {
-    return el.style.borderBottom = "2px solid " + _color2.default.secondary;
+    return el.style.borderBottom = "2px solid " + focusColor;
   }, function (el) {
     return el.style.paddingBottom = "6px";
   }]), (0, _jsuaQuery.on)("focusout", [function (el) {
@@ -10073,9 +10159,11 @@ exports.getSecondaryTextOpacity = getSecondaryTextOpacity;
 exports.getDisabledTextOpacity = getDisabledTextOpacity;
 exports.blockComponent = blockComponent;
 exports.wrapChildren = wrapChildren;
+exports.component = component;
 exports.createComponent = createComponent;
 exports.clearChildren = clearChildren;
 exports.findNearestAncestor = findNearestAncestor;
+exports.raiseEvent = raiseEvent;
 
 var _color = require("./color");
 
@@ -10165,6 +10253,16 @@ function wrapChildren(element) {
   return wrapper;
 }
 
+function component(name) {
+  return function (element) {
+    var components = element.dataset.materialComponent ? element.dataset.materialComponent.split(" ") : [];
+    if (components.includes(name)) return;
+
+    components.push(name);
+    element.dataset.materialComponent = components.join(" ");
+  };
+}
+
 function createComponent(element, options) {
   var componentTemplate = document.createElement("div");
   var slots = {};
@@ -10241,6 +10339,12 @@ function findNearestAncestor(element, selector) {
   }
 
   return null;
+}
+
+function raiseEvent(element, name, bubble, cancelable) {
+  var evt = document.createEvent("Event");
+  evt.initEvent(name, bubble, cancelable);
+  element.dispatchEvent(evt);
 }
 
 },{"./color":326,"jsua-query":338}],338:[function(require,module,exports){

@@ -84,6 +84,16 @@ export function wrapChildren(element) {
   return wrapper;
 }
 
+export function component(name) {
+  return function (element) {
+    var components = element.dataset.materialComponent ? element.dataset.materialComponent.split(" ") : [];
+    if (components.includes(name)) return;
+
+    components.push(name);
+    element.dataset.materialComponent = components.join(" ");
+  };
+}
+
 export function createComponent(element, options) {
   var componentTemplate = document.createElement("div");
   var slots = {};
@@ -164,4 +174,10 @@ export function findNearestAncestor(element, selector) {
   }
 
   return null;
+}
+
+export function raiseEvent(element, name, bubble, cancelable) {
+  var evt = document.createEvent("Event");
+  evt.initEvent(name, bubble, cancelable);
+  element.dispatchEvent(evt);
 }

@@ -17,6 +17,7 @@ var darkTheme = [
 var theme = "light";
 var primary = colorPalette.getColor("Indigo");
 var secondary = colorPalette.getColor("Amber");
+var error = colorPalette.getColor("Red");
 
 const colorScheme = {
   get primary() {
@@ -30,6 +31,12 @@ const colorScheme = {
   },
   set secondary(val) {
     secondary = colorPalette.getColor(val);
+  },
+  get error() {
+    return error;
+  },
+  set error(val) {
+    error = colorPalette.getColor(val);
   },
   get theme() {
     return theme;

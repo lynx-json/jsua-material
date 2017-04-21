@@ -1,28 +1,29 @@
-# Notes
+```js
+function textField(el, options) {
+  query(el).each([
+    on("focusin", raiseEvent(element.label, "material-focus"))
+  ]);
+}
 
-## Components
+function input(el, options) {
+  query(el).each([
+    on("material-focus", focusedInput)
+  ]);
+}
+
+function label(el, options) {
+  query(el).each([
+    
+    on("material-float", floatingLabel),
+    on("material-focus", focusedLabel),
+    on("material-resting", restingLabel)
+  ]);
+}
+```
 
 ```js
-var innerHTML = `
-  <div>
-    <div data-material-slot="header"></div>
-    <div data-material-slot="content"></div>
-  </div>
-`;
-
-element = createComponent("material-menu", innerHTML);
-
-var headerSlot = element.getSlot("header");
-clearChildren(headerSlot);
-headerSlot.appendChild(el);
-
-// State
-element.materialExpand();
-
-
-menu(element, { theme: "dark" });
-// Should set the background? There's no background specified.
-// Should set the default foreground on each child (typically a slot).
-menu.item(element, { })
-
+query("label").each([
+  label,
+  el => label(el, options)
+]);
 ```

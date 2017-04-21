@@ -9,6 +9,7 @@ import {
 import color from "./color";
 
 export default function textInput(element, options) {
+  var focusColor = (options && options.focusColor) || color.secondary;
   query(element).each([
     el => el.style.backgroundColor = "inherit",
     el => text.input(el, options),
@@ -17,7 +18,7 @@ export default function textInput(element, options) {
     el => el.style.borderBottom = getDividerStyle(options),
     el => el.style.paddingBottom = "7px", // 8px - 1px border
     on("focusin", [
-      el => el.style.borderBottom = "2px solid " + color.secondary,
+      el => el.style.borderBottom = "2px solid " + focusColor,
       el => el.style.paddingBottom = "6px"
     ]),
     on("focusout", [

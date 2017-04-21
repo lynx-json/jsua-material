@@ -2,94 +2,147 @@ import {
   query,
   on
 } from "jsua-query";
+
 import {
+  component,
+  getTextColor,
+  getPrimaryTextOpacity,
   getDividerStyle,
-  createComponent,
-  findNearestAncestor
+  raiseEvent
 } from "./util";
+
 import text from "./text";
+import color from "./color";
 
-export default function textField(element, options) {
-  element.materialRefresh = function () {
-    var input = element.getSlot("input").firstElementChild;
-    var label = element.getSlot("label");
+function floatingLabel(options) {
+  var textColor = getTextColor(options);
+  var opacity = getPrimaryTextOpacity(options);
 
-    if (input && label) {
-      if (input.placeholder !== undefined) {
-        input.placeholder = label.textContent;
-      }
+  return function (inputElement) {
+    if (options && options.floatingLabel === false) return;
+    if (inputElement.placeholder === undefined) return;
 
-      if (input.value === "") {
-        label.style.transform = "translateY(8px)";
-        label.style.opacity = 0;
-      }
+    var restingStyle = [
+      el => el.style.transform = "translateY(8px)",
+      el => el.style.opacity = 0
+    ];
 
-      function onInput() {
-        if (input.value === "") {
-          label.style.transform = "translateY(8px)";
-          label.style.opacity = 0;
-        } else {
-          label.style.transform = "none";
-          label.style.opacity = 1;
-        }
-      }
+    var floatingStyle = [
+      el => el.style.transform = "none",
+      el => el.style.opacity = opacity
+    ];
 
-      input.removeEventListener("input", onInput);
-      input.addEventListener("input", onInput);
-    }
+    var labelStyle = inputElement.value === "" ? restingStyle : floatingStyle;
+
+    query(inputElement.parentElement)
+      .select("[data-material-component~=text-field-label]")
+      .each([
+        el => inputElement.placeholder = el.textContent,
+        labelStyle
+      ]);
+  };
+}
+
+export default function textField(options) {
+  var hasError = false;
+  var hasFocus = false;
+
+  function errorState() {
+    return [
+      el => el.materialSetError = () => raiseEvent(el, "material-error-on"),
+      el => el.materialClearError = () => raiseEvent(el, "material-error-off"),
+      updateStateVisualization()
+    ];
   }
 
-  var innerHTML = `
-      <div data-material-slot="label" role="presentation"></div>
-      <div data-material-slot="input" role="presentation"></div>
-      <div data-material-slot="content" role="presentation"></div>
-    `;
+  function updateStateVisualization() {
+    function getLabelColor() {
+      if (hasError) return color.error;
+      if (hasFocus) return color.primary;
 
-  createComponent(element, {
-    innerHTML: innerHTML,
-    name: "text-field"
-  });
+      return getTextColor(options);
+    }
 
-  query(element).each([
+    function getBorderStyle() {
+      if (hasFocus && hasError) return `2px solid ${color.error}`;
+      if (hasError) return `1px solid ${color.error}`;
+      if (hasFocus) return `2px solid ${color.primary}`;
+      return getDividerStyle(options);
+    }
+
+    return function (el) {
+      query(el)
+        .select("[data-material-component~=text-field-label]")
+        .each(el => el.style.color = getLabelColor());
+
+      query(el)
+        .select("[data-material-component~=text-field-control]")
+        .each([
+          el => el.style.borderBottom = getBorderStyle(),
+          el => {
+            if (hasFocus) {
+              el.style.paddingBottom = "6px"
+            } else {
+              el.style.paddingBottom = "7px"
+            }
+          }
+        ]);
+    };
+  }
+
+  return [
+    component("text-field"),
+    errorState(),
+    on("material-error-on", [
+      el => hasError = true,
+      updateStateVisualization()
+    ]),
+    on("material-error-off", [
+      el => hasError = false,
+      updateStateVisualization()
+    ]),
     el => el.style.display = "flex",
     el => el.style.flexDirection = "column",
     el => el.style.alignItems = "stretch",
-    el => el.style.width = "100%"
-  ]);
+    on("focusin", [
+      el => hasFocus = true,
+      updateStateVisualization()
+    ]),
+    on("focusout", [
+      el => hasFocus = false,
+      updateStateVisualization()
+    ])
+  ];
+}
 
-  query(element.getSlot("label")).each([
+textField.label = function (options) {
+  return [
+    component("text-field-label"),
+    el => text.caption(el, options),
     el => el.style.marginTop = "16px",
     el => el.style.transition = "transform 175ms ease-in-out, opacity 175ms ease-in-out"
-  ]);
-
-  query(element.getSlot("input")).each([
-    el => el.style.display = "flex",
-    el => el.style.flexDirection = "column",
-    el => el.style.alignItems = "stretch",
-    el => el.style.marginTop = "8px",
-    el => el.style.marginBottom = "8px"
-  ]);
-}
-
-function findTextFieldComponent(element) {
-  var component = findNearestAncestor(element, "[data-material-component=text-field]");
-
-  if (!component) {
-    throw new Error("The element must be contained within a material text field component.");
-  }
-
-  return component;
-}
-
-textField.label = function (element, options) {
-  var component = findTextFieldComponent(element);
-  component.addToSlot("label", element);
-  text.caption(element, options);
-  component.materialRefresh();
+  ];
 };
 
-textField.input = function (element) {
-  var component = findTextFieldComponent(element);
-  component.addToSlot("input", element);
-  component.materialRefresh();
+textField.control = function (options) {
+  return [
+    component("text-field-control"),
+    floatingLabel(options),
+    el => el.style.marginTop = "8px",
+    el => el.style.marginBottom = "8px",
+    on("input", floatingLabel(options))
+  ];
+};
+
+textField.singleLine = function (options) {
+  return [
+    component("text-field-single-line"),
+    textField.control(options),
+    el => el.style.backgroundColor = "inherit",
+    el => text.input(el, options),
+    el => el.style.outline = "none",
+    el => el.style.border = "none",
+    el => el.style.borderBottom = getDividerStyle(options),
+    el => el.style.paddingBottom = "7px" // 8px - 1px border
+  ];
 };
