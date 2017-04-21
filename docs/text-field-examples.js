@@ -69,4 +69,40 @@ export default function cardExamples() {
       on("input", () => textField.materialClearError())
     ]);
   });
+
+  // createInputExample("Required state");
+  createInputExample("Dropdown", function (el) {
+    query(el).each(material.textField());
+    query(el.firstElementChild).each(material.textField.label());
+
+    var select = document.createElement("select");
+    select.innerHTML = `
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    `;
+    el.replaceChild(select, el.lastElementChild);
+
+    query(el.lastElementChild).each(material.textField.dropdown());
+  });
+
+  createInputExample("Dropdown with error state", function (field) {
+    query(field).each(material.textField());
+    query(field.firstElementChild).each(material.textField.label());
+
+    var select = document.createElement("select");
+    select.innerHTML = `
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    `;
+    field.replaceChild(select, field.lastElementChild);
+
+    query(field.lastElementChild).each([
+      material.textField.dropdown(),
+      el => field.materialSetError(),
+      on("input", () => field.materialClearError())
+    ]);
+  });
+  // createInputExample("Multiline");
 }

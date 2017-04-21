@@ -1008,6 +1008,34 @@ function cardExamples() {
       return textField.materialClearError();
     })]);
   });
+
+  // createInputExample("Required state");
+  createInputExample("Dropdown", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.textField());
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.textField.label());
+
+    var select = document.createElement("select");
+    select.innerHTML = "\n      <option value=\"1\">One</option>\n      <option value=\"2\">Two</option>\n      <option value=\"3\">Three</option>\n    ";
+    el.replaceChild(select, el.lastElementChild);
+
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.textField.dropdown());
+  });
+
+  createInputExample("Dropdown with error state", function (field) {
+    (0, _jsuaQuery.query)(field).each(material.textField());
+    (0, _jsuaQuery.query)(field.firstElementChild).each(material.textField.label());
+
+    var select = document.createElement("select");
+    select.innerHTML = "\n      <option value=\"1\">One</option>\n      <option value=\"2\">Two</option>\n      <option value=\"3\">Three</option>\n    ";
+    field.replaceChild(select, field.lastElementChild);
+
+    (0, _jsuaQuery.query)(field.lastElementChild).each([material.textField.dropdown(), function (el) {
+      return field.materialSetError();
+    }, (0, _jsuaQuery.on)("input", function () {
+      return field.materialClearError();
+    })]);
+  });
+  // createInputExample("Multiline");
 }
 
 },{"../src":331,"./util":13,"jsua-query":338}],12:[function(require,module,exports){
@@ -9904,9 +9932,44 @@ textField.singleLine = function (options) {
   }, function (el) {
     return el.style.borderBottom = (0, _util.getDividerStyle)(options);
   }, function (el) {
+    return el.style.borderRadius = "0px";
+  }, function (el) {
     return el.style.paddingBottom = "7px";
   } // 8px - 1px border
   ];
+};
+
+textField.dropdown = function (options) {
+  return [(0, _util.component)("text-field-dropdown"), textField.control(options), function (el) {
+    return el.style.backgroundColor = "inherit";
+  }, function (el) {
+    return _text2.default.input(el, options);
+  }, function (el) {
+    return el.style.outline = "none";
+  }, function (el) {
+    return el.style.border = "none";
+  }, function (el) {
+    return el.style.borderBottom = (0, _util.getDividerStyle)(options);
+  }, function (el) {
+    return el.style.borderRadius = "0px";
+  }, function (el) {
+    return el.style.paddingBottom = "7px";
+  }, // 8px - 1px border,
+  function (el) {
+    return el.style.webkitAppearance = "none";
+  }, function (el) {
+    return el.style.mozAppearance = "none";
+  }, function (el) {
+    return el.style.appearance = "none";
+  }, function (el) {
+    return el.style.backgroundImage = "url(data:image/svg+xml;charset=utf-8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3Csvg%20version%3D%221.1%22%20baseProfile%3D%22tiny%22%20id%3D%22Logo_and_Name%22%0D%0A%09%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%20%20%20%3Crect%20fill%3D%22%23ccc%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20%2F%3E%0D%0A%3C%2Fsvg%3E)";
+  }, function (el) {
+    return el.style.backgroundPosition = "right";
+  }, function (el) {
+    return el.style.backgroundRepeat = "no-repeat";
+  }, function (el) {
+    return el.style.backgroundSize = "24px 24px";
+  }];
 };
 
 },{"./color":326,"./text":336,"./util":337,"jsua-query":338}],335:[function(require,module,exports){
