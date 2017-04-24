@@ -18,8 +18,8 @@ var darkTextOpacity = {
   divider: .12
 };
 
-export function getTheme(options) {
-  if (options && options.theme) return color.getThemeColors(options.theme);
+export function getTheme(theme) {
+  if (theme) return color.getThemeColors(theme);
   return color.getThemeColors(color.theme);
 }
 

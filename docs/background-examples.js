@@ -6,6 +6,11 @@ import {
   clearExamples
 } from "./util";
 
+import {
+  query,
+  on
+} from "jsua-query";
+
 function createBackgroundExample(label, cb) {
 
   createExample(function (el) {
@@ -18,8 +23,8 @@ function createBackgroundExample(label, cb) {
   });
 }
 
-function calculateTextColor(options) {
-  var backgroundColor = material.color.getColor(options);
+function calculateTextColor(backgroundColor, shade) {
+  backgroundColor = material.color.getColor(backgroundColor, shade);
   var darkRatio = contrast.ratio(backgroundColor, "#000000");
   var lightRatio = contrast.ratio(backgroundColor, "#ffffff");
   return (darkRatio > lightRatio ? "black" : "white");
@@ -29,280 +34,132 @@ export default function backgroundExamples() {
   clearExamples();
 
   createBackgroundExample("Known color and shade (Blue Grey, 900)", function (el) {
-    var options = {
-      color: "Blue Grey",
-      shade: 900
-    };
-    material.background(el, options);
-
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background("Blue Grey", 900));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Custom color and shade (#ff0000, 300)", function (el) {
-    var options = {
-      color: "#ff0000",
-      shade: 300
-    };
-    material.background(el, options);
-
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background("#ff0000", 300));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Primary Color, Shade: 500 (default)", function (el) {
-    var options = {
-      color: material.color.primary
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary());
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Primary Color, Shade: 50", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 50
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(50));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Primary Color, Shade: 100", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 100
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(100));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Primary Color, Shade: 200", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 200
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(200));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Primary Color, Shade: 300", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 300
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(300));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Primary Color, Shade: 400", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 400
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(400));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Primary Color, Shade: 500", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 500
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(500));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Primary Color, Shade: 600", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 600
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(600));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Primary Color, Shade: 700", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 700
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(700));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Primary Color, Shade: 800", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 800
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(800));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Primary Color, Shade: 900", function (el) {
-    var options = {
-      color: material.color.primary,
-      shade: 900
-    };
-
-    material.background.primary(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.primary(900));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Accent Color, Shade: A200 (default)", function (el) {
-    var options = {
-      color: material.color.secondary
-    };
-
-    material.background.accent(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.accent());
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Accent Color, Shade: A100", function (el) {
-    var options = {
-      color: material.color.secondary,
-      shade: "A100"
-    };
-
-    material.background.accent(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.accent("A100"));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Accent Color, Shade: A200", function (el) {
-    var options = {
-      color: material.color.secondary,
-      shade: "A200"
-    };
-
-    material.background.accent(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.accent("A200"));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Accent Color, Shade: A400", function (el) {
-    var options = {
-      color: material.color.secondary,
-      shade: "A400"
-    };
-
-    material.background.accent(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.accent("A400"));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Accent Color, Shade: A700", function (el) {
-    var options = {
-      color: material.color.secondary,
-      shade: "A700"
-    };
-
-    material.background.accent(el, options);
-    material.text.body(el.firstElementChild, {
-      color: calculateTextColor(options)
-    });
+    query(el).each(material.background.accent("A700"));
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Status bar, light theme (default)", function (el) {
-    material.background.statusBar(el);
-    material.text.body(el.firstElementChild, {
-      color: "black"
-    });
+    query(el).each(material.background.statusBar());
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("App bar, light theme (default)", function (el) {
-    material.background.appBar(el);
-    material.text.body(el.firstElementChild, {
-      color: "black"
-    });
+    query(el).each(material.background.appBar());
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Main background, light theme (default)", function (el) {
-    material.background(el);
-    material.text.body(el.firstElementChild, {
-      color: "black"
-    });
+    query(el).each(material.background.main());
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Card/Dialog, light theme (default)", function (el) {
-    material.background.card(el);
-    material.text.body(el.firstElementChild, {
-      color: "black"
-    });
+    query(el).each(material.background.card());
+    query(el.firstElementChild).each(material.text.body());
   });
 
   createBackgroundExample("Status bar, dark theme", function (el) {
-    material.background.statusBar(el, {
-      theme: "dark"
-    });
-    material.text.body(el.firstElementChild, {
-      color: "white"
-    });
+    query(el).each(material.background.statusBar("dark"));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("App bar, dark theme", function (el) {
-    material.background.appBar(el, {
-      theme: "dark"
-    });
-    material.text.body(el.firstElementChild, {
-      color: "white"
-    });
+    query(el).each(material.background.appBar("dark"));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Main background, dark theme", function (el) {
-    material.background(el, {
-      theme: "dark"
-    });
-    material.text.body(el.firstElementChild, {
-      color: "white"
-    });
+    query(el).each(material.background.main("dark"));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 
   createBackgroundExample("Card/Dialog, dark theme", function (el) {
-    material.background.dialog(el, {
-      theme: "dark"
-    });
-    material.text.body(el.firstElementChild, {
-      color: "white"
-    });
+    query(el).each(material.background.card("dark"));
+    query(el.firstElementChild).each(material.text.body("white"));
   });
 }

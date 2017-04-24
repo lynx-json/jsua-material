@@ -1,174 +1,130 @@
-// material.background(el, { color: "Indigo", shade: 700 });
-import color from "./color";
-import * as colorPalette from "./color-palette";
 import {
-  getTheme,
   getTextColor,
   getPrimaryTextOpacity,
   getSecondaryTextOpacity
 } from "./util";
 
-export default function text(element, options) {
-  var textColor = getTextColor(options);
-  var opacity = getPrimaryTextOpacity(textColor);
+export default function text(color, opacity) {
+  opacity = opacity || getPrimaryTextOpacity(color);
 
-  options = Object.assign({
-    fontFamily: "Roboto, sans-serif",
-    fontWeight: "400",
-    fontSize: "14px",
-    color: textColor,
-    opacity: opacity
-  }, options);
-
-  element.style.fontFamily = options.fontFamily;
-  element.style.fontWeight = options.fontWeight;
-  element.style.fontSize = options.fontSize;
-  element.style.color = options.color;
-  element.style.opacity = options.opacity;
-
-  if (options.lineHeight) {
-    element.style.lineHeight = options.lineHeight;
-  }
+  return [
+    el => el.style.fontFamily = "Roboto, sans-serif",
+    el => el.style.fontWeight = "400",
+    el => el.style.fontSize = "14px",
+    el => el.style.color = color,
+    el => el.style.opacity = opacity
+  ];
 }
 
-text.display4 = function display4(element, options) {
-  var textColor = getTextColor(options);
-  var opacity = getSecondaryTextOpacity(textColor);
+text.display4 = function display4(color, opacity) {
+  opacity = opacity || getSecondaryTextOpacity(color);
 
-  options = Object.assign({
-    fontWeight: "300",
-    fontSize: "112px",
-    color: textColor,
-    opacity: opacity
-  }, options);
-
-  text(element, options);
+  return [
+    text(color, opacity),
+    el => el.style.fontWeight = "300",
+    el => el.style.fontSize = "112px"
+  ];
 };
 
-text.display3 = function display3(element, options) {
-  var textColor = getTextColor(options);
-  var opacity = getSecondaryTextOpacity(textColor);
+text.display3 = function display3(color, opacity) {
+  opacity = opacity || getSecondaryTextOpacity(color);
 
-  options = Object.assign({
-    fontSize: "56px",
-    color: textColor,
-    opacity: opacity
-  }, options);
-
-  text(element, options);
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "56px"
+  ];
 };
 
-text.display2 = function display2(element, options) {
-  var textColor = getTextColor(options);
-  var opacity = getSecondaryTextOpacity(textColor);
+text.display2 = function display2(color, opacity) {
+  opacity = opacity || getSecondaryTextOpacity(color);
 
-  options = Object.assign({
-    fontSize: "45px",
-    color: textColor,
-    opacity: opacity,
-    lineHeight: "48px"
-  }, options);
-
-  text(element, options);
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "45px",
+    el => el.style.lineHeight = "48px"
+  ];
 };
 
-text.display = function display(element, options) {
-  var textColor = getTextColor(options);
-  var opacity = getSecondaryTextOpacity(textColor);
+text.display = function display(color, opacity) {
+  opacity = opacity || getSecondaryTextOpacity(color);
 
-  options = Object.assign({
-    fontSize: "34px",
-    color: textColor,
-    opacity: opacity,
-    lineHeight: "40px"
-  }, options);
-
-  text(element, options);
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "34px",
+    el => el.style.lineHeight = "40px"
+  ];
 };
 
-text.headline = function headline(element, options) {
-  options = Object.assign({
-    fontSize: "24px",
-    lineHeight: "32px"
-  }, options);
-
-  text(element, options);
+text.headline = function headline(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "24px",
+    el => el.style.lineHeight = "32px"
+  ];
 };
 
-text.title = function title(element, options) {
-  options = Object.assign({
-    fontWeight: "500",
-    fontSize: "20px"
-  }, options);
-
-  text(element, options);
+text.title = function title(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontWeight = "500",
+    el => el.style.fontSize = "20px"
+  ];
 };
 
-text.subheading2 = function subheading2(element, options) {
-  // Desktop font size is 15px per the spec. Ignoring for now.
-  options = Object.assign({
-    fontSize: "16px",
-    lineHeight: "28px"
-  }, options);
-
-  text(element, options);
+text.subheading2 = function subheading2(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "16px",
+    el => el.style.lineHeight = "28px"
+  ];
 };
 
-text.subheading = function subheading(element, options) {
-  // Desktop font size is 15px per the spec. Ignoring for now.
-  options = Object.assign({
-    fontSize: "16px",
-    lineHeight: "24px"
-  }, options);
-
-  text(element, options);
+text.subheading = function subheading(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "16px",
+    el => el.style.lineHeight = "24px"
+  ];
 };
 
-text.body2 = function body2(element, options) {
-  // Desktop font size is 13px per the spec. Ignoring for now.
-  options = Object.assign({
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "28px"
-  }, options);
-
-  text(element, options);
+text.body2 = function body2(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontWeight = "500",
+    el => el.style.fontSize = "14px",
+    el => el.style.lineHeight = "28px"
+  ];
 };
 
-text.body = function body(element, options) {
-  // Desktop font size is 13px per the spec. Ignoring for now.
-  options = Object.assign({
-    fontSize: "14px",
-    lineHeight: "24px"
-  }, options);
-
-  text(element, options);
+text.body = function body(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "14px",
+    el => el.style.lineHeight = "24px"
+  ];
 };
 
-text.caption = function caption(element, options) {
-  options = Object.assign({
-    fontSize: "12px",
-    lineHeight: "14px"
-  }, options);
-
-  text(element, options);
+text.caption = function caption(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "12px",
+    el => el.style.lineHeight = "14px"
+  ];
 };
 
-text.button = function button(element, options) {
-  options = Object.assign({
-    fontSize: "14px",
-    fontWeight: "500"
-  }, options);
-
-  text(element, options);
-  element.style.textTransform = "uppercase";
+text.button = function button(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "14px",
+    el => el.style.fontWeight = "500",
+    el => el.style.textTransform = "uppercase"
+  ];
 };
 
-text.input = function input(element, options) {
-  options = Object.assign({
-    fontSize: "16px",
-    lineHeight: "18px"
-  }, options);
-
-  text(element, options);
-}
+text.input = function input(color, opacity) {
+  return [
+    text(color, opacity),
+    el => el.style.fontSize = "16px",
+    el => el.style.lineHeight = "18px"
+  ];
+};

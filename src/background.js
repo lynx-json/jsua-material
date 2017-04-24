@@ -1,74 +1,44 @@
-// material.background(el, { color: "Indigo", shade: 700 });
 import color from "./color";
-import * as colorPalette from "./color-palette";
 import {
   getTheme
 } from "./util";
 
-export default function background(element, options) {
-  var theme = getTheme(options);
-  options = Object.assign({
-    color: theme[2]
-  }, options);
-
-  element.style.backgroundColor = colorPalette.getColor(options.color, options.shade);
+export default function background(backgroundColor, shade) {
+  return el => el.style.backgroundColor = color.getColor(backgroundColor, shade);
 }
 
-background.primary = function primary(element, options) {
-  options = Object.assign({
-    color: color.primary
-  }, options);
-
-  background(element, options);
+background.primary = function primary(shade) {
+  return background(color.primary, shade);
 };
 
-background.accent = function accent(element, options) {
-  options = Object.assign({
-    color: color.secondary,
-    shade: "A200"
-  }, options);
-
-  background(element, options);
+background.accent = function accent(shade) {
+  shade = shade || "A200";
+  return background(color.secondary, shade);
 };
 
-background.statusBar = function (element, options) {
-  var theme = getTheme(options);
-
-  options = Object.assign({
-    color: theme[0]
-  }, options);
-
-  background(element, options);
+background.statusBar = function (theme) {
+  var themeColors = getTheme(theme);
+  return background(themeColors[0]);
 };
 
-background.appBar = function (element, options) {
-  var theme = getTheme(options);
-
-  options = Object.assign({
-    color: theme[1]
-  }, options);
-
-  background(element, options);
+background.appBar = function (theme) {
+  var themeColors = getTheme(theme);
+  return background(themeColors[1]);
 };
 
-background.card = function (element, options) {
-  var theme = getTheme(options);
-
-  options = Object.assign({
-    color: theme[3]
-  }, options);
-
-  background(element, options);
+background.main = function (theme) {
+  var themeColors = getTheme(theme);
+  return background(themeColors[2]);
 };
 
-background.menu = function (element, options) {
-  var theme = getTheme(options);
+background.card = function (theme) {
+  var themeColors = getTheme(theme);
+  return background(themeColors[3]);
+};
 
-  options = Object.assign({
-    color: theme[3]
-  }, options);
-
-  background(element, options);
+background.menu = function (theme) {
+  var themeColors = getTheme(theme);
+  return background(themeColors[3]);
 };
 
 background.dialog = background.card;

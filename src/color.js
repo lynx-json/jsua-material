@@ -53,8 +53,8 @@ const colorScheme = {
       throw new Error("Theme must be either 'light' or 'dark'");
     }
   },
-  getColor(options) {
-    return colorPalette.getColor(options.color, options.shade)
+  getColor(name, shade) {
+    return colorPalette.getColor(name, shade);
   }
 }
 
