@@ -159,10 +159,10 @@ textField.dropdown = function (options) {
     el => el.style.borderBottom = getDividerStyle(options),
     el => el.style.borderRadius = "0px",
     el => el.style.paddingBottom = "7px", // 8px - 1px border,
-    el => el.style.webkitAppearance = "none",
-    el => el.style.mozAppearance = "none",
+    el => el.style.WebkitAppearance = "none",
+    el => el.style.MozAppearance = "none",
     el => el.style.appearance = "none",
-    el => el.style.backgroundImage = "url(data:image/svg+xml;charset=utf-8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3Csvg%20version%3D%221.1%22%20baseProfile%3D%22tiny%22%20id%3D%22Logo_and_Name%22%0D%0A%09%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%20%20%20%3Crect%20fill%3D%22%23ccc%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20%2F%3E%0D%0A%3C%2Fsvg%3E)",
+    el => el.style.backgroundImage = "url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03IDEwbDUgNSA1LTV6Ii8+CiAgICA8cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==)",
     el => el.style.backgroundPosition = "right",
     el => el.style.backgroundRepeat = "no-repeat",
     el => el.style.backgroundSize = "24px 24px"
