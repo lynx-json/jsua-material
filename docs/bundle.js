@@ -655,6 +655,8 @@ var material = _interopRequireWildcard(_src);
 
 var _util = require("./util");
 
+var _jsuaQuery = require("jsua-query");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function createRaisedButtonExample(label, cb) {
@@ -673,23 +675,19 @@ function raisedButtonExamples() {
   (0, _util.clearExamples)();
 
   createRaisedButtonExample("Primary background", function (el) {
-    material.raisedButton(el);
-    material.background.primary(el);
-    material.text.button(el.firstElementChild, {
-      color: "white"
-    });
+    (0, _jsuaQuery.query)(el).each([material.raisedButton({
+      textColor: "white"
+    }), material.background.primary()]);
+
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.button("white"));
   });
 
   createRaisedButtonExample("Accent background", function (el) {
-    material.raisedButton(el);
-    material.background.accent(el);
-    material.text.button(el.firstElementChild, {
-      color: "black"
-    });
+    (0, _jsuaQuery.query)(el).each([material.raisedButton(), material.background.accent()]);
   });
 }
 
-},{"../src":328,"./util":12}],10:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9486,88 +9484,80 @@ exports.default = raisedButton;
 
 var _jsuaQuery = require("jsua-query");
 
+var _util = require("./util");
+
 var _elevation = require("./elevation");
 
 var _elevation2 = _interopRequireDefault(_elevation);
 
+var _text = require("./text");
+
+var _text2 = _interopRequireDefault(_text);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function raisedButton(element, options) {
-  (0, _jsuaQuery.query)(element).select("*").each(function (el) {
-    return el.style.userSelect = "none";
-  });
+function raisedButton(options) {
+  var textColor = (0, _util.getTextColor)(options);
 
-  (0, _jsuaQuery.query)(element).each([function (el) {
-    return el.style.cursor = "default";
-  }, function (el) {
-    return el.style.display = "flex";
-  }, function (el) {
-    return el.style.flexDirection = "row";
-  }, function (el) {
-    return el.style.alignItems = "center";
-  }, function (el) {
-    return el.style.justifyContent = "center";
-  }, function (el) {
-    return el.style.minHeight = "36px";
-  }, function (el) {
-    return el.style.minWidth = "88px";
-  }, function (el) {
-    return el.style.paddingLeft = "16px";
-  }, function (el) {
-    return el.style.paddingRight = "16px";
-  }, function (el) {
-    return el.style.borderRadius = "2px";
-  }, function (el) {
-    return (0, _elevation2.default)(el, {
-      level: 2
+  return function (element) {
+    (0, _jsuaQuery.query)(element).select("*").each(function (el) {
+      return el.style.userSelect = "none";
     });
-  }, function (el) {
-    var touchTarget = document.createElement("div");
-    touchTarget.role = "presentation";
-    el.parentElement.replaceChild(touchTarget, el);
-    touchTarget.addEventListener("click", function () {
-      el.click();
-    });
-    touchTarget.appendChild(el);
-    (0, _jsuaQuery.query)(touchTarget).each([function (el) {
+
+    (0, _jsuaQuery.query)(element).each([function (el) {
+      return el.style.cursor = "default";
+    }, function (el) {
       return el.style.display = "flex";
     }, function (el) {
-      return el.style.flexDirection = "column";
+      return el.style.flexDirection = "row";
     }, function (el) {
-      return el.style.alignItems = "stretch";
+      return el.style.alignItems = "center";
     }, function (el) {
-      return el.style.paddingTop = "6px";
+      return el.style.justifyContent = "center";
     }, function (el) {
-      return el.style.paddingBottom = "6px";
-    }, (0, _jsuaQuery.on)("mousedown", function (el) {
-      return (0, _jsuaQuery.query)(el.firstElementChild).each(function (el) {
-        return (0, _elevation2.default)(el, {
-          level: 8
-        });
+      return el.style.minHeight = "36px";
+    }, function (el) {
+      return el.style.minWidth = "88px";
+    }, function (el) {
+      return el.style.paddingLeft = "16px";
+    }, function (el) {
+      return el.style.paddingRight = "16px";
+    }, function (el) {
+      return el.style.borderRadius = "2px";
+    }, function (el) {
+      return (0, _elevation2.default)(2);
+    }, function (el) {
+      var touchTarget = document.createElement("div");
+      touchTarget.role = "presentation";
+      el.parentElement.replaceChild(touchTarget, el);
+      touchTarget.addEventListener("click", function () {
+        el.click();
       });
-    }), (0, _jsuaQuery.on)("mouseup", function (el) {
-      return (0, _jsuaQuery.query)(el.firstElementChild).each(function (el) {
-        return (0, _elevation2.default)(el, {
-          level: 2
-        });
-      });
-    }), (0, _jsuaQuery.on)("touchstart", function (el) {
-      return (0, _jsuaQuery.query)(el.firstElementChild).each(function (el) {
-        return (0, _elevation2.default)(el, {
-          level: 8
-        });
-      });
-    }), (0, _jsuaQuery.on)("touchend", function (el) {
-      return (0, _jsuaQuery.query)(el.firstElementChild).each(function (el) {
-        return (0, _elevation2.default)(el, {
-          level: 2
-        });
-      });
-    })]);
-  }]);
+      touchTarget.appendChild(el);
+      (0, _jsuaQuery.query)(touchTarget).each([_text2.default.button(textColor), function (el) {
+        return el.style.display = "flex";
+      }, function (el) {
+        return el.style.flexDirection = "column";
+      }, function (el) {
+        return el.style.alignItems = "stretch";
+      }, function (el) {
+        return el.style.paddingTop = "6px";
+      }, function (el) {
+        return el.style.paddingBottom = "6px";
+      }, (0, _jsuaQuery.on)("mousedown", function (el) {
+        return (0, _jsuaQuery.query)(el.firstElementChild).each((0, _elevation2.default)(8));
+      }), (0, _jsuaQuery.on)("mouseup", function (el) {
+        return (0, _jsuaQuery.query)(el.firstElementChild).each((0, _elevation2.default)(2));
+      }), (0, _jsuaQuery.on)("touchstart", function (el) {
+        return (0, _jsuaQuery.query)(el.firstElementChild).each((0, _elevation2.default)(8));
+      }), (0, _jsuaQuery.on)("touchend", function (el) {
+        return (0, _jsuaQuery.query)(el.firstElementChild).each((0, _elevation2.default)(2));
+      })]);
+    }]);
+  };
 }
 
-},{"./elevation":325,"jsua-query":334}],331:[function(require,module,exports){
+},{"./elevation":325,"./text":332,"./util":333,"jsua-query":334}],331:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

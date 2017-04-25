@@ -5,6 +5,10 @@ import {
   clearExamples
 } from "./util";
 
+import {
+  query
+} from "jsua-query";
+
 function createRaisedButtonExample(label, cb) {
   createExample(function (el) {
     var labelElement = document.createElement("pre");
@@ -21,18 +25,20 @@ export default function raisedButtonExamples() {
   clearExamples();
 
   createRaisedButtonExample("Primary background", function (el) {
-    material.raisedButton(el);
-    material.background.primary(el);
-    material.text.button(el.firstElementChild, {
-      color: "white"
-    });
+    query(el).each([
+      material.raisedButton({
+        textColor: "white"
+      }),
+      material.background.primary()
+    ]);
+
+    query(el.firstElementChild).each(material.text.button("white"));
   });
 
   createRaisedButtonExample("Accent background", function (el) {
-    material.raisedButton(el);
-    material.background.accent(el);
-    material.text.button(el.firstElementChild, {
-      color: "black"
-    });
+    query(el).each([
+      material.raisedButton(),
+      material.background.accent()
+    ]);
   });
 }
