@@ -18,62 +18,42 @@ export default function () {
     .filter(matchesMedia(smallScreen))
     .each([
       el => el.dataset.screenSize = "small",
-      el => material.grid(el, {
-        columns: 4,
-        gutter: "16px"
-      })
+      material.grid(4, "16px")
     ]);
 
   query(appElement)
     .filter(matchesMedia(mediumScreen))
     .each([
       el => el.dataset.screenSize = "medium",
-      el => material.grid(el, {
-        columns: 8,
-        gutter: "16px"
-      })
+      material.grid(8, "16px")
     ]);
 
   query(appElement)
     .filter(matchesMedia(largeScreen))
     .each([
       el => el.dataset.screenSize = "large",
-      el => material.grid(el, {
-        columns: 12,
-        gutter: "24px"
-      })
+      material.grid(12, "24px")
     ]);
 
   query(appElement)
     .select("[data-screen-size=small] > * > *")
-    .each(el => material.grid.column(el, {
-      span: 4
-    }));
+    .each(material.grid.column(4));
 
   query(appElement)
     .select("[data-screen-size=medium] > * > *")
-    .each(el => material.grid.column(el, {
-      span: 8
-    }));
+    .each(material.grid.column(8));
 
   query(appElement)
     .select("[data-screen-size=large] > * > *")
-    .each(el => material.grid.column(el, {
-      span: 8,
-      offset: 2
-    }));
+    .each(material.grid.column(8, 2));
 
   query(document.getElementById("menu"))
-    .each([
-      material.menu
-    ]);
+    .each(material.menu());
 
   query(document.getElementById("menu-label"))
-    .each(material.menu.header);
+    .each(material.menu.header());
 
   query(app)
     .select("[data-material-component=material-menu] > * > [data-material-slot=content] > *")
-    .each([
-      material.menu.item
-    ]);
+    .each(material.menu.item());
 }

@@ -506,55 +506,27 @@ exports.default = function () {
 
   (0, _jsuaQuery.query)(appElement).filter((0, _util.matchesMedia)(smallScreen)).each([function (el) {
     return el.dataset.screenSize = "small";
-  }, function (el) {
-    return material.grid(el, {
-      columns: 4,
-      gutter: "16px"
-    });
-  }]);
+  }, material.grid(4, "16px")]);
 
   (0, _jsuaQuery.query)(appElement).filter((0, _util.matchesMedia)(mediumScreen)).each([function (el) {
     return el.dataset.screenSize = "medium";
-  }, function (el) {
-    return material.grid(el, {
-      columns: 8,
-      gutter: "16px"
-    });
-  }]);
+  }, material.grid(8, "16px")]);
 
   (0, _jsuaQuery.query)(appElement).filter((0, _util.matchesMedia)(largeScreen)).each([function (el) {
     return el.dataset.screenSize = "large";
-  }, function (el) {
-    return material.grid(el, {
-      columns: 12,
-      gutter: "24px"
-    });
-  }]);
+  }, material.grid(12, "24px")]);
 
-  (0, _jsuaQuery.query)(appElement).select("[data-screen-size=small] > * > *").each(function (el) {
-    return material.grid.column(el, {
-      span: 4
-    });
-  });
+  (0, _jsuaQuery.query)(appElement).select("[data-screen-size=small] > * > *").each(material.grid.column(4));
 
-  (0, _jsuaQuery.query)(appElement).select("[data-screen-size=medium] > * > *").each(function (el) {
-    return material.grid.column(el, {
-      span: 8
-    });
-  });
+  (0, _jsuaQuery.query)(appElement).select("[data-screen-size=medium] > * > *").each(material.grid.column(8));
 
-  (0, _jsuaQuery.query)(appElement).select("[data-screen-size=large] > * > *").each(function (el) {
-    return material.grid.column(el, {
-      span: 8,
-      offset: 2
-    });
-  });
+  (0, _jsuaQuery.query)(appElement).select("[data-screen-size=large] > * > *").each(material.grid.column(8, 2));
 
-  (0, _jsuaQuery.query)(document.getElementById("menu")).each([material.menu]);
+  (0, _jsuaQuery.query)(document.getElementById("menu")).each(material.menu());
 
-  (0, _jsuaQuery.query)(document.getElementById("menu-label")).each(material.menu.header);
+  (0, _jsuaQuery.query)(document.getElementById("menu-label")).each(material.menu.header());
 
-  (0, _jsuaQuery.query)(app).select("[data-material-component=material-menu] > * > [data-material-slot=content] > *").each([material.menu.item]);
+  (0, _jsuaQuery.query)(app).select("[data-material-component=material-menu] > * > [data-material-slot=content] > *").each(material.menu.item());
 };
 
 var _jsuaQuery = require("jsua-query");
@@ -636,11 +608,13 @@ function cardExamples() {
     (0, _jsuaQuery.query)(el).each([material.menu({
       textColor: "white"
     }), material.background("Orange", 900)]);
+
     (0, _jsuaQuery.query)(el.getSlot("menu")).each(material.background("Orange", 500));
+
     (0, _jsuaQuery.query)(label).each(material.menu.header());
     (0, _jsuaQuery.query)(el.getSlot("content")).map(function (el) {
       return el.children;
-    }).each(material.menu.item());
+    }).each([material.menu.item(), (0, _jsuaQuery.on)("mouseover", material.background("Orange", 700))]);
   });
 
   createMenuExample("Open State", function (el) {

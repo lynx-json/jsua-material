@@ -6,7 +6,8 @@ import {
 } from "./util";
 
 import {
-  query
+  query,
+  on
 } from "jsua-query";
 
 function createMenuExample(label, cb) {
@@ -68,7 +69,10 @@ export default function cardExamples() {
     query(label).each(material.menu.header());
     query(el.getSlot("content"))
       .map(el => el.children)
-      .each(material.menu.item());
+      .each([
+        material.menu.item(),
+        on("mouseover", material.background("Orange", 700))
+      ]);
   });
 
   createMenuExample("Open State", function (el) {
