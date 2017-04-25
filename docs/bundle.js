@@ -630,16 +630,29 @@ function cardExamples() {
 
     material.color.theme = "light";
   });
-  // 
-  // createMenuExample("Open State", function (el) {
-  //   material.menu(el, {
-  //     state: "open"
-  //   });
-  //   material.menu.header(el.querySelector("pre"));
-  //   query(el.getSlot("content"))
-  //     .map(el => el.children)
-  //     .each(material.menu.item);
-  // });
+
+  createMenuExample("Custom color", function (el) {
+    var label = el.firstElementChild;
+    (0, _jsuaQuery.query)(el).each([material.menu({
+      textColor: "white"
+    }), material.background("Orange", 900)]);
+    (0, _jsuaQuery.query)(el.getSlot("menu")).each(material.background("Orange", 500));
+    (0, _jsuaQuery.query)(label).each(material.menu.header());
+    (0, _jsuaQuery.query)(el.getSlot("content")).map(function (el) {
+      return el.children;
+    }).each(material.menu.item());
+  });
+
+  createMenuExample("Open State", function (el) {
+    var label = el.firstElementChild;
+    (0, _jsuaQuery.query)(el).each(material.menu({
+      state: "open"
+    }));
+    (0, _jsuaQuery.query)(label).each(material.menu.header());
+    (0, _jsuaQuery.query)(el.getSlot("content")).map(function (el) {
+      return el.children;
+    }).each(material.menu.item());
+  });
 }
 
 },{"../src":328,"./util":12,"jsua-query":334}],9:[function(require,module,exports){
@@ -9295,7 +9308,7 @@ function menu(options) {
   var opacity = (0, _util.getPrimaryTextOpacity)(textColor);
 
   return function (element) {
-    var innerHTML = "\n      <div role=\"presentation\">\n        <div data-material-slot=\"header\" role=\"presentation\"></div>\n        <div data-material-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">arrow_drop_down</i></div>\n      </div>\n      <div role=\"presentation\">\n        <div data-material-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
+    var innerHTML = "\n      <div role=\"presentation\">\n        <div data-material-slot=\"header\" role=\"presentation\"></div>\n        <div data-material-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">arrow_drop_down</i></div>\n      </div>\n      <div role=\"presentation\" data-material-slot=\"menu\">\n        <div data-material-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
 
     element = (0, _util.createComponent)(element, {
       innerHTML: innerHTML,

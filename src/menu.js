@@ -24,7 +24,7 @@ export default function menu(options) {
         <div data-material-slot="header" role="presentation"></div>
         <div data-material-slot="toggle" role="presentation"><i class="material-icons">arrow_drop_down</i></div>
       </div>
-      <div role="presentation">
+      <div role="presentation" data-material-slot="menu">
         <div data-material-slot="content" role="presentation"></div>
       </div>
     `;

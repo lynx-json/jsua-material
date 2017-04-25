@@ -53,14 +53,32 @@ export default function cardExamples() {
 
     material.color.theme = "light";
   });
-  // 
-  // createMenuExample("Open State", function (el) {
-  //   material.menu(el, {
-  //     state: "open"
-  //   });
-  //   material.menu.header(el.querySelector("pre"));
-  //   query(el.getSlot("content"))
-  //     .map(el => el.children)
-  //     .each(material.menu.item);
-  // });
+
+  createMenuExample("Custom color", function (el) {
+    var label = el.firstElementChild;
+    query(el).each([
+      material.menu({
+        textColor: "white"
+      }),
+      material.background("Orange", 900)
+    ]);
+
+    query(el.getSlot("menu")).each(material.background("Orange", 500));
+
+    query(label).each(material.menu.header());
+    query(el.getSlot("content"))
+      .map(el => el.children)
+      .each(material.menu.item());
+  });
+
+  createMenuExample("Open State", function (el) {
+    var label = el.firstElementChild;
+    query(el).each(material.menu({
+      state: "open"
+    }));
+    query(label).each(material.menu.header());
+    query(el.getSlot("content"))
+      .map(el => el.children)
+      .each(material.menu.item());
+  });
 }
