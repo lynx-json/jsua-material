@@ -189,6 +189,8 @@ var material = _interopRequireWildcard(_src);
 
 var _util = require("./util");
 
+var _jsuaQuery = require("jsua-query");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function createCardExample(label, cb) {
@@ -212,34 +214,29 @@ function cardExamples() {
   (0, _util.clearExamples)();
 
   createCardExample("Light theme (default)", function (el) {
-    material.card(el);
-    material.background.card(el);
-    material.text.headline(el.firstElementChild);
-    material.text.body(el.lastElementChild);
+    (0, _jsuaQuery.query)(el).each(material.card());
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.headline());
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.text.body());
   });
 
   createCardExample("Dark theme", function (el) {
-    var options = {
-      theme: "dark"
-    };
-    material.card(el, options);
-    material.background.card(el, options);
-    material.text.headline(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    material.color.theme = "dark";
+
+    (0, _jsuaQuery.query)(el).each(material.card());
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.headline());
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.text.body());
+
+    material.color.theme = "light";
   });
 
   createCardExample("Custom background", function (el) {
-    var options = {
-      color: "black"
-    };
-    material.card(el);
-    material.background.accent(el);
-    material.text.headline(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    (0, _jsuaQuery.query)(el).each([material.card(), material.background("Orange", 900)]);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.headline("white"));
+    (0, _jsuaQuery.query)(el.lastElementChild).each(material.text.body("white"));
   });
 }
 
-},{"../src":328,"./util":12}],3:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -321,7 +318,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function createExpansionPanelExample(label, cb) {
   (0, _util.createExample)(function (el) {
-    var labelElement = document.createElement("div");
+    var labelElement = document.createElement("pre");
     labelElement.textContent = label;
     el.appendChild(labelElement);
 
@@ -347,7 +344,6 @@ function motionExamples() {
 
   createExpansionPanelExample("Dark theme", function (el) {
     var header = el.firstElementChild;
-    var bodyCopy = el.lastElementChild;
 
     material.color.theme = "dark";
 
@@ -362,7 +358,6 @@ function motionExamples() {
 
   createExpansionPanelExample("Custom background", function (el) {
     var header = el.firstElementChild;
-    var bodyCopy = el.lastElementChild;
 
     (0, _jsuaQuery.query)(el).each([material.expansionPanel({
       textColor: "white"
@@ -378,6 +373,17 @@ function motionExamples() {
     (0, _jsuaQuery.query)(el).each([material.expansionPanel({
       state: "expanded"
     }), material.elevation(2), function (el) {
+      return el.style.margin = "24px";
+    }]);
+
+    (0, _jsuaQuery.query)(header).each(material.expansionPanel.header());
+  });
+
+  createExpansionPanelExample("Large header", function (el) {
+    var header = el.firstElementChild;
+    header.textContent = "\n" + header.textContent + "\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n      ";
+
+    (0, _jsuaQuery.query)(el).each([material.expansionPanel(), material.elevation(2), function (el) {
       return el.style.margin = "24px";
     }]);
 
@@ -678,8 +684,6 @@ function raisedButtonExamples() {
     (0, _jsuaQuery.query)(el).each([material.raisedButton({
       textColor: "white"
     }), material.background.primary()]);
-
-    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.button("white"));
   });
 
   createRaisedButtonExample("Accent background", function (el) {
@@ -8497,19 +8501,23 @@ var _elevation = require("./elevation");
 
 var _elevation2 = _interopRequireDefault(_elevation);
 
+var _background = require("./background");
+
+var _background2 = _interopRequireDefault(_background);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function card(element, options) {
-  (0, _jsuaQuery.query)(element).each([_elevation2.default.card, (0, _jsuaQuery.on)("mouseover", _elevation2.default.cardHover), (0, _jsuaQuery.on)("mouseout", _elevation2.default.card), function (el) {
+function card() {
+  return [_elevation2.default.card(), _background2.default.card(), (0, _jsuaQuery.on)("mouseover", _elevation2.default.cardHover()), (0, _jsuaQuery.on)("mouseout", _elevation2.default.card()), function (el) {
     return el.style.display = "flex";
   }, function (el) {
     return el.style.flexDirection = "column";
   }, function (el) {
     return el.style.borderRadius = "2px";
-  }]);
+  }];
 }
 
-},{"./elevation":325,"jsua-query":334}],323:[function(require,module,exports){
+},{"./background":321,"./elevation":325,"jsua-query":334}],323:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9022,7 +9030,9 @@ function expansionPanel(options) {
       return el.style.overflowY = "hidden";
     }, function (el) {
       return el.style.opacity = 0;
-    }, _text2.default.body(textColor)]);
+    }, function (el) {
+      if (options && options.textColor) (0, _jsuaQuery.query)(el).each(_text2.default.body(textColor));
+    }]);
 
     var contentContainer = element.lastElementChild.firstElementChild;
     contentContainer.style.display = "flex";

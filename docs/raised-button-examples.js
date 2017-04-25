@@ -31,8 +31,6 @@ export default function raisedButtonExamples() {
       }),
       material.background.primary()
     ]);
-
-    query(el.firstElementChild).each(material.text.button("white"));
   });
 
   createRaisedButtonExample("Accent background", function (el) {

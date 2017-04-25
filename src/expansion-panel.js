@@ -42,7 +42,9 @@ export default function expansionPanel(options) {
       el => el.style.maxHeight = "0px",
       el => el.style.overflowY = "hidden",
       el => el.style.opacity = 0,
-      text.body(textColor)
+      function (el) {
+        if (options && options.textColor) query(el).each(text.body(textColor));
+      }
     ]);
 
     var contentContainer = element.lastElementChild.firstElementChild;

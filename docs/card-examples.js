@@ -5,6 +5,10 @@ import {
   clearExamples
 } from "./util";
 
+import {
+  query
+} from "jsua-query";
+
 function createCardExample(label, cb) {
   createExample(function (el) {
     el.style.margin = "16px";
@@ -26,29 +30,27 @@ export default function cardExamples() {
   clearExamples();
 
   createCardExample("Light theme (default)", function (el) {
-    material.card(el);
-    material.background.card(el);
-    material.text.headline(el.firstElementChild);
-    material.text.body(el.lastElementChild);
+    query(el).each(material.card());
+    query(el.firstElementChild).each(material.text.headline());
+    query(el.lastElementChild).each(material.text.body());
   });
 
   createCardExample("Dark theme", function (el) {
-    var options = {
-      theme: "dark"
-    };
-    material.card(el, options);
-    material.background.card(el, options);
-    material.text.headline(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    material.color.theme = "dark";
+
+    query(el).each(material.card());
+    query(el.firstElementChild).each(material.text.headline());
+    query(el.lastElementChild).each(material.text.body());
+
+    material.color.theme = "light";
   });
 
   createCardExample("Custom background", function (el) {
-    var options = {
-      color: "black"
-    };
-    material.card(el);
-    material.background.accent(el);
-    material.text.headline(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    query(el).each([
+      material.card(),
+      material.background("Orange", 900)
+    ]);
+    query(el.firstElementChild).each(material.text.headline("white"));
+    query(el.lastElementChild).each(material.text.body("white"));
   });
 }
