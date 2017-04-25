@@ -54,6 +54,6 @@ export default function () {
     .each(material.menu.header());
 
   query(app)
-    .select("[data-material-component=material-menu] > * > [data-material-slot=content] > *")
+    .select("[data-material-component=menu] > * > [data-material-slot=content] > *")
     .each(material.menu.item());
 }

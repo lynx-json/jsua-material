@@ -7,7 +7,7 @@ import background from "./background";
 import text from "./text";
 import {
   clearChildren,
-  createComponent,
+  component,
   findNearestAncestor,
   getDividerStyle,
   getTextColor,
@@ -29,10 +29,16 @@ export default function menu(options) {
       </div>
     `;
 
-    element = createComponent(element, {
-      innerHTML: innerHTML,
-      name: "material-menu"
-    });
+    query(element).each([
+      component("menu", innerHTML),
+      el => el.style.position = "relative",
+      on("focusout", () => element.materialClose()),
+      on("keyup", (el, evt) => {
+        if (evt.keyCode === 27) {
+          element.materialClose()
+        }
+      })
+    ]);
 
     var menuHeader = element.firstElementChild;
     var menu = element.lastElementChild;
@@ -77,16 +83,6 @@ export default function menu(options) {
         element.materialOpen();
       }
     }
-
-    query(element).each([
-      el => el.style.position = "relative",
-      on("focusout", () => element.materialClose()),
-      on("keyup", (el, evt) => {
-        if (evt.keyCode === 27) {
-          element.materialClose()
-        }
-      })
-    ]);
 
     query(menuHeader).each([
       el => el.style.color = textColor,
@@ -149,7 +145,7 @@ export default function menu(options) {
 }
 
 function findMenuComponent(element) {
-  var menuComponent = findNearestAncestor(element, "[data-material-component=material-menu]");
+  var menuComponent = findNearestAncestor(element, "[data-material-component=menu]");
 
   if (!menuComponent) {
     throw new Error("The element must be contained within a material menu component.");

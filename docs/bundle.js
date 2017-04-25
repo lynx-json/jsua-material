@@ -526,7 +526,7 @@ exports.default = function () {
 
   (0, _jsuaQuery.query)(document.getElementById("menu-label")).each(material.menu.header());
 
-  (0, _jsuaQuery.query)(app).select("[data-material-component=material-menu] > * > [data-material-slot=content] > *").each(material.menu.item());
+  (0, _jsuaQuery.query)(app).select("[data-material-component=menu] > * > [data-material-slot=content] > *").each(material.menu.item());
 };
 
 var _jsuaQuery = require("jsua-query");
@@ -8993,16 +8993,15 @@ function expansionPanel(options) {
   return function (element) {
     var innerHTML = "\n      <div role=\"presentation\">\n        <div data-material-slot=\"header\" role=\"presentation\"></div>\n        <div data-material-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">keyboard_arrow_down</i></div>\n      </div>\n      <div role=\"presentation\">\n        <div data-material-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
 
-    (0, _util.createComponent)(element, {
-      innerHTML: innerHTML,
-      name: "material-expansion-panel"
-    });
-
     var textColor = (0, _util.getTextColor)(options);
 
-    element.style.display = "flex";
-    element.style.flexDirection = "column";
-    element.style.alignItems = "stretch";
+    (0, _jsuaQuery.query)(element).each([(0, _util.component)("expansion-panel", innerHTML), function (el) {
+      return el.style.display = "flex";
+    }, function (el) {
+      return el.style.flexDirection = "column";
+    }, function (el) {
+      return el.style.alignItems = "stretch";
+    }]);
 
     var expandCollapseWrapper = element.lastElementChild;
 
@@ -9012,9 +9011,7 @@ function expansionPanel(options) {
       return el.style.overflowY = "hidden";
     }, function (el) {
       return el.style.opacity = 0;
-    }, function (el) {
-      if (options && options.textColor) (0, _jsuaQuery.query)(el).each(_text2.default.body(textColor));
-    }]);
+    }, _text2.default.body(textColor)]);
 
     var contentContainer = element.lastElementChild.firstElementChild;
     contentContainer.style.display = "flex";
@@ -9112,7 +9109,7 @@ function expansionPanel(options) {
 
 expansionPanel.header = function () {
   return function (element) {
-    var panel = (0, _util.findNearestAncestor)(element, "[data-material-component=material-expansion-panel]");
+    var panel = (0, _util.findNearestAncestor)(element, "[data-material-component=expansion-panel]");
 
     if (!panel) {
       throw new Error("The element must be contained within a material expansion panel component.");
@@ -9284,10 +9281,15 @@ function menu(options) {
   return function (element) {
     var innerHTML = "\n      <div role=\"presentation\">\n        <div data-material-slot=\"header\" role=\"presentation\"></div>\n        <div data-material-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">arrow_drop_down</i></div>\n      </div>\n      <div role=\"presentation\" data-material-slot=\"menu\">\n        <div data-material-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
 
-    element = (0, _util.createComponent)(element, {
-      innerHTML: innerHTML,
-      name: "material-menu"
-    });
+    (0, _jsuaQuery.query)(element).each([(0, _util.component)("menu", innerHTML), function (el) {
+      return el.style.position = "relative";
+    }, (0, _jsuaQuery.on)("focusout", function () {
+      return element.materialClose();
+    }), (0, _jsuaQuery.on)("keyup", function (el, evt) {
+      if (evt.keyCode === 27) {
+        element.materialClose();
+      }
+    })]);
 
     var menuHeader = element.firstElementChild;
     var menu = element.lastElementChild;
@@ -9335,16 +9337,6 @@ function menu(options) {
         element.materialOpen();
       }
     }
-
-    (0, _jsuaQuery.query)(element).each([function (el) {
-      return el.style.position = "relative";
-    }, (0, _jsuaQuery.on)("focusout", function () {
-      return element.materialClose();
-    }), (0, _jsuaQuery.on)("keyup", function (el, evt) {
-      if (evt.keyCode === 27) {
-        element.materialClose();
-      }
-    })]);
 
     (0, _jsuaQuery.query)(menuHeader).each([function (el) {
       return el.style.color = textColor;
@@ -9434,7 +9426,7 @@ function menu(options) {
 }
 
 function findMenuComponent(element) {
-  var menuComponent = (0, _util.findNearestAncestor)(element, "[data-material-component=material-menu]");
+  var menuComponent = (0, _util.findNearestAncestor)(element, "[data-material-component=menu]");
 
   if (!menuComponent) {
     throw new Error("The element must be contained within a material menu component.");
@@ -9908,10 +9900,8 @@ exports.getTextColor = getTextColor;
 exports.getPrimaryTextOpacity = getPrimaryTextOpacity;
 exports.getSecondaryTextOpacity = getSecondaryTextOpacity;
 exports.getDisabledTextOpacity = getDisabledTextOpacity;
-exports.blockComponent = blockComponent;
 exports.wrapChildren = wrapChildren;
 exports.component = component;
-exports.createComponent = createComponent;
 exports.clearChildren = clearChildren;
 exports.findNearestAncestor = findNearestAncestor;
 exports.raiseEvent = raiseEvent;
@@ -9978,14 +9968,6 @@ function getDisabledTextOpacity(color) {
   return darkTextOpacity.disabled;
 }
 
-function blockComponent(el, name) {
-  if (el.dataset.materialComponent) {
-    throw new Error("The element has already been assigned the component " + el.dataset.materialComponent);
-  }
-
-  el.dataset.materialComponent = name;
-}
-
 function wrapChildren(element) {
   var wrapper = document.createElement("div");
   wrapper.setAttribute("role", "presentation");
@@ -10003,70 +9985,69 @@ function wrapChildren(element) {
   return wrapper;
 }
 
-function component(name) {
+function component(name, innerHTML) {
   return function (element) {
+    if (innerHTML) {
+      var componentTemplate;
+      var slots;
+
+      (function () {
+        var getSlot = function getSlot(name) {
+          return slots[name];
+        };
+
+        componentTemplate = document.createElement("div");
+
+        componentTemplate.innerHTML = innerHTML;
+
+        slots = {};
+        ;
+        element.getSlot = getSlot;
+
+        element.clearSlot = function (name) {
+          var slot = getSlot(name);
+
+          if (!slot) {
+            throw new Error("Slot " + name + " does not exist.");
+          }
+
+          while (slot.firstElementChild) {
+            slot.removeChild(slot.firstElementChild);
+          }
+        };
+
+        element.addToSlot = function (name, element) {
+          var slot = getSlot(name);
+
+          if (!slot) {
+            throw new Error("Slot " + name + " does not exist.");
+          }
+
+          slot.appendChild(element);
+        };
+
+        (0, _jsuaQuery.query)(componentTemplate).select("[data-material-slot]").each(function (slot) {
+          slots[slot.dataset.materialSlot] = slot;
+        });
+
+        (0, _jsuaQuery.query)(componentTemplate).select("[data-material-slot=content]").each(function (contentSlot) {
+          while (element.firstChild) {
+            contentSlot.appendChild(element.firstChild);
+          }
+        });
+
+        while (componentTemplate.firstChild) {
+          element.appendChild(componentTemplate.firstChild);
+        }
+      })();
+    }
+
     var components = element.dataset.materialComponent ? element.dataset.materialComponent.split(" ") : [];
     if (components.includes(name)) return;
 
     components.push(name);
     element.dataset.materialComponent = components.join(" ");
   };
-}
-
-function createComponent(element, options) {
-  var componentTemplate = document.createElement("div");
-  var slots = {};
-
-  function getSlot(name) {
-    return slots[name];
-  };
-  element.getSlot = getSlot;
-
-  element.clearSlot = function (name) {
-    var slot = getSlot(name);
-
-    if (!slot) {
-      throw new Error("Slot " + name + " does not exist.");
-    }
-
-    while (slot.firstElementChild) {
-      slot.removeChild(slot.firstElementChild);
-    }
-  };
-
-  element.addToSlot = function (name, element) {
-    var slot = getSlot(name);
-
-    if (!slot) {
-      throw new Error("Slot " + name + " does not exist.");
-    }
-
-    slot.appendChild(element);
-  };
-
-  if (options.innerHTML) {
-    componentTemplate.innerHTML = options.innerHTML;
-
-    (0, _jsuaQuery.query)(componentTemplate).select("[data-material-slot]").each(function (slot) {
-      slots[slot.dataset.materialSlot] = slot;
-    });
-
-    (0, _jsuaQuery.query)(componentTemplate).select("[data-material-slot=content]").each(function (contentSlot) {
-      while (element.firstChild) {
-        contentSlot.appendChild(element.firstChild);
-      }
-    });
-
-    while (componentTemplate.firstChild) {
-      element.appendChild(componentTemplate.firstChild);
-    }
-  }
-
-  if (options.name) {
-    blockComponent(element, options.name);
-  }
-
-  return element;
 }
 
 function matches(element, selector) {

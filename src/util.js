@@ -58,14 +58,6 @@ export function getDisabledTextOpacity(color) {
   return darkTextOpacity.disabled;
 }
 
-export function blockComponent(el, name) {
-  if (el.dataset.materialComponent) {
-    throw new Error(`The element has already been assigned the component ${el.dataset.materialComponent}`);
-  }
-
-  el.dataset.materialComponent = name;
-}
-
 export function wrapChildren(element) {
   var wrapper = document.createElement("div");
   wrapper.setAttribute("role", "presentation");
@@ -83,74 +75,66 @@ export function wrapChildren(element) {
   return wrapper;
 }
 
-export function component(name) {
+export function component(name, innerHTML) {
   return function (element) {
+    if (innerHTML) {
+      var componentTemplate = document.createElement("div");
+      componentTemplate.innerHTML = innerHTML;
+
+      var slots = {};
+
+      function getSlot(name) {
+        return slots[name];
+      };
+      element.getSlot = getSlot;
+
+      element.clearSlot = function (name) {
+        var slot = getSlot(name);
+
+        if (!slot) {
+          throw new Error(`Slot ${name} does not exist.`);
+        }
+
+        while (slot.firstElementChild) {
+          slot.removeChild(slot.firstElementChild);
+        }
+      };
+
+      element.addToSlot = function (name, element) {
+        var slot = getSlot(name);
+
+        if (!slot) {
+          throw new Error(`Slot ${name} does not exist.`);
+        }
+
+        slot.appendChild(element);
+      };
+
+      query(componentTemplate)
+        .select("[data-material-slot]")
+        .each(slot => {
+          slots[slot.dataset.materialSlot] = slot;
+        });
+
+      query(componentTemplate)
+        .select("[data-material-slot=content]")
+        .each(function (contentSlot) {
+          while (element.firstChild) {
+            contentSlot.appendChild(element.firstChild);
+          }
+        });
+
+      while (componentTemplate.firstChild) {
+        element.appendChild(componentTemplate.firstChild);
+      }
+    }
+
     var components = element.dataset.materialComponent ? element.dataset.materialComponent.split(" ") : [];
     if (components.includes(name)) return;
 
     components.push(name);
     element.dataset.materialComponent = components.join(" ");
   };
-}
-
-export function createComponent(element, options) {
-  var componentTemplate = document.createElement("div");
-  var slots = {};
-
-  function getSlot(name) {
-    return slots[name];
-  };
-  element.getSlot = getSlot;
-
-  element.clearSlot = function (name) {
-    var slot = getSlot(name);
-
-    if (!slot) {
-      throw new Error(`Slot ${name} does not exist.`);
-    }
-
-    while (slot.firstElementChild) {
-      slot.removeChild(slot.firstElementChild);
-    }
-  };
-
-  element.addToSlot = function (name, element) {
-    var slot = getSlot(name);
-
-    if (!slot) {
-      throw new Error(`Slot ${name} does not exist.`);
-    }
-
-    slot.appendChild(element);
-  };
-
-  if (options.innerHTML) {
-    componentTemplate.innerHTML = options.innerHTML;
-
-    query(componentTemplate)
-      .select("[data-material-slot]")
-      .each(slot => {
-        slots[slot.dataset.materialSlot] = slot;
-      });
-
-    query(componentTemplate)
-      .select("[data-material-slot=content]")
-      .each(function (contentSlot) {
-        while (element.firstChild) {
-          contentSlot.appendChild(element.firstChild);
-        }
-      });
-
-    while (componentTemplate.firstChild) {
-      element.appendChild(componentTemplate.firstChild);
-    }
-  }
-
-  if (options.name) {
-    blockComponent(element, options.name);
-  }
-
-  return element;
 }
 
 function matches(element, selector) {

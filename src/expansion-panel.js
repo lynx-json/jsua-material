@@ -1,5 +1,5 @@
 import {
-  createComponent,
+  component,
   findNearestAncestor,
   clearChildren,
   getTextColor,
@@ -25,16 +25,14 @@ export default function expansionPanel(options) {
       </div>
     `;
 
-    createComponent(element, {
-      innerHTML: innerHTML,
-      name: "material-expansion-panel"
-    });
-
     var textColor = getTextColor(options);
 
-    element.style.display = "flex";
-    element.style.flexDirection = "column";
-    element.style.alignItems = "stretch";
+    query(element).each([
+      component("expansion-panel", innerHTML),
+      el => el.style.display = "flex",
+      el => el.style.flexDirection = "column",
+      el => el.style.alignItems = "stretch"
+    ]);
 
     var expandCollapseWrapper = element.lastElementChild;
 
@@ -42,9 +40,7 @@ export default function expansionPanel(options) {
       el => el.style.maxHeight = "0px",
       el => el.style.overflowY = "hidden",
       el => el.style.opacity = 0,
-      function (el) {
-        if (options && options.textColor) query(el).each(text.body(textColor));
-      }
+      text.body(textColor)
     ]);
 
     var contentContainer = element.lastElementChild.firstElementChild;
@@ -130,7 +126,7 @@ export default function expansionPanel(options) {
 
 expansionPanel.header = function () {
   return function (element) {
-    var panel = findNearestAncestor(element, "[data-material-component=material-expansion-panel]");
+    var panel = findNearestAncestor(element, "[data-material-component=expansion-panel]");
 
     if (!panel) {
       throw new Error("The element must be contained within a material expansion panel component.");
