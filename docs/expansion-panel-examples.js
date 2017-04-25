@@ -5,6 +5,10 @@ import {
   clearExamples
 } from "./util";
 
+import {
+  query
+} from "jsua-query";
+
 function createExpansionPanelExample(label, cb) {
   createExample(function (el) {
     var labelElement = document.createElement("div");
@@ -23,61 +27,60 @@ export default function motionExamples() {
 
   createExpansionPanelExample("Light theme (default)", function (el) {
     var header = el.firstElementChild;
-    material.expansionPanel(el);
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+
+    query(el).each([
+      material.expansionPanel(),
+      material.elevation(2),
+      el => el.style.margin = "24px"
+    ]);
+
+    query(header).each(material.expansionPanel.header());
   });
 
   createExpansionPanelExample("Dark theme", function (el) {
     var header = el.firstElementChild;
-    var options = {
-      theme: "dark"
-    };
+    var bodyCopy = el.lastElementChild;
 
-    material.expansionPanel(el, options);
-    material.background(el, options);
-    material.text.subheading(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    material.color.theme = "dark";
 
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+    query(el).each([
+      material.expansionPanel(),
+      material.background.main(),
+      el => el.style.margin = "24px",
+      material.elevation(2)
+    ]);
+
+    query(header).each(material.expansionPanel.header());
+
+    material.color.theme = "light";
   });
 
   createExpansionPanelExample("Custom background", function (el) {
     var header = el.firstElementChild;
-    var options = {
-      color: "white"
-    };
+    var bodyCopy = el.lastElementChild;
 
-    material.expansionPanel(el, options);
-    material.background(el, {
-      color: material.color.primary
-    });
-    material.text.subheading(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    query(el).each([
+      material.expansionPanel({
+        textColor: "white"
+      }),
+      material.background("Orange", 800),
+      el => el.style.margin = "24px",
+      material.elevation(2)
+    ]);
 
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+    query(header).each(material.expansionPanel.header());
   });
 
   createExpansionPanelExample("Expanded", function (el) {
     var header = el.firstElementChild;
-    material.expansionPanel(el, {
-      state: "expanded"
-    });
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+    query(el).each([
+      material.expansionPanel({
+        state: "expanded"
+      }),
+      material.elevation(2),
+      el => el.style.margin = "24px"
+    ]);
+
+    query(header).each(material.expansionPanel.header());
   });
 }

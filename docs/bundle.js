@@ -175,7 +175,7 @@ function backgroundExamples() {
   });
 }
 
-},{"../src":330,"./util":12,"get-contrast":311,"jsua-query":336}],2:[function(require,module,exports){
+},{"../src":328,"./util":12,"get-contrast":311,"jsua-query":334}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -239,7 +239,7 @@ function cardExamples() {
   });
 }
 
-},{"../src":330,"./util":12}],3:[function(require,module,exports){
+},{"../src":328,"./util":12}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -253,6 +253,8 @@ var material = _interopRequireWildcard(_src);
 
 var _util = require("./util");
 
+var _jsuaQuery = require("jsua-query");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function createElevationExample(label, level) {
@@ -261,14 +263,12 @@ function createElevationExample(label, level) {
     labelElement.textContent = label;
     el.appendChild(labelElement);
 
-    material.background(el);
-    material.text.body(labelElement);
-    material.elevation(el, {
-      level: level
-    });
-
-    el.style.padding = "16px";
-    el.style.margin = "32px";
+    (0, _jsuaQuery.query)(el).each([material.background.main(), material.elevation(level), function (el) {
+      return el.style.padding = "16px";
+    }, function (el) {
+      return el.style.marginBottom = "32px";
+    }]);
+    (0, _jsuaQuery.query)(labelElement).each(material.text.body());
   });
 }
 
@@ -301,7 +301,7 @@ function backgroundExamples() {
   createElevationExample("Elevation 24", 24);
 }
 
-},{"../src":330,"./util":12}],4:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -314,6 +314,8 @@ var _src = require("../src");
 var material = _interopRequireWildcard(_src);
 
 var _util = require("./util");
+
+var _jsuaQuery = require("jsua-query");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -335,66 +337,55 @@ function motionExamples() {
 
   createExpansionPanelExample("Light theme (default)", function (el) {
     var header = el.firstElementChild;
-    material.expansionPanel(el);
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+
+    (0, _jsuaQuery.query)(el).each([material.expansionPanel(), material.elevation(2), function (el) {
+      return el.style.margin = "24px";
+    }]);
+
+    (0, _jsuaQuery.query)(header).each(material.expansionPanel.header());
   });
 
   createExpansionPanelExample("Dark theme", function (el) {
     var header = el.firstElementChild;
-    var options = {
-      theme: "dark"
-    };
+    var bodyCopy = el.lastElementChild;
 
-    material.expansionPanel(el, options);
-    material.background(el, options);
-    material.text.subheading(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    material.color.theme = "dark";
 
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+    (0, _jsuaQuery.query)(el).each([material.expansionPanel(), material.background.main(), function (el) {
+      return el.style.margin = "24px";
+    }, material.elevation(2)]);
+
+    (0, _jsuaQuery.query)(header).each(material.expansionPanel.header());
+
+    material.color.theme = "light";
   });
 
   createExpansionPanelExample("Custom background", function (el) {
     var header = el.firstElementChild;
-    var options = {
-      color: "white"
-    };
+    var bodyCopy = el.lastElementChild;
 
-    material.expansionPanel(el, options);
-    material.background(el, {
-      color: material.color.primary
-    });
-    material.text.subheading(el.firstElementChild, options);
-    material.text.body(el.lastElementChild, options);
+    (0, _jsuaQuery.query)(el).each([material.expansionPanel({
+      textColor: "white"
+    }), material.background("Orange", 800), function (el) {
+      return el.style.margin = "24px";
+    }, material.elevation(2)]);
 
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+    (0, _jsuaQuery.query)(header).each(material.expansionPanel.header());
   });
 
   createExpansionPanelExample("Expanded", function (el) {
     var header = el.firstElementChild;
-    material.expansionPanel(el, {
+    (0, _jsuaQuery.query)(el).each([material.expansionPanel({
       state: "expanded"
-    });
-    material.expansionPanel.header(header);
-    el.style.margin = "24px";
-    material.elevation(el, {
-      level: 2
-    });
+    }), material.elevation(2), function (el) {
+      return el.style.margin = "24px";
+    }]);
+
+    (0, _jsuaQuery.query)(header).each(material.expansionPanel.header());
   });
 }
 
-},{"../src":330,"./util":12}],5:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -408,16 +399,15 @@ var material = _interopRequireWildcard(_src);
 
 var _util = require("./util");
 
+var _jsuaQuery = require("jsua-query");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function gridExamples() {
   (0, _util.clearExamples)();
 
   (0, _util.createExample)(function (el) {
-    material.grid(el, {
-      columns: 12,
-      gutter: "16px"
-    });
+    (0, _jsuaQuery.query)(el).each(material.grid(12, "16px"));
 
     for (var i = 1; i <= 12; i++) {
       var cell = document.createElement("div");
@@ -430,18 +420,12 @@ function gridExamples() {
       material.text.caption(cellText);
       cell.appendChild(cellText);
 
-      material.grid.column(cell, {
-        span: i,
-        offset: 12 - i
-      });
-      material.background.primary(cell, {
-        shade: 50
-      });
+      (0, _jsuaQuery.query)(cell).each([material.grid.column(i, 12 - i), material.background.primary(50)]);
     }
   });
 }
 
-},{"../src":330,"./util":12}],6:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -581,7 +565,7 @@ var largeScreen = "(min-width: 840px)";
 var mediumScreen = "(min-width: 600px) and (max-width: 839px)";
 var smallScreen = "(max-width: 599px)";
 
-},{"../src":330,"./util":12,"jsua-query":336}],8:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -657,7 +641,7 @@ function cardExamples() {
   });
 }
 
-},{"../src":330,"./util":12,"jsua-query":336}],9:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -705,7 +689,7 @@ function raisedButtonExamples() {
   });
 }
 
-},{"../src":330,"./util":12}],10:[function(require,module,exports){
+},{"../src":328,"./util":12}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -719,6 +703,8 @@ var material = _interopRequireWildcard(_src);
 
 var _util = require("./util");
 
+var _jsuaQuery = require("jsua-query");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function createTextExample(label, cb) {
@@ -726,10 +712,10 @@ function createTextExample(label, cb) {
     var labelElement = document.createElement("pre");
     labelElement.textContent = label;
     el.appendChild(labelElement);
-    material.background(el);
+
     el.style.padding = "16px";
 
-    cb(labelElement);
+    cb(el);
   });
 }
 
@@ -737,55 +723,115 @@ function textExamples() {
   (0, _util.clearExamples)();
 
   createTextExample("Display 4", function (el) {
-    material.text.display4(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display4());
   });
 
   createTextExample("Display 3", function (el) {
-    material.text.display3(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display3());
   });
 
   createTextExample("Display 2", function (el) {
-    material.text.display2(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display2());
   });
 
   createTextExample("Display", function (el) {
-    material.text.display(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display());
   });
 
   createTextExample("Headline", function (el) {
-    material.text.headline(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.headline());
   });
 
   createTextExample("Title", function (el) {
-    material.text.title(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.title());
   });
 
   createTextExample("Subheading 2", function (el) {
-    material.text.subheading2(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.subheading2());
   });
 
   createTextExample("Subheading", function (el) {
-    material.text.subheading(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.subheading());
   });
 
   createTextExample("Body 2", function (el) {
-    material.text.body2(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.body2());
   });
 
   createTextExample("Body", function (el) {
-    material.text.body(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.body());
   });
 
   createTextExample("Caption", function (el) {
-    material.text.caption(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.caption());
   });
 
   createTextExample("Button", function (el) {
-    material.text.button(el);
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.button());
+  });
+
+  createTextExample("Display 4", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display4("white"));
+  });
+
+  createTextExample("Display 3", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display3("white"));
+  });
+
+  createTextExample("Display 2", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display2("white"));
+  });
+
+  createTextExample("Display", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.display("white"));
+  });
+
+  createTextExample("Headline", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.headline("white"));
+  });
+
+  createTextExample("Title", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.title("white"));
+  });
+
+  createTextExample("Subheading 2", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.subheading2("white"));
+  });
+
+  createTextExample("Subheading", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.subheading("white"));
+  });
+
+  createTextExample("Body 2", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.body2("white"));
+  });
+
+  createTextExample("Body", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.body("white"));
+  });
+
+  createTextExample("Caption", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.caption("white"));
+  });
+
+  createTextExample("Button", function (el) {
+    (0, _jsuaQuery.query)(el).each(material.background.main("dark"));
+    (0, _jsuaQuery.query)(el.firstElementChild).each(material.text.button("white"));
   });
 }
 
-},{"../src":330,"./util":12}],11:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -887,7 +933,7 @@ function cardExamples() {
   // createInputExample("Multiline");
 }
 
-},{"../src":330,"./util":12,"jsua-query":336}],12:[function(require,module,exports){
+},{"../src":328,"./util":12,"jsua-query":334}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8162,7 +8208,7 @@ function regex() {
 );
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":340}],318:[function(require,module,exports){
+},{"_process":338}],318:[function(require,module,exports){
 // # Relative luminance
 //
 // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
@@ -8439,7 +8485,7 @@ background.menu = function (theme) {
 background.dialog = background.card;
 background.hover = background.appBar;
 
-},{"./color":325,"./util":335}],322:[function(require,module,exports){
+},{"./color":324,"./util":333}],322:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8465,8 +8511,14 @@ function card(element, options) {
   }]);
 }
 
-},{"./elevation":327,"jsua-query":336}],323:[function(require,module,exports){
-module.exports={
+},{"./elevation":325,"jsua-query":334}],323:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getColor = getColor;
+var colors = {
   "Red": {
     "50": "#FFEBEE",
     "100": "#FFCDD2",
@@ -8761,21 +8813,7 @@ module.exports={
   },
   "Black": "#000000",
   "White": "#FFFFFF"
-}
-
-},{}],324:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getColor = getColor;
-
-var _colorPalette = require("./color-palette.json");
-
-var _colorPalette2 = _interopRequireDefault(_colorPalette);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+};
 
 function getPercent(shade) {
   switch (shade.toString()) {
@@ -8830,7 +8868,7 @@ function getColor(name, shade) {
   shade = shade || 500;
   var color;
 
-  var hue = _colorPalette2.default[name];
+  var hue = colors[name];
 
   if (hue) {
     color = hue[shade];
@@ -8845,7 +8883,7 @@ function getColor(name, shade) {
   return color;
 }
 
-},{"./color-palette.json":323}],325:[function(require,module,exports){
+},{}],324:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8908,75 +8946,40 @@ var colorScheme = {
 
 exports.default = colorScheme;
 
-},{"./color-palette":324}],326:[function(require,module,exports){
-module.exports={
-  "shadows": [
-    "none",
-    "0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)",
-    "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
-    "0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)",
-    "0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)",
-    "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0px rgba(0, 0, 0, 0.12)",
-    "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)",
-    "0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12)",
-    "0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)",
-    "0px 5px 6px -3px rgba(0, 0, 0, 0.2), 0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.12)",
-    "0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12)",
-    "0px 6px 7px -4px rgba(0, 0, 0, 0.2), 0px 11px 15px 1px rgba(0, 0, 0, 0.14), 0px 4px 20px 3px rgba(0, 0, 0, 0.12)",
-    "0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.12)",
-    "0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 13px 19px 2px rgba(0, 0, 0, 0.14), 0px 5px 24px 4px rgba(0, 0, 0, 0.12)",
-    "0px 7px 9px -4px rgba(0, 0, 0, 0.2), 0px 14px 21px 2px rgba(0, 0, 0, 0.14), 0px 5px 26px 4px rgba(0, 0, 0, 0.12)",
-    "0px 8px 9px -5px rgba(0, 0, 0, 0.2), 0px 15px 22px 2px rgba(0, 0, 0, 0.14), 0px 6px 28px 5px rgba(0, 0, 0, 0.12)",
-    "0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12)",
-    "0px 8px 11px -5px rgba(0, 0, 0, 0.2), 0px 17px 26px 2px rgba(0, 0, 0, 0.14), 0px 6px 32px 5px rgba(0, 0, 0, 0.12)",
-    "0px 9px 11px -5px rgba(0, 0, 0, 0.2), 0px 18px 28px 2px rgba(0, 0, 0, 0.14), 0px 7px 34px 6px rgba(0, 0, 0, 0.12)",
-    "0px 9px 12px -6px rgba(0, 0, 0, 0.2), 0px 19px 29px 2px rgba(0, 0, 0, 0.14), 0px 7px 36px 6px rgba(0, 0, 0, 0.12)", 
-    "0px 10px 13px -6px rgba(0, 0, 0, 0.2), 0px 20px 31px 3px rgba(0, 0, 0, 0.14), 0px 8px 38px 7px rgba(0, 0, 0, 0.12)",
-    "0px 10px 13px -6px rgba(0, 0, 0, 0.2), 0px 21px 33px 3px rgba(0, 0, 0, 0.14), 0px 8px 40px 7px rgba(0, 0, 0, 0.12)",
-    "0px 10px 14px -6px rgba(0, 0, 0, 0.2), 0px 22px 35px 3px rgba(0, 0, 0, 0.14), 0px 8px 42px 7px rgba(0, 0, 0, 0.12)",
-    "0px 11px 14px -7px rgba(0, 0, 0, 0.2), 0px 23px 36px 3px rgba(0, 0, 0, 0.14), 0px 9px 44px 8px rgba(0, 0, 0, 0.12)",
-    "0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12)"
-  ]
-}
-
-},{}],327:[function(require,module,exports){
+},{"./color-palette":323}],325:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = elevation;
+var shadows = ["none", "0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)", "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)", "0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)", "0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)", "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0px rgba(0, 0, 0, 0.12)", "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)", "0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12)", "0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)", "0px 5px 6px -3px rgba(0, 0, 0, 0.2), 0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.12)", "0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12)", "0px 6px 7px -4px rgba(0, 0, 0, 0.2), 0px 11px 15px 1px rgba(0, 0, 0, 0.14), 0px 4px 20px 3px rgba(0, 0, 0, 0.12)", "0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.12)", "0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 13px 19px 2px rgba(0, 0, 0, 0.14), 0px 5px 24px 4px rgba(0, 0, 0, 0.12)", "0px 7px 9px -4px rgba(0, 0, 0, 0.2), 0px 14px 21px 2px rgba(0, 0, 0, 0.14), 0px 5px 26px 4px rgba(0, 0, 0, 0.12)", "0px 8px 9px -5px rgba(0, 0, 0, 0.2), 0px 15px 22px 2px rgba(0, 0, 0, 0.14), 0px 6px 28px 5px rgba(0, 0, 0, 0.12)", "0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12)", "0px 8px 11px -5px rgba(0, 0, 0, 0.2), 0px 17px 26px 2px rgba(0, 0, 0, 0.14), 0px 6px 32px 5px rgba(0, 0, 0, 0.12)", "0px 9px 11px -5px rgba(0, 0, 0, 0.2), 0px 18px 28px 2px rgba(0, 0, 0, 0.14), 0px 7px 34px 6px rgba(0, 0, 0, 0.12)", "0px 9px 12px -6px rgba(0, 0, 0, 0.2), 0px 19px 29px 2px rgba(0, 0, 0, 0.14), 0px 7px 36px 6px rgba(0, 0, 0, 0.12)", "0px 10px 13px -6px rgba(0, 0, 0, 0.2), 0px 20px 31px 3px rgba(0, 0, 0, 0.14), 0px 8px 38px 7px rgba(0, 0, 0, 0.12)", "0px 10px 13px -6px rgba(0, 0, 0, 0.2), 0px 21px 33px 3px rgba(0, 0, 0, 0.14), 0px 8px 40px 7px rgba(0, 0, 0, 0.12)", "0px 10px 14px -6px rgba(0, 0, 0, 0.2), 0px 22px 35px 3px rgba(0, 0, 0, 0.14), 0px 8px 42px 7px rgba(0, 0, 0, 0.12)", "0px 11px 14px -7px rgba(0, 0, 0, 0.2), 0px 23px 36px 3px rgba(0, 0, 0, 0.14), 0px 9px 44px 8px rgba(0, 0, 0, 0.12)", "0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12)"];
 
-var _elevation = require("./elevation.json");
-
-function elevation(el, options) {
-  var level = options && options.level || 0;
-  el.style.boxShadow = _elevation.shadows[level];
+function elevation(level) {
+  level = level || 0;
+  return [function (el) {
+    return el.style.boxShadow = shadows[level];
+  }, function (el) {
+    return el.style.zIndex = level;
+  }];
+  el.style.boxShadow = shadows[level];
   el.style.zIndex = level;
 }
 
 elevation.none = function (el) {
-  return elevation(el, {
-    level: 0
-  });
+  return elevation(0);
 };
 elevation.card = function (el) {
-  return elevation(el, {
-    level: 2
-  });
+  return elevation(2);
 };
 elevation.cardHover = function (el) {
-  return elevation(el, {
-    level: 8
-  });
+  return elevation(8);
 };
 elevation.menu = function (el) {
-  return elevation(el, {
-    level: 8
-  });
+  return elevation(8);
 };
 
-},{"./elevation.json":326}],328:[function(require,module,exports){
+},{}],326:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8992,133 +8995,146 @@ var _color = require("./color");
 
 var _color2 = _interopRequireDefault(_color);
 
+var _text = require("./text");
+
+var _text2 = _interopRequireDefault(_text);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function expansionPanel(element, options) {
-  var innerHTML = "\n    <div role=\"presentation\">\n      <div data-material-slot=\"header\" role=\"presentation\"></div>\n      <div data-material-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">keyboard_arrow_down</i></div>\n    </div>\n    <div role=\"presentation\">\n      <div data-material-slot=\"content\" role=\"presentation\"></div>\n    </div>\n  ";
+function expansionPanel(options) {
+  return function (element) {
+    var innerHTML = "\n      <div role=\"presentation\">\n        <div data-material-slot=\"header\" role=\"presentation\"></div>\n        <div data-material-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">keyboard_arrow_down</i></div>\n      </div>\n      <div role=\"presentation\">\n        <div data-material-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
 
-  var textColor = (0, _util.getTextColor)(options);
-
-  (0, _util.createComponent)(element, {
-    innerHTML: innerHTML,
-    name: "material-expansion-panel"
-  });
-
-  element.style.display = "flex";
-  element.style.flexDirection = "column";
-  element.style.alignItems = "stretch";
-
-  var expandCollapseWrapper = element.lastElementChild;
-  expandCollapseWrapper.style.maxHeight = "0px";
-  expandCollapseWrapper.style.overflowY = "hidden";
-  expandCollapseWrapper.style.opacity = 0;
-
-  var contentContainer = element.lastElementChild.firstElementChild;
-  contentContainer.style.display = "flex";
-  contentContainer.flexDirection = "column";
-  contentContainer.style.paddingLeft = "24px";
-  contentContainer.style.paddingRight = "24px";
-  contentContainer.style.paddingBottom = "16px";
-  contentContainer.style.marginRight = "24px";
-
-  element.materialExpand = function expand() {
-    expandCollapseWrapper.style.maxHeight = contentContainer.offsetHeight + "px";
-    expandCollapseWrapper.style.opacity = 1;
-    componentHeader.style.minHeight = "64px";
-    element.dataset.materialExpansionPanelState = "expanded";
-    (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each(function (el) {
-      return el.textContent = "keyboard_arrow_up";
+    (0, _util.createComponent)(element, {
+      innerHTML: innerHTML,
+      name: "material-expansion-panel"
     });
-  };
 
-  element.materialCollapse = function collapse() {
-    expandCollapseWrapper.style.maxHeight = "0px";
-    expandCollapseWrapper.style.opacity = 0;
-    componentHeader.style.minHeight = "48px";
-    element.dataset.materialExpansionPanelState = "collapsed";
-    (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each(function (el) {
-      return el.textContent = "keyboard_arrow_down";
-    });
-  };
+    var textColor = (0, _util.getTextColor)(options);
 
-  var componentHeader = element.firstElementChild;
+    element.style.display = "flex";
+    element.style.flexDirection = "column";
+    element.style.alignItems = "stretch";
 
-  (0, _jsuaQuery.query)(componentHeader).each([function (el) {
-    return el.style.cursor = "default";
-  }, function (el) {
-    return el.style.display = "flex";
-  }, function (el) {
-    return el.style.flexDirection = "row";
-  }, function (el) {
-    return el.style.flexWrap = "nowrap";
-  }, function (el) {
-    return el.style.alignItems = "center";
-  }, function (el) {
-    return el.style.paddingLeft = "24px";
-  }, function (el) {
-    return el.style.paddingRight = "24px";
-  }, function (el) {
-    return el.style.minHeight = "48px";
-  }, function (el) {
-    return el.style.transition = "min-height 175ms ease-in-out";
-  }]);
+    var expandCollapseWrapper = element.lastElementChild;
 
-  var headerSlot = element.firstElementChild.firstElementChild;
-  headerSlot.style.flexGrow = 1;
+    (0, _jsuaQuery.query)(expandCollapseWrapper).each([function (el) {
+      return el.style.maxHeight = "0px";
+    }, function (el) {
+      return el.style.overflowY = "hidden";
+    }, function (el) {
+      return el.style.opacity = 0;
+    }, _text2.default.body(textColor)]);
 
-  var toggleSlot = element.firstElementChild.lastElementChild;
+    var contentContainer = element.lastElementChild.firstElementChild;
+    contentContainer.style.display = "flex";
+    contentContainer.flexDirection = "column";
+    contentContainer.style.paddingLeft = "24px";
+    contentContainer.style.paddingRight = "24px";
+    contentContainer.style.paddingBottom = "16px";
+    contentContainer.style.marginRight = "24px";
 
-  (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each([function (el) {
-    return el.style.color = textColor;
-  }, function (el) {
-    return el.style.opacity = (0, _util.getDisabledTextOpacity)(textColor);
-  }, function (el) {
-    return el.style.width = "24px";
-  }, function (el) {
-    return el.style.height = "24px";
-  }, function (el) {
-    return el.style.overflow = "hidden";
-  }, function (el) {
-    return el.style.cursor = "default";
-  }, function (el) {
-    return el.style.borderRadius = "2px";
-  }, function (el) {
-    return el.style.border = "1px solid transparent";
-  }, (0, _jsuaQuery.on)("mouseover", function (el) {
-    return el.style.border = (0, _util.getDividerStyle)(options);
-  }), (0, _jsuaQuery.on)("mouseout", function (el) {
-    return el.style.border = "1px solid transparent";
-  })]);
+    element.materialExpand = function expand() {
+      expandCollapseWrapper.style.maxHeight = contentContainer.offsetHeight + "px";
+      expandCollapseWrapper.style.opacity = 1;
+      componentHeader.style.minHeight = "64px";
+      element.dataset.materialExpansionPanelState = "expanded";
+      (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each(function (el) {
+        return el.textContent = "keyboard_arrow_up";
+      });
+    };
 
-  var state = options && options.state || "collapsed";
-  if (state === "expanded") {
-    element.materialExpand();
-  }
+    element.materialCollapse = function collapse() {
+      expandCollapseWrapper.style.maxHeight = "0px";
+      expandCollapseWrapper.style.opacity = 0;
+      componentHeader.style.minHeight = "48px";
+      element.dataset.materialExpansionPanelState = "collapsed";
+      (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each(function (el) {
+        return el.textContent = "keyboard_arrow_down";
+      });
+    };
 
-  expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
+    var componentHeader = element.firstElementChild;
 
-  componentHeader.addEventListener("click", function () {
-    if (element.dataset.materialExpansionPanelState !== "expanded") {
+    (0, _jsuaQuery.query)(componentHeader).each([_text2.default.subheading(textColor), function (el) {
+      return el.style.cursor = "default";
+    }, function (el) {
+      return el.style.display = "flex";
+    }, function (el) {
+      return el.style.flexDirection = "row";
+    }, function (el) {
+      return el.style.flexWrap = "nowrap";
+    }, function (el) {
+      return el.style.alignItems = "center";
+    }, function (el) {
+      return el.style.paddingLeft = "24px";
+    }, function (el) {
+      return el.style.paddingRight = "24px";
+    }, function (el) {
+      return el.style.minHeight = "48px";
+    }, function (el) {
+      return el.style.transition = "min-height 175ms ease-in-out";
+    }]);
+
+    var headerSlot = element.firstElementChild.firstElementChild;
+    headerSlot.style.flexGrow = 1;
+
+    var toggleSlot = element.firstElementChild.lastElementChild;
+
+    (0, _jsuaQuery.query)(toggleSlot).select("i.material-icons").each([function (el) {
+      return el.style.color = textColor;
+    }, function (el) {
+      return el.style.opacity = (0, _util.getDisabledTextOpacity)(textColor);
+    }, function (el) {
+      return el.style.width = "24px";
+    }, function (el) {
+      return el.style.height = "24px";
+    }, function (el) {
+      return el.style.overflow = "hidden";
+    }, function (el) {
+      return el.style.cursor = "default";
+    }, function (el) {
+      return el.style.borderRadius = "2px";
+    }, function (el) {
+      return el.style.border = "1px solid transparent";
+    }, (0, _jsuaQuery.on)("mouseover", function (el) {
+      return el.style.border = (0, _util.getDividerStyle)(textColor);
+    }), (0, _jsuaQuery.on)("mouseout", function (el) {
+      return el.style.border = "1px solid transparent";
+    })]);
+
+    var state = options && options.state || "collapsed";
+    if (state === "expanded") {
       element.materialExpand();
-    } else {
-      element.materialCollapse();
     }
-  });
+
+    expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
+
+    componentHeader.addEventListener("click", function () {
+      if (element.dataset.materialExpansionPanelState !== "expanded") {
+        element.materialExpand();
+      } else {
+        element.materialCollapse();
+      }
+    });
+  };
 }
 
-expansionPanel.header = function (element) {
-  var panel = (0, _util.findNearestAncestor)(element, "[data-material-component=material-expansion-panel]");
+expansionPanel.header = function () {
+  return function (element) {
+    var panel = (0, _util.findNearestAncestor)(element, "[data-material-component=material-expansion-panel]");
 
-  if (!panel) {
-    throw new Error("The element must be contained within a material expansion panel component.");
-  }
+    if (!panel) {
+      throw new Error("The element must be contained within a material expansion panel component.");
+    }
 
-  var headerSlot = panel.firstElementChild.firstElementChild;
-  (0, _util.clearChildren)(headerSlot);
-  headerSlot.appendChild(element);
+    var headerSlot = panel.firstElementChild.firstElementChild;
+    (0, _util.clearChildren)(headerSlot);
+    headerSlot.appendChild(element);
+  };
 };
 
-},{"./color":325,"./util":335,"jsua-query":336}],329:[function(require,module,exports){
+},{"./color":324,"./text":332,"./util":333,"jsua-query":334}],327:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9144,43 +9160,47 @@ function parseGutter(gutter) {
   };
 }
 
-function grid(element, options) {
-  var wrapper = (0, _util.wrapChildren)(element);
-  var parsedGutter = parseGutter(options.gutter);
+function grid(columns, gutter) {
+  return function (element) {
+    var wrapper = (0, _util.wrapChildren)(element);
+    var parsedGutter = parseGutter(gutter);
 
-  wrapper.style.margin = "-" + parsedGutter.value / 2 + parsedGutter.units;
-  wrapper.style.display = "flex";
-  wrapper.style.flexGrow = "1";
-  wrapper.style.flexDirection = "row";
-  wrapper.style.flexWrap = "wrap";
-  wrapper.style.maxWidth = "initial";
-  wrapper.setAttribute("role", "presentation");
+    wrapper.style.margin = "-" + parsedGutter.value / 2 + parsedGutter.units;
+    wrapper.style.display = "flex";
+    wrapper.style.flexGrow = "1";
+    wrapper.style.flexDirection = "row";
+    wrapper.style.flexWrap = "wrap";
+    wrapper.style.maxWidth = "initial";
+    wrapper.setAttribute("role", "presentation");
 
-  wrapper.setAttribute("data-material-grid-columns", options.columns);
-  wrapper.setAttribute("data-material-grid-gutter", options.gutter);
+    wrapper.setAttribute("data-material-grid-columns", columns);
+    wrapper.setAttribute("data-material-grid-gutter", gutter);
+  };
 }
 
-grid.column = function column(element, options) {
-  var gridWrapper = element.parentElement;
-  var columns = +gridWrapper.getAttribute("data-material-grid-columns");
-  var gutter = gridWrapper.getAttribute("data-material-grid-gutter");
+grid.column = function column(span, offset) {
+  return function (element) {
+    var gridWrapper = element.parentElement;
+    var columns = +gridWrapper.getAttribute("data-material-grid-columns");
+    var gutter = gridWrapper.getAttribute("data-material-grid-gutter");
 
-  var parsedGutter = parseGutter(gutter);
+    var parsedGutter = parseGutter(gutter);
 
-  var totalColumns = columns / options.span;
-  var columnWidth = "calc((100% - " + gutter + " * " + totalColumns + ") / " + totalColumns + ")";
-  element.style.width = columnWidth;
-  var margin = parsedGutter.value / 2 + parsedGutter.units;
-  element.style.margin = margin;
+    var totalColumns = columns / span;
+    var columnWidth = "calc((100% - " + gutter + " * " + totalColumns + ") / " + totalColumns + ")";
+    element.style.width = columnWidth;
+    var margin = parsedGutter.value / 2 + parsedGutter.units;
+    element.style.margin = margin;
 
-  if (options.offset) {
-    var percentage = columns / options.offset;
-    var offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + 1.5 * parsedGutter.value + parsedGutter.units + ")";
-    element.style.marginLeft = offsetMargin;
-  }
+    if (offset) {
+      var percentage = columns / offset;
+      var offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + 1.5 * parsedGutter.value + parsedGutter.units + ")";
+      element.style.marginLeft = offsetMargin;
+    }
+  };
 };
 
-},{"./util":335}],330:[function(require,module,exports){
+},{"./util":333}],328:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9241,7 +9261,7 @@ exports.raisedButton = _raisedButton2.default;
 exports.text = _text2.default;
 exports.textField = _textField2.default;
 
-},{"./background":321,"./card":322,"./color":325,"./elevation":327,"./expansion-panel":328,"./grid":329,"./menu":331,"./raised-button":332,"./text":334,"./text-field":333}],331:[function(require,module,exports){
+},{"./background":321,"./card":322,"./color":324,"./elevation":325,"./expansion-panel":326,"./grid":327,"./menu":329,"./raised-button":330,"./text":332,"./text-field":331}],329:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9456,7 +9476,7 @@ menu.header = function (element) {
   menuComponent.materialRefresh();
 };
 
-},{"./background":321,"./elevation":327,"./text":334,"./util":335,"jsua-query":336}],332:[function(require,module,exports){
+},{"./background":321,"./elevation":325,"./text":332,"./util":333,"jsua-query":334}],330:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9547,7 +9567,7 @@ function raisedButton(element, options) {
   }]);
 }
 
-},{"./elevation":327,"jsua-query":336}],333:[function(require,module,exports){
+},{"./elevation":325,"jsua-query":334}],331:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9732,7 +9752,7 @@ textField.dropdown = function (options) {
   }];
 };
 
-},{"./color":325,"./text":334,"./util":335,"jsua-query":336}],334:[function(require,module,exports){
+},{"./color":324,"./text":332,"./util":333,"jsua-query":334}],332:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9743,6 +9763,7 @@ exports.default = text;
 var _util = require("./util");
 
 function text(color, opacity) {
+  color = color || (0, _util.getTextColor)();
   opacity = opacity || (0, _util.getPrimaryTextOpacity)(color);
 
   return [function (el) {
@@ -9759,6 +9780,7 @@ function text(color, opacity) {
 }
 
 text.display4 = function display4(color, opacity) {
+  color = color || (0, _util.getTextColor)();
   opacity = opacity || (0, _util.getSecondaryTextOpacity)(color);
 
   return [text(color, opacity), function (el) {
@@ -9769,6 +9791,7 @@ text.display4 = function display4(color, opacity) {
 };
 
 text.display3 = function display3(color, opacity) {
+  color = color || (0, _util.getTextColor)();
   opacity = opacity || (0, _util.getSecondaryTextOpacity)(color);
 
   return [text(color, opacity), function (el) {
@@ -9777,6 +9800,7 @@ text.display3 = function display3(color, opacity) {
 };
 
 text.display2 = function display2(color, opacity) {
+  color = color || (0, _util.getTextColor)();
   opacity = opacity || (0, _util.getSecondaryTextOpacity)(color);
 
   return [text(color, opacity), function (el) {
@@ -9787,6 +9811,7 @@ text.display2 = function display2(color, opacity) {
 };
 
 text.display = function display(color, opacity) {
+  color = color || (0, _util.getTextColor)();
   opacity = opacity || (0, _util.getSecondaryTextOpacity)(color);
 
   return [text(color, opacity), function (el) {
@@ -9872,7 +9897,7 @@ text.input = function input(color, opacity) {
   }];
 };
 
-},{"./util":335}],335:[function(require,module,exports){
+},{"./util":333}],333:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9919,9 +9944,7 @@ function getTheme(theme) {
   return _color2.default.getThemeColors(_color2.default.theme);
 }
 
-function getDividerStyle(options) {
-  var textColor = getTextColor(options);
-
+function getDividerStyle(textColor) {
   if (textColor === "white") {
     return "1px solid rgba(255, 255, 255, .12)";
   } else {
@@ -9930,6 +9953,7 @@ function getDividerStyle(options) {
 }
 
 function getTextColor(options) {
+  if (options && options.textColor) return options.textColor;
   if (options && options.color) return options.color;
 
   if (options && options.theme === "light") return "black";
@@ -10074,7 +10098,7 @@ function raiseEvent(element, name, bubble, cancelable) {
   element.dispatchEvent(evt);
 }
 
-},{"./color":325,"jsua-query":336}],336:[function(require,module,exports){
+},{"./color":324,"jsua-query":334}],334:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10094,7 +10118,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.query = _query2.default;
 exports.on = _on2.default;
-},{"./on":337,"./query":338}],337:[function(require,module,exports){
+},{"./on":335,"./query":336}],335:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10111,7 +10135,7 @@ function on(name, fn) {
     });
   };
 }
-},{"./util":339}],338:[function(require,module,exports){
+},{"./util":337}],336:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10553,7 +10577,7 @@ function query(selection) {
 
   return q;
 }
-},{"./util":339}],339:[function(require,module,exports){
+},{"./util":337}],337:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10569,7 +10593,7 @@ function executeFunctionOrArrayOfFunctions(fn, element, evt) {
 
   fn(element, evt);
 }
-},{}],340:[function(require,module,exports){
+},{}],338:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};

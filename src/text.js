@@ -5,6 +5,7 @@ import {
 } from "./util";
 
 export default function text(color, opacity) {
+  color = color || getTextColor();
   opacity = opacity || getPrimaryTextOpacity(color);
 
   return [
@@ -17,6 +18,7 @@ export default function text(color, opacity) {
 }
 
 text.display4 = function display4(color, opacity) {
+  color = color || getTextColor();
   opacity = opacity || getSecondaryTextOpacity(color);
 
   return [
@@ -27,6 +29,7 @@ text.display4 = function display4(color, opacity) {
 };
 
 text.display3 = function display3(color, opacity) {
+  color = color || getTextColor();
   opacity = opacity || getSecondaryTextOpacity(color);
 
   return [
@@ -36,6 +39,7 @@ text.display3 = function display3(color, opacity) {
 };
 
 text.display2 = function display2(color, opacity) {
+  color = color || getTextColor();
   opacity = opacity || getSecondaryTextOpacity(color);
 
   return [
@@ -46,6 +50,7 @@ text.display2 = function display2(color, opacity) {
 };
 
 text.display = function display(color, opacity) {
+  color = color || getTextColor();
   opacity = opacity || getSecondaryTextOpacity(color);
 
   return [

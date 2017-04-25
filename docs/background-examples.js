@@ -7,8 +7,7 @@ import {
 } from "./util";
 
 import {
-  query,
-  on
+  query
 } from "jsua-query";
 
 function createBackgroundExample(label, cb) {

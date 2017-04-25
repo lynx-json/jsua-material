@@ -5,14 +5,15 @@ import {
   clearExamples
 } from "./util";
 
+import {
+  query
+} from "jsua-query";
+
 export default function gridExamples() {
   clearExamples();
 
   createExample(function (el) {
-    material.grid(el, {
-      columns: 12,
-      gutter: "16px"
-    });
+    query(el).each(material.grid(12, "16px"));
 
     for (var i = 1; i <= 12; i++) {
       let cell = document.createElement("div");
@@ -25,13 +26,10 @@ export default function gridExamples() {
       material.text.caption(cellText);
       cell.appendChild(cellText);
 
-      material.grid.column(cell, {
-        span: i,
-        offset: 12 - i
-      });
-      material.background.primary(cell, {
-        shade: 50
-      });
+      query(cell).each([
+        material.grid.column(i, 12 - i),
+        material.background.primary(50)
+      ]);
     }
   });
 }

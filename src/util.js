@@ -23,9 +23,7 @@ export function getTheme(theme) {
   return color.getThemeColors(color.theme);
 }
 
-export function getDividerStyle(options) {
-  var textColor = getTextColor(options);
-
+export function getDividerStyle(textColor) {
   if (textColor === "white") {
     return `1px solid rgba(255, 255, 255, .12)`;
   } else {
@@ -34,6 +32,7 @@ export function getDividerStyle(options) {
 }
 
 export function getTextColor(options) {
+  if (options && options.textColor) return options.textColor;
   if (options && options.color) return options.color;
 
   if (options && options.theme === "light") return "black";

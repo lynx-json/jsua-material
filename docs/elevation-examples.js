@@ -5,20 +5,23 @@ import {
   clearExamples
 } from "./util";
 
+import {
+  query
+} from "jsua-query";
+
 function createElevationExample(label, level) {
   createExample(function (el) {
     var labelElement = document.createElement("pre");
     labelElement.textContent = label;
     el.appendChild(labelElement);
 
-    material.background(el);
-    material.text.body(labelElement);
-    material.elevation(el, {
-      level: level
-    });
-
-    el.style.padding = "16px";
-    el.style.margin = "32px";
+    query(el).each([
+      material.background.main(),
+      material.elevation(level),
+      el => el.style.padding = "16px",
+      el => el.style.marginBottom = "32px"
+    ]);
+    query(labelElement).each(material.text.body());
   });
 }
 
