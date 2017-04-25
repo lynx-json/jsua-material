@@ -888,7 +888,6 @@ function cardExamples() {
     })]);
   });
 
-  // createInputExample("Required state");
   createInputExample("Dropdown", function (el) {
     (0, _jsuaQuery.query)(el).each(material.textField());
     (0, _jsuaQuery.query)(el.firstElementChild).each(material.textField.label());
@@ -914,7 +913,8 @@ function cardExamples() {
       return field.materialClearError();
     })]);
   });
-  // createInputExample("Multiline");
+  // createInputExample("Required state");?
+  // createInputExample("Multiline");?
 }
 
 },{"../src":328,"./util":12,"jsua-query":334}],12:[function(require,module,exports){
@@ -9338,7 +9338,13 @@ function menu(options) {
 
     (0, _jsuaQuery.query)(element).each([function (el) {
       return el.style.position = "relative";
-    }]);
+    }, (0, _jsuaQuery.on)("focusout", function () {
+      return element.materialClose();
+    }), (0, _jsuaQuery.on)("keyup", function (el, evt) {
+      if (evt.keyCode === 27) {
+        element.materialClose();
+      }
+    })]);
 
     (0, _jsuaQuery.query)(menuHeader).each([function (el) {
       return el.style.color = textColor;
@@ -9413,9 +9419,7 @@ function menu(options) {
       return el.style.transition = "all 175ms ease-in-out";
     }, _background2.default.menu(), function (el) {
       return el.style.overflow = "hidden";
-    }, (0, _jsuaQuery.on)("focusout", function () {
-      return element.materialClose();
-    })]);
+    }]);
 
     element.materialRefresh = function () {
       if (state === "open") {

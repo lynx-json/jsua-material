@@ -79,7 +79,13 @@ export default function menu(options) {
     }
 
     query(element).each([
-      el => el.style.position = "relative"
+      el => el.style.position = "relative",
+      on("focusout", () => element.materialClose()),
+      on("keyup", (el, evt) => {
+        if (evt.keyCode === 27) {
+          element.materialClose()
+        }
+      })
     ]);
 
     query(menuHeader).each([
@@ -127,8 +133,7 @@ export default function menu(options) {
       el => el.style.right = 0,
       el => el.style.transition = "all 175ms ease-in-out",
       background.menu(),
-      el => el.style.overflow = "hidden",
-      on("focusout", () => element.materialClose())
+      el => el.style.overflow = "hidden"
     ]);
 
     element.materialRefresh = function () {

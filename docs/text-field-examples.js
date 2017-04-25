@@ -70,7 +70,6 @@ export default function cardExamples() {
     ]);
   });
 
-  // createInputExample("Required state");
   createInputExample("Dropdown", function (el) {
     query(el).each(material.textField());
     query(el.firstElementChild).each(material.textField.label());
@@ -104,5 +103,6 @@ export default function cardExamples() {
       on("input", () => field.materialClearError())
     ]);
   });
-  // createInputExample("Multiline");
+  // createInputExample("Required state");?
+  // createInputExample("Multiline");?
 }
