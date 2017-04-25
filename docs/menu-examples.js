@@ -30,38 +30,37 @@ export default function cardExamples() {
   clearExamples();
 
   createMenuExample("Light theme (default)", function (el) {
-    material.menu(el);
-    material.menu.header(el.querySelector("pre"));
+    var label = el.firstElementChild;
+    query(el).each(material.menu());
+    query(label).each(material.menu.header());
     query(el.getSlot("content"))
       .map(el => el.children)
-      .each(material.menu.item);
+      .each(material.menu.item());
   });
 
   createMenuExample("Dark theme", function (el) {
-    var options = {
-      theme: "dark"
-    };
-    material.menu(el, options);
-    material.background(el, options);
+    material.color.theme = "dark";
 
-    material.menu.header(el.querySelector("pre"), options);
-    material.text.subheading(el.querySelector("pre"), options);
-
+    var label = el.firstElementChild;
+    query(el).each([
+      material.menu(),
+      material.background.main()
+    ]);
+    query(label).each(material.menu.header());
     query(el.getSlot("content"))
       .map(el => el.children)
-      .each([
-        el => material.menu.item(el, options),
-        el => material.text.body(el.firstElementChild, options)
-      ]);
-  });
+      .each(material.menu.item());
 
-  createMenuExample("Open State", function (el) {
-    material.menu(el, {
-      state: "open"
-    });
-    material.menu.header(el.querySelector("pre"));
-    query(el.getSlot("content"))
-      .map(el => el.children)
-      .each(material.menu.item);
+    material.color.theme = "light";
   });
+  // 
+  // createMenuExample("Open State", function (el) {
+  //   material.menu(el, {
+  //     state: "open"
+  //   });
+  //   material.menu.header(el.querySelector("pre"));
+  //   query(el.getSlot("content"))
+  //     .map(el => el.children)
+  //     .each(material.menu.item);
+  // });
 }
