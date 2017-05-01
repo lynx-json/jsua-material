@@ -9,19 +9,19 @@ import {
 
 export default function component(name, innerHTML) {
   return function (element) {
+    var slots = {};
+
+    function addToSlot(el) {
+      var slotName = el.dataset.materialSlotName || "content";
+
+      if (slots[slotName]) {
+        slots[slotName].appendChild(el);
+      }
+    }
+
     if (innerHTML) {
       var componentTemplate = document.createElement("div");
       componentTemplate.innerHTML = innerHTML;
-
-      var slots = {};
-
-      function addToSlot(el) {
-        var slotName = el.dataset.materialSlotName || "content";
-
-        if (slots[slotName]) {
-          slots[slotName].appendChild(el);
-        }
-      }
 
       query(componentTemplate)
         .select("[data-material-slot]")
@@ -37,14 +37,14 @@ export default function component(name, innerHTML) {
       while (componentTemplate.firstChild) {
         element.appendChild(componentTemplate.firstChild);
       }
-
-      element.addEventListener("material-slot", function (evt) {
-        if (!evt.componentName === name) return;
-
-        addToSlot(evt.element);
-        evt.stopPropagation();
-      });
     }
+
+    element.addEventListener("material-slot", function (evt) {
+      if (!evt.componentName === name) return;
+
+      addToSlot(evt.element);
+      evt.stopPropagation();
+    });
 
     var components = element.dataset.materialComponent ? element.dataset.materialComponent.split(" ") : [];
     if (components.includes(name)) return;
