@@ -14,6 +14,11 @@ import {
   getPrimaryTextOpacity
 } from "./util";
 
+const keys = {
+  escape: 27,
+  spaceBar: 32
+};
+
 export default function menu(options) {
   var textColor = getTextColor(options);
   var opacity = getPrimaryTextOpacity(textColor);
@@ -34,8 +39,12 @@ export default function menu(options) {
       el => el.style.position = "relative",
       on("focusout", () => element.materialClose()),
       on("keyup", (el, evt) => {
-        if (evt.keyCode === 27) {
-          element.materialClose()
+        if (evt.keyCode === keys.escape) {
+          element.materialClose();
+        }
+
+        if (evt.keyCode === keys.spaceBar) {
+          element.materialOpen();
         }
       })
     ]);
@@ -65,7 +74,7 @@ export default function menu(options) {
       query(menu).each([
         () => state = "open",
         openStyle,
-        el => el.focus()
+        // el => el.focus() // This was causing problems with rux dropdown... investigate.
       ]);
     };
 

@@ -1,3 +1,4 @@
+import component from "./component";
 import background from "./background";
 import card from "./card";
 import color from "./color";
@@ -13,6 +14,7 @@ export {
   background,
   card,
   color,
+  component,
   elevation,
   expansionPanel,
   grid,

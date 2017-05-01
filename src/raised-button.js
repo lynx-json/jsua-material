@@ -18,6 +18,7 @@ export default function raisedButton(options) {
       el => el.style.cursor = "default",
       el => el.style.display = "flex",
       el => el.style.flexDirection = "row",
+      el => el.style.flexWrap = "wrap",
       el => el.style.alignItems = "center",
       el => el.style.justifyContent = "center",
       el => el.style.minHeight = "36px",
