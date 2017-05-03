@@ -5,7 +5,7 @@ import {
 
 import {
   query
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 
 export default function component(name, innerHTML) {
   return function (element) {

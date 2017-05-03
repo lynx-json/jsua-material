@@ -1,7 +1,7 @@
 import {
   query,
   on
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 import elevation from "./elevation";
 import background from "./background";
 import text from "./text";

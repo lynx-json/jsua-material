@@ -1,19 +1,19 @@
 {
-  "name": "jsua-material",
+  "name": "@lynx-json/jsua-material",
   "version": "0.1.0",
-  "description": "JSUA Material Design Vocabulary",
-  "main": "lib/index.js",
+  "description": "JSUA Material Design Styling Vocabulary",
+  "main": "dist/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "build-docs": "browserify docs/index.js -s demo -t babelify > ./docs/bundle.js",
     "test": "mocha test --compilers js:babel-register --require babel-polyfill",
-    "build": "cp src/color-palette.json lib/color-palette.json && cp src/elevation.json lib/elevation.json; babel src -d lib",
-    "install": "npm run build"
+    "build": "babel src -d dist",
+    "prepublish": "npm run build"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "lynx-json.org",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
@@ -26,6 +26,6 @@
     "sinon": "^1.17.7"
   },
   "dependencies": {
-    "get-contrast": "^2.0.0"
+    "@lynx-json/jsua-style": "^0.1.1"
   }
 }

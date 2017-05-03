@@ -9,7 +9,7 @@ import {
 import {
   query,
   on
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 import color from "./color";
 import text from "./text";
 

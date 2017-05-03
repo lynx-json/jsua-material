@@ -8,7 +8,7 @@ import {
 
 import {
   query
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 
 function createBackgroundExample(label, cb) {
 

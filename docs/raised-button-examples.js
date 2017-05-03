@@ -7,7 +7,7 @@ import {
 
 import {
   query
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 
 function createRaisedButtonExample(label, cb) {
   createExample(function (el) {

@@ -7,7 +7,7 @@ import {
 
 import {
   query
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 
 function createTextExample(label, cb) {
   createExample(function (el) {

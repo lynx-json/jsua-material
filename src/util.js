@@ -2,7 +2,7 @@ import color from "./color";
 import {
   query,
   on
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 
 var lightTextOpacity = {
   primary: 1,

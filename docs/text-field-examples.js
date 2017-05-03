@@ -8,7 +8,7 @@ import {
 import {
   query,
   on
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 
 function createInputExample(label, cb) {
   createExample(function (el) {

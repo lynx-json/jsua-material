@@ -7,7 +7,7 @@ import {
 
 import {
   query
-} from "jsua-query";
+} from "@lynx-json/jsua-style";
 
 export default function gridExamples() {
   clearExamples();
