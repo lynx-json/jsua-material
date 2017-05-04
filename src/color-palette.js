@@ -316,7 +316,7 @@ function getPercent(shade) {
     case "800":
       return -0.375;
     case "900":
-      return -.5;
+      return -0.5;
     case "A100":
       return 0.7;
     case "A200":

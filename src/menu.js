@@ -82,7 +82,7 @@ export default function menu(options) {
       query(menu).each([
         () => state = "closed",
         closedStyle
-      ])
+      ]);
     };
 
     function toggleState() {
@@ -147,7 +147,7 @@ export default function menu(options) {
       } else {
         element.materialClose();
       }
-    }
+    };
 
     element.materialRefresh();
   };

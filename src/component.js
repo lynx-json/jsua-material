@@ -40,7 +40,7 @@ export default function component(name, innerHTML) {
     }
 
     element.addEventListener("material-slot", function (evt) {
-      if (!evt.componentName === name) return;
+      if (evt.componentName !== name) return;
 
       addToSlot(evt.element);
       evt.stopPropagation();

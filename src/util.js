@@ -6,16 +6,16 @@ import {
 
 var lightTextOpacity = {
   primary: 1,
-  secondary: .7,
-  disabled: .5,
-  divider: .12
+  secondary: 0.7,
+  disabled: 0.5,
+  divider: 0.12
 };
 
 var darkTextOpacity = {
-  primary: .87,
-  secondary: .54,
-  disabled: .38,
-  divider: .12
+  primary: 0.87,
+  secondary: 0.54,
+  disabled: 0.38,
+  divider: 0.12
 };
 
 export function getTheme(theme) {
@@ -85,7 +85,7 @@ export function component(name, innerHTML) {
 
       function getSlot(name) {
         return slots[name];
-      };
+      }
       element.getSlot = getSlot;
 
       element.clearSlot = function (name) {

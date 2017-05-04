@@ -48,7 +48,7 @@ const colorScheme = {
     if (theme === "light") {
       return lightTheme;
     } else if (theme === "dark") {
-      return darkTheme
+      return darkTheme;
     } else {
       throw new Error("Theme must be either 'light' or 'dark'");
     }
@@ -56,6 +56,6 @@ const colorScheme = {
   getColor(name, shade) {
     return colorPalette.getColor(name, shade);
   }
-}
+};
 
 export default colorScheme;
