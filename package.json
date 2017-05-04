@@ -23,6 +23,7 @@
     "babel-register": "^6.11.6",
     "babelify": "^7.3.0",
     "chai": "^3.5.0",
+    "get-contrast": "^2.0.0",
     "sinon": "^1.17.7"
   },
   "dependencies": {
