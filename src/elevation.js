@@ -31,9 +31,7 @@ export default function elevation(level) {
   return [
     el => el.style.boxShadow = shadows[level],
     el => el.style.zIndex = level
-  ]
-  el.style.boxShadow = shadows[level];
-  el.style.zIndex = level;
+  ];
 }
 
 elevation.none = el => elevation(0);

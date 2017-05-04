@@ -77,16 +77,19 @@ export function wrapChildren(element) {
 
 export function component(name, innerHTML) {
   return function (element) {
+    function createGetSlotAccessor(slots) {
+      return function getSlot(name) {
+        return slots[name];
+      };
+    }
+    
     if (innerHTML) {
       var componentTemplate = document.createElement("div");
       componentTemplate.innerHTML = innerHTML;
 
       var slots = {};
-
-      function getSlot(name) {
-        return slots[name];
-      }
-      element.getSlot = getSlot;
+      
+      element.getSlot = createGetSlotAccessor(slots);
 
       element.clearSlot = function (name) {
         var slot = getSlot(name);
