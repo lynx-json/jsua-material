@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build-docs": "browserify docs/index.js -s demo -t babelify > ./docs/bundle.js",
+    "publish-docs": "npm run build-docs && cp -r docs _publish && cd _publish && git init && git commit --allow-empty -m \"Update docs\" && git checkout -b gh-pages && git add . && git commit -am \"Update docs\" && git push https://github.com/lynx-json/jsua-material.git gh-pages --force && cd ../ && rm -rf _publish",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d dist",
     "prepublish": "npm run build"
