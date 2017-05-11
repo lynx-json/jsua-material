@@ -54,6 +54,6 @@ export default function () {
     .each(material.menu.header());
 
   query(app)
-    .select("[data-material-component=menu] > * > [data-material-slot=content] > *")
+    .select("[data-jsua-style-component=material-menu] > * > [data-jsua-style-slot=content] > *")
     .each(material.menu.item());
 }

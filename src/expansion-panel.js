@@ -1,5 +1,4 @@
 import {
-  component,
   findNearestAncestor,
   clearChildren,
   getTextColor,
@@ -7,6 +6,7 @@ import {
   getDisabledTextOpacity
 } from "./util";
 import {
+  component,
   query,
   on
 } from "@lynx-json/jsua-style";
@@ -17,18 +17,18 @@ export default function expansionPanel(options) {
   return function (element) {
     var innerHTML = `
       <div role="presentation">
-        <div data-material-slot="header" role="presentation"></div>
-        <div data-material-slot="toggle" role="presentation"><i class="material-icons">keyboard_arrow_down</i></div>
+        <div data-jsua-style-slot="header" role="presentation"></div>
+        <div data-jsua-style-slot="toggle" role="presentation"><i class="material-icons">keyboard_arrow_down</i></div>
       </div>
       <div role="presentation">
-        <div data-material-slot="content" role="presentation"></div>
+        <div data-jsua-style-slot="content" role="presentation"></div>
       </div>
     `;
 
     var textColor = getTextColor(options);
 
     query(element).each([
-      component("expansion-panel", innerHTML),
+      component("material-expansion-panel", innerHTML),
       el => el.style.display = "flex",
       el => el.style.flexDirection = "column",
       el => el.style.alignItems = "stretch"
@@ -125,15 +125,7 @@ export default function expansionPanel(options) {
 }
 
 expansionPanel.header = function () {
-  return function (element) {
-    var panel = findNearestAncestor(element, "[data-material-component=expansion-panel]");
-
-    if (!panel) {
-      throw new Error("The element must be contained within a material expansion panel component.");
-    }
-
-    var headerSlot = panel.firstElementChild.firstElementChild;
-    clearChildren(headerSlot);
-    headerSlot.appendChild(element);
-  }
+  return [
+    component.slot("material-expansion-panel", "header")
+  ]
 }

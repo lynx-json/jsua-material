@@ -34,7 +34,7 @@ export default function cardExamples() {
     var label = el.firstElementChild;
     query(el).each(material.menu());
     query(label).each(material.menu.header());
-    query(el.getSlot("content"))
+    query(el.lastElementChild.firstElementChild)
       .map(el => el.children)
       .each(material.menu.item());
   });
@@ -48,7 +48,7 @@ export default function cardExamples() {
       material.background.main()
     ]);
     query(label).each(material.menu.header());
-    query(el.getSlot("content"))
+    query(el.lastElementChild.firstElementChild)
       .map(el => el.children)
       .each(material.menu.item());
 
@@ -64,10 +64,10 @@ export default function cardExamples() {
       material.background("Orange", 900)
     ]);
 
-    query(el.getSlot("menu")).each(material.background("Orange", 500));
+    query(el.lastElementChild).each(material.background("Orange", 500));
 
     query(label).each(material.menu.header());
-    query(el.getSlot("content"))
+    query(el.lastElementChild.firstElementChild)
       .map(el => el.children)
       .each([
         material.menu.item(),
@@ -81,7 +81,7 @@ export default function cardExamples() {
       state: "open"
     }));
     query(label).each(material.menu.header());
-    query(el.getSlot("content"))
+    query(el.lastElementChild.firstElementChild)
       .map(el => el.children)
       .each(material.menu.item());
   });

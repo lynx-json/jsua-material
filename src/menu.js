@@ -1,4 +1,5 @@
 import {
+  component,
   query,
   on
 } from "@lynx-json/jsua-style";
@@ -7,7 +8,6 @@ import background from "./background";
 import text from "./text";
 import {
   clearChildren,
-  component,
   findNearestAncestor,
   getDividerStyle,
   getTextColor,
@@ -26,16 +26,16 @@ export default function menu(options) {
   return function (element) {
     var innerHTML = `
       <div role="presentation">
-        <div data-material-slot="header" role="presentation"></div>
-        <div data-material-slot="toggle" role="presentation"><i class="material-icons">arrow_drop_down</i></div>
+        <div data-jsua-style-slot="header" role="presentation"></div>
+        <div data-jsua-style-slot="toggle" role="presentation"><i class="material-icons">arrow_drop_down</i></div>
       </div>
-      <div role="presentation" data-material-slot="menu">
-        <div data-material-slot="content" role="presentation"></div>
+      <div role="presentation">
+        <div data-jsua-style-slot="content" role="presentation"></div>
       </div>
     `;
 
     query(element).each([
-      component("menu", innerHTML),
+      component("material-menu", innerHTML),
       el => el.style.position = "relative",
       on("focusout", () => element.materialClose()),
       on("keyup", (el, evt) => {
@@ -108,7 +108,7 @@ export default function menu(options) {
       on("click", toggleState)
     ]);
 
-    var toggleSlot = element.getSlot("toggle");
+    var toggleSlot = element.firstElementChild.lastElementChild;
     query(toggleSlot)
       .select("i.material-icons")
       .each([
@@ -154,7 +154,7 @@ export default function menu(options) {
 }
 
 function findMenuComponent(element) {
-  var menuComponent = findNearestAncestor(element, "[data-material-component=menu]");
+  var menuComponent = findNearestAncestor(element, "[data-jsua-style-component=material-menu]");
 
   if (!menuComponent) {
     throw new Error("The element must be contained within a material menu component.");
@@ -186,13 +186,7 @@ menu.item = function () {
 };
 
 menu.header = function () {
-  return function (element) {
-    var menuComponent = findMenuComponent(element);
-
-    var headerSlot = menuComponent.getSlot("header");
-    clearChildren(headerSlot);
-    headerSlot.appendChild(element);
-
-    menuComponent.materialRefresh();
-  };
+  return [
+    component.slot("material-menu", "header")
+  ];
 };

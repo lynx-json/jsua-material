@@ -1,10 +1,10 @@
 import {
   query,
-  on
+  on,
+  component
 } from "@lynx-json/jsua-style";
 
 import {
-  component,
   getTextColor,
   getPrimaryTextOpacity,
   getDividerStyle,
@@ -91,7 +91,6 @@ export default function textField(options) {
   }
 
   return [
-    component("text-field"),
     errorState(),
     on("material-error-on", [
       el => hasError = true,
@@ -117,7 +116,6 @@ export default function textField(options) {
 
 textField.label = function (options) {
   return [
-    component("text-field-label"),
     el => text.caption(el, options),
     el => el.style.marginTop = "16px",
     el => el.style.transition = "transform 175ms ease-in-out, opacity 175ms ease-in-out"
@@ -126,7 +124,6 @@ textField.label = function (options) {
 
 textField.control = function (options) {
   return [
-    component("text-field-control"),
     floatingLabel(options),
     el => el.style.marginTop = "8px",
     el => el.style.marginBottom = "8px",
@@ -136,7 +133,6 @@ textField.control = function (options) {
 
 textField.singleLine = function (options) {
   return [
-    component("text-field-single-line"),
     textField.control(options),
     el => el.style.backgroundColor = "inherit",
     el => text.input(el, options),
@@ -150,7 +146,6 @@ textField.singleLine = function (options) {
 
 textField.dropdown = function (options) {
   return [
-    component("text-field-dropdown"),
     textField.control(options),
     el => el.style.backgroundColor = "inherit",
     el => text.input(el, options),

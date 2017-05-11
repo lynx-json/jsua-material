@@ -1,7 +1,3 @@
-import {
-  component
-} from "./util";
-
 export function appBar(options) {
   return [
     el => el.style.backgroundColor = backgroundColor,
