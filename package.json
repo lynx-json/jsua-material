@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build-docs": "browserify docs/index.js -s demo -t babelify > ./docs/bundle.js",
-    "test": "mocha test --compilers js:babel-register --require babel-polyfill",
+    "publish-docs": "npm run build-docs && cp -r docs _publish && cd _publish && git init && git commit --allow-empty -m \"Update docs\" && git checkout -b gh-pages && git add . && git commit -am \"Update docs\" && git push https://github.com/lynx-json/jsua-material.git gh-pages --force && cd ../ && rm -rf _publish",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d dist",
     "prepublish": "npm run build"
   },
@@ -23,6 +24,7 @@
     "babel-register": "^6.11.6",
     "babelify": "^7.3.0",
     "chai": "^3.5.0",
+    "get-contrast": "^2.0.0",
     "sinon": "^1.17.7"
   },
   "dependencies": {

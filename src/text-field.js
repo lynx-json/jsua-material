@@ -81,9 +81,9 @@ export default function textField(options) {
           el => el.style.borderBottom = getBorderStyle(),
           el => {
             if (hasFocus) {
-              el.style.paddingBottom = "6px"
+              el.style.paddingBottom = "6px";
             } else {
-              el.style.paddingBottom = "7px"
+              el.style.paddingBottom = "7px";
             }
           }
         ]);

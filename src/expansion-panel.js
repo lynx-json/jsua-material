@@ -59,7 +59,7 @@ export default function expansionPanel(options) {
       query(toggleSlot)
         .select("i.material-icons")
         .each(el => el.textContent = "keyboard_arrow_up");
-    }
+    };
 
     element.materialCollapse = function collapse() {
       expandCollapseWrapper.style.maxHeight = "0px";
@@ -69,7 +69,7 @@ export default function expansionPanel(options) {
       query(toggleSlot)
         .select("i.material-icons")
         .each(el => el.textContent = "keyboard_arrow_down");
-    }
+    };
 
     var componentHeader = element.firstElementChild;
 
@@ -121,11 +121,11 @@ export default function expansionPanel(options) {
         element.materialCollapse();
       }
     });
-  }
+  };
 }
 
 expansionPanel.header = function () {
   return [
     component.slot("material-expansion-panel", "header")
   ]
-}
+};

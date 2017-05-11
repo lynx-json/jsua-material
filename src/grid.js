@@ -54,4 +54,4 @@ grid.column = function column(span, offset) {
       element.style.marginLeft = offsetMargin;
     }
   };
-}
+};
