@@ -10,7 +10,8 @@ import {
   query,
   on,
   when,
-  setState
+  setState,
+  mappers
 } from "@lynx-json/jsua-style";
 import color from "./color";
 import text from "./text";
@@ -20,7 +21,7 @@ export default function expansionPanel(options) {
     var innerHTML = `
       <div role="presentation">
         <div data-jsua-style-slot="header" role="presentation"></div>
-        <div data-jsua-style-slot="toggle" role="presentation"><i class="material-icons">keyboard_arrow_down</i></div>
+        <div data-jsua-style-slot="toggle" data-jsua-style-slot-mode="replace" role="presentation"><i class="material-icons">keyboard_arrow_down</i></div>
       </div>
       <div role="presentation">
         <div data-jsua-style-slot="content" role="presentation"></div>
@@ -133,7 +134,6 @@ expansionPanel.header = function () {
 
 expansionPanel.toggle = function () {
   return [
-    component.slot("material-expansion-panel", "toggle"),
-    el => el.parentElement.removeChild(el.previousSibling)
+    component.slot("material-expansion-panel", "toggle")
   ]
 }
