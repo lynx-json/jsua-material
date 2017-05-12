@@ -10050,7 +10050,7 @@ function expansionPanel(options) {
       return el.style.flexDirection = "column";
     }, function (el) {
       return el.style.alignItems = "stretch";
-    }, (0, _jsuaStyle.when)("expansion", "collapsed", function (el) {
+    }, (0, _jsuaStyle.when)("visibility", "concealed", function (el) {
       return (0, _jsuaStyle.query)(expandCollapseWrapper).each([function (el) {
         return el.style.maxHeight = "0px";
       }, function (el) {
@@ -10064,7 +10064,7 @@ function expansionPanel(options) {
           return el.textContent = "keyboard_arrow_down";
         });
       }]);
-    }), (0, _jsuaStyle.when)("expansion", "expanded", function (el) {
+    }), (0, _jsuaStyle.when)("visibility", "revealed", function (el) {
       return (0, _jsuaStyle.query)(expandCollapseWrapper).each([function (el) {
         return el.style.maxHeight = contentContainer.offsetHeight + "px";
       }, function (el) {
@@ -10076,7 +10076,11 @@ function expansionPanel(options) {
           return el.textContent = "keyboard_arrow_up";
         });
       }]);
-    }), (0, _jsuaStyle.setState)("expansion", "collapsed")]);
+    }), function (el) {
+      if (!element.jsuaStyleHasState) {
+        (0, _jsuaStyle.setState)("visibility", "concealed")(el);
+      }
+    }]);
 
     (0, _jsuaStyle.query)(contentContainer).each([function (el) {
       return contentContainer.style.display = "flex";
@@ -10145,10 +10149,10 @@ function expansionPanel(options) {
     // By default, we expand/collapse. If you add your own toggle, you're responsible
     // for maintaining the state.
     (0, _jsuaStyle.query)(toggleSlot.firstElementChild).each([(0, _jsuaStyle.on)("click", function (el, evt) {
-      if (element.jsuaStyleHasState("expansion", "expanded")) {
-        (0, _jsuaStyle.setState)("expansion", "collapsed")(element);
+      if (element.jsuaStyleHasState && element.jsuaStyleHasState("visibility", "revealed")) {
+        (0, _jsuaStyle.setState)("visibility", "concealed")(element);
       } else {
-        (0, _jsuaStyle.setState)("expansion", "expanded")(element);
+        (0, _jsuaStyle.setState)("visibility", "revealed")(element);
       }
 
       evt.stopPropagation();
@@ -10158,6 +10162,12 @@ function expansionPanel(options) {
 
 expansionPanel.header = function () {
   return [_jsuaStyle.component.slot("material-expansion-panel", "header")];
+};
+
+expansionPanel.toggle = function () {
+  return [_jsuaStyle.component.slot("material-expansion-panel", "toggle"), function (el) {
+    return el.parentElement.removeChild(el.previousSibling);
+  }];
 };
 
 },{"./color":333,"./text":341,"./util":342,"@lynx-json/jsua-style":15}],336:[function(require,module,exports){

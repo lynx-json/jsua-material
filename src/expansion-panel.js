@@ -42,7 +42,7 @@ export default function expansionPanel(options) {
       el => el.style.display = "flex",
       el => el.style.flexDirection = "column",
       el => el.style.alignItems = "stretch",
-      when("expansion", "collapsed", el => query(expandCollapseWrapper).each([
+      when("visibility", "concealed", el => query(expandCollapseWrapper).each([
         el => el.style.maxHeight = "0px",
         el => el.style.overflowY = "hidden",
         el => el.style.opacity = 0,
@@ -50,13 +50,17 @@ export default function expansionPanel(options) {
         text.body(textColor),
         () => query(toggleSlot).select("i.material-icons").each(el => el.textContent = "keyboard_arrow_down")
       ])),
-      when("expansion", "expanded", el => query(expandCollapseWrapper).each([
+      when("visibility", "revealed", el => query(expandCollapseWrapper).each([
         el => el.style.maxHeight = contentContainer.offsetHeight + "px",
         el => el.style.opacity = 1,
         () => componentHeader.style.minHeight = "64px",
         () => query(toggleSlot).select(".material-icons").each(el => el.textContent = "keyboard_arrow_up")
       ])),
-      setState("expansion", "collapsed")
+      el => {
+        if (!element.jsuaStyleHasState) {
+          setState("visibility", "concealed")(el);
+        }
+      }
     ]);
 
     query(contentContainer).each([
@@ -109,10 +113,10 @@ export default function expansionPanel(options) {
     // for maintaining the state.
     query(toggleSlot.firstElementChild).each([
       on("click", function (el, evt) {
-        if (element.jsuaStyleHasState("expansion", "expanded")) {
-          setState("expansion", "collapsed")(element);
+        if (element.jsuaStyleHasState && element.jsuaStyleHasState("visibility", "revealed")) {
+          setState("visibility", "concealed")(element);
         } else {
-          setState("expansion", "expanded")(element);
+          setState("visibility", "revealed")(element);
         }
 
         evt.stopPropagation();
