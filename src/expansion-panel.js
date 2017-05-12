@@ -126,3 +126,10 @@ expansionPanel.header = function () {
     component.slot("material-expansion-panel", "header")
   ]
 };
+
+expansionPanel.toggle = function () {
+  return [
+    component.slot("material-expansion-panel", "toggle"),
+    el => el.parentElement.removeChild(el.previousSibling)
+  ]
+}
