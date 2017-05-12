@@ -1600,10 +1600,6 @@ function query(selection) {
     each(fn, selection);
   };
 
-  q.first = function (fn) {
-    first(fn, selection);
-  };
-
   q.select = function (selector) {
     selection = select(selector, selection);
     return q;
@@ -1768,28 +1764,24 @@ exports.when = when;
 var _util = require("./util");
 
 function setupState(element) {
-  var states = [];
+  var states = {};
 
-  element.jsuaStyleHasState = function (state) {
-    return states.includes(state);
+  element.jsuaStyleHasState = function (state, value) {
+    if (value === undefined) value = true;
+    return state in states && states[state] === value;
   };
 
-  element.jsuaStyleSetState = function (state) {
-    if (!states.includes(state)) {
-      states.push(state);
-    }
+  element.jsuaStyleSetState = function (state, value) {
+    if (value === undefined) value = true;
+    states[state] = value;
   };
 
   element.jsuaStyleClearState = function (state) {
-    var index = states.indexOf(state);
-
-    if (index > -1) {
-      states.splice(index, 1);
-    }
+    delete states[state];
   };
 }
 
-function hasState(element) {
+function isTrackingState(element) {
   return !!element.jsuaStyleHasState;
 }
 
@@ -1799,13 +1791,13 @@ function raiseChangeEvent(element) {
   element.dispatchEvent(evt);
 }
 
-function setState(state) {
+function setState(state, value) {
   return function (element) {
-    if (!hasState(element)) {
+    if (!isTrackingState(element)) {
       setupState(element);
     }
 
-    element.jsuaStyleSetState(state);
+    element.jsuaStyleSetState(state, value);
 
     raiseChangeEvent(element);
   };
@@ -1813,7 +1805,7 @@ function setState(state) {
 
 function clearState(state) {
   return function (element) {
-    if (!hasState(element)) {
+    if (!isTrackingState(element)) {
       setupState(element);
     }
 
@@ -1823,13 +1815,20 @@ function clearState(state) {
   };
 }
 
-function when(state, fn) {
+function when(state, valueOrFn, fn) {
+  var value = true;
+  if (fn === undefined && (typeof valueOrFn === "function" || Array.isArray(valueOrFn))) {
+    fn = valueOrFn;
+  } else {
+    value = valueOrFn;
+  }
+
   return function (element) {
-    if (element.jsuaStyleHasState && element.jsuaStyleHasState(state)) {
+    if (element.jsuaStyleHasState && element.jsuaStyleHasState(state, value)) {
       (0, _util.executeFunctionOrArrayOfFunctions)(fn, element);
     }
     element.addEventListener("jsua-style-state-change", function (e) {
-      if (element.jsuaStyleHasState(state)) {
+      if (element.jsuaStyleHasState(state, value)) {
         (0, _util.executeFunctionOrArrayOfFunctions)(fn, element, e);
       }
     });
@@ -10036,55 +10035,62 @@ function expansionPanel(options) {
   return function (element) {
     var innerHTML = "\n      <div role=\"presentation\">\n        <div data-jsua-style-slot=\"header\" role=\"presentation\"></div>\n        <div data-jsua-style-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">keyboard_arrow_down</i></div>\n      </div>\n      <div role=\"presentation\">\n        <div data-jsua-style-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
 
-    var textColor = (0, _util.getTextColor)(options);
+    (0, _jsuaStyle.query)(element).each([(0, _jsuaStyle.component)("material-expansion-panel", innerHTML)]);
 
-    (0, _jsuaStyle.query)(element).each([(0, _jsuaStyle.component)("material-expansion-panel", innerHTML), function (el) {
+    var textColor = (0, _util.getTextColor)(options);
+    var expandCollapseWrapper = element.lastElementChild;
+    var headerSlot = element.firstElementChild.firstElementChild;
+    var contentContainer = element.lastElementChild.firstElementChild;
+    var componentHeader = element.firstElementChild;
+    var toggleSlot = componentHeader.lastElementChild;
+
+    (0, _jsuaStyle.query)(element).each([function (el) {
       return el.style.display = "flex";
     }, function (el) {
       return el.style.flexDirection = "column";
     }, function (el) {
       return el.style.alignItems = "stretch";
+    }, (0, _jsuaStyle.when)("expansion", "collapsed", function (el) {
+      return (0, _jsuaStyle.query)(expandCollapseWrapper).each([function (el) {
+        return el.style.maxHeight = "0px";
+      }, function (el) {
+        return el.style.overflowY = "hidden";
+      }, function (el) {
+        return el.style.opacity = 0;
+      }, function (el) {
+        return componentHeader.style.minHeight = "48px";
+      }, _text2.default.body(textColor), function () {
+        return (0, _jsuaStyle.query)(toggleSlot).select("i.material-icons").each(function (el) {
+          return el.textContent = "keyboard_arrow_down";
+        });
+      }]);
+    }), (0, _jsuaStyle.when)("expansion", "expanded", function (el) {
+      return (0, _jsuaStyle.query)(expandCollapseWrapper).each([function (el) {
+        return el.style.maxHeight = contentContainer.offsetHeight + "px";
+      }, function (el) {
+        return el.style.opacity = 1;
+      }, function () {
+        return componentHeader.style.minHeight = "64px";
+      }, function () {
+        return (0, _jsuaStyle.query)(toggleSlot).select(".material-icons").each(function (el) {
+          return el.textContent = "keyboard_arrow_up";
+        });
+      }]);
+    }), (0, _jsuaStyle.setState)("expansion", "collapsed")]);
+
+    (0, _jsuaStyle.query)(contentContainer).each([function (el) {
+      return contentContainer.style.display = "flex";
+    }, function (el) {
+      return contentContainer.flexDirection = "column";
+    }, function (el) {
+      return contentContainer.style.paddingLeft = "24px";
+    }, function (el) {
+      return contentContainer.style.paddingRight = "24px";
+    }, function (el) {
+      return contentContainer.style.paddingBottom = "16px";
+    }, function (el) {
+      return contentContainer.style.marginRight = "24px";
     }]);
-
-    var expandCollapseWrapper = element.lastElementChild;
-
-    (0, _jsuaStyle.query)(expandCollapseWrapper).each([function (el) {
-      return el.style.maxHeight = "0px";
-    }, function (el) {
-      return el.style.overflowY = "hidden";
-    }, function (el) {
-      return el.style.opacity = 0;
-    }, _text2.default.body(textColor)]);
-
-    var contentContainer = element.lastElementChild.firstElementChild;
-    contentContainer.style.display = "flex";
-    contentContainer.flexDirection = "column";
-    contentContainer.style.paddingLeft = "24px";
-    contentContainer.style.paddingRight = "24px";
-    contentContainer.style.paddingBottom = "16px";
-    contentContainer.style.marginRight = "24px";
-
-    element.materialExpand = function expand() {
-      expandCollapseWrapper.style.maxHeight = contentContainer.offsetHeight + "px";
-      expandCollapseWrapper.style.opacity = 1;
-      componentHeader.style.minHeight = "64px";
-      element.dataset.materialExpansionPanelState = "expanded";
-      (0, _jsuaStyle.query)(toggleSlot).select("i.material-icons").each(function (el) {
-        return el.textContent = "keyboard_arrow_up";
-      });
-    };
-
-    element.materialCollapse = function collapse() {
-      expandCollapseWrapper.style.maxHeight = "0px";
-      expandCollapseWrapper.style.opacity = 0;
-      componentHeader.style.minHeight = "48px";
-      element.dataset.materialExpansionPanelState = "collapsed";
-      (0, _jsuaStyle.query)(toggleSlot).select("i.material-icons").each(function (el) {
-        return el.textContent = "keyboard_arrow_down";
-      });
-    };
-
-    var componentHeader = element.firstElementChild;
 
     (0, _jsuaStyle.query)(componentHeader).each([_text2.default.subheading(textColor), function (el) {
       return el.style.cursor = "default";
@@ -10106,10 +10112,7 @@ function expansionPanel(options) {
       return el.style.transition = "min-height 175ms ease-in-out";
     }]);
 
-    var headerSlot = element.firstElementChild.firstElementChild;
     headerSlot.style.flexGrow = 1;
-
-    var toggleSlot = element.firstElementChild.lastElementChild;
 
     (0, _jsuaStyle.query)(toggleSlot).select("i.material-icons").each([function (el) {
       return el.style.color = textColor;
@@ -10133,20 +10136,23 @@ function expansionPanel(options) {
       return el.style.border = "1px solid transparent";
     })]);
 
-    var state = options && options.state || "collapsed";
-    if (state === "expanded") {
-      element.materialExpand();
-    }
-
     expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
 
     componentHeader.addEventListener("click", function () {
-      if (element.dataset.materialExpansionPanelState !== "expanded") {
-        element.materialExpand();
-      } else {
-        element.materialCollapse();
-      }
+      toggleSlot.firstElementChild.click();
     });
+
+    // By default, we expand/collapse. If you add your own toggle, you're responsible
+    // for maintaining the state.
+    (0, _jsuaStyle.query)(toggleSlot.firstElementChild).each([(0, _jsuaStyle.on)("click", function (el, evt) {
+      if (element.jsuaStyleHasState("expansion", "expanded")) {
+        (0, _jsuaStyle.setState)("expansion", "collapsed")(element);
+      } else {
+        (0, _jsuaStyle.setState)("expansion", "expanded")(element);
+      }
+
+      evt.stopPropagation();
+    })]);
   };
 }
 

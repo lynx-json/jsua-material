@@ -8,7 +8,9 @@ import {
 import {
   component,
   query,
-  on
+  on,
+  when,
+  setState
 } from "@lynx-json/jsua-style";
 import color from "./color";
 import text from "./text";
@@ -25,53 +27,46 @@ export default function expansionPanel(options) {
       </div>
     `;
 
+    query(element).each([
+      component("material-expansion-panel", innerHTML)
+    ]);
+
     var textColor = getTextColor(options);
+    var expandCollapseWrapper = element.lastElementChild;
+    var headerSlot = element.firstElementChild.firstElementChild;
+    var contentContainer = element.lastElementChild.firstElementChild;
+    var componentHeader = element.firstElementChild;
+    var toggleSlot = componentHeader.lastElementChild;
 
     query(element).each([
-      component("material-expansion-panel", innerHTML),
       el => el.style.display = "flex",
       el => el.style.flexDirection = "column",
-      el => el.style.alignItems = "stretch"
+      el => el.style.alignItems = "stretch",
+      when("expansion", "collapsed", el => query(expandCollapseWrapper).each([
+        el => el.style.maxHeight = "0px",
+        el => el.style.overflowY = "hidden",
+        el => el.style.opacity = 0,
+        el => componentHeader.style.minHeight = "48px",
+        text.body(textColor),
+        () => query(toggleSlot).select("i.material-icons").each(el => el.textContent = "keyboard_arrow_down")
+      ])),
+      when("expansion", "expanded", el => query(expandCollapseWrapper).each([
+        el => el.style.maxHeight = contentContainer.offsetHeight + "px",
+        el => el.style.opacity = 1,
+        () => componentHeader.style.minHeight = "64px",
+        () => query(toggleSlot).select(".material-icons").each(el => el.textContent = "keyboard_arrow_up")
+      ])),
+      setState("expansion", "collapsed")
     ]);
 
-    var expandCollapseWrapper = element.lastElementChild;
-
-    query(expandCollapseWrapper).each([
-      el => el.style.maxHeight = "0px",
-      el => el.style.overflowY = "hidden",
-      el => el.style.opacity = 0,
-      text.body(textColor)
+    query(contentContainer).each([
+      el => contentContainer.style.display = "flex",
+      el => contentContainer.flexDirection = "column",
+      el => contentContainer.style.paddingLeft = "24px",
+      el => contentContainer.style.paddingRight = "24px",
+      el => contentContainer.style.paddingBottom = "16px",
+      el => contentContainer.style.marginRight = "24px"
     ]);
-
-    var contentContainer = element.lastElementChild.firstElementChild;
-    contentContainer.style.display = "flex";
-    contentContainer.flexDirection = "column";
-    contentContainer.style.paddingLeft = "24px";
-    contentContainer.style.paddingRight = "24px";
-    contentContainer.style.paddingBottom = "16px";
-    contentContainer.style.marginRight = "24px";
-
-    element.materialExpand = function expand() {
-      expandCollapseWrapper.style.maxHeight = contentContainer.offsetHeight + "px";
-      expandCollapseWrapper.style.opacity = 1;
-      componentHeader.style.minHeight = "64px";
-      element.dataset.materialExpansionPanelState = "expanded";
-      query(toggleSlot)
-        .select("i.material-icons")
-        .each(el => el.textContent = "keyboard_arrow_up");
-    };
-
-    element.materialCollapse = function collapse() {
-      expandCollapseWrapper.style.maxHeight = "0px";
-      expandCollapseWrapper.style.opacity = 0;
-      componentHeader.style.minHeight = "48px";
-      element.dataset.materialExpansionPanelState = "collapsed";
-      query(toggleSlot)
-        .select("i.material-icons")
-        .each(el => el.textContent = "keyboard_arrow_down");
-    };
-
-    var componentHeader = element.firstElementChild;
 
     query(componentHeader)
       .each([
@@ -87,10 +82,7 @@ export default function expansionPanel(options) {
         el => el.style.transition = "min-height 175ms ease-in-out"
       ]);
 
-    var headerSlot = element.firstElementChild.firstElementChild;
     headerSlot.style.flexGrow = 1;
-
-    var toggleSlot = element.firstElementChild.lastElementChild;
 
     query(toggleSlot)
       .select("i.material-icons")
@@ -107,20 +99,25 @@ export default function expansionPanel(options) {
         on("mouseout", el => el.style.border = "1px solid transparent")
       ]);
 
-    var state = (options && options.state) || "collapsed";
-    if (state === "expanded") {
-      element.materialExpand();
-    }
-
     expandCollapseWrapper.style.transition = "max-height 175ms ease-in-out, opacity 175ms ease-in-out";
 
     componentHeader.addEventListener("click", function () {
-      if (element.dataset.materialExpansionPanelState !== "expanded") {
-        element.materialExpand();
-      } else {
-        element.materialCollapse();
-      }
+      toggleSlot.firstElementChild.click();
     });
+
+    // By default, we expand/collapse. If you add your own toggle, you're responsible
+    // for maintaining the state.
+    query(toggleSlot.firstElementChild).each([
+      on("click", function (el, evt) {
+        if (element.jsuaStyleHasState("expansion", "expanded")) {
+          setState("expansion", "collapsed")(element);
+        } else {
+          setState("expansion", "expanded")(element);
+        }
+
+        evt.stopPropagation();
+      })
+    ]);
   };
 }
 
