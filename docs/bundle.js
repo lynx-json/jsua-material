@@ -981,7 +981,14 @@ function component(name, innerHTML) {
       var slotName = el.getAttribute("data-jsua-style-slot-name") || "content";
 
       if (slots[slotName]) {
-        slots[slotName].appendChild(el);
+        var slot = slots[slotName];
+        if (slot.getAttribute("data-jsua-style-slot-mode") === "replace") {
+          while (slot.firstChild) {
+            slot.removeChild(slot.firstChild);
+          }
+        }
+
+        slot.appendChild(el);
       }
     }
 
@@ -10033,7 +10040,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function expansionPanel(options) {
   return function (element) {
-    var innerHTML = "\n      <div role=\"presentation\">\n        <div data-jsua-style-slot=\"header\" role=\"presentation\"></div>\n        <div data-jsua-style-slot=\"toggle\" role=\"presentation\"><i class=\"material-icons\">keyboard_arrow_down</i></div>\n      </div>\n      <div role=\"presentation\">\n        <div data-jsua-style-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
+    var innerHTML = "\n      <div role=\"presentation\">\n        <div data-jsua-style-slot=\"header\" role=\"presentation\"></div>\n        <div data-jsua-style-slot=\"toggle\" data-jsua-style-slot-mode=\"replace\" role=\"presentation\"><i class=\"material-icons\">keyboard_arrow_down</i></div>\n      </div>\n      <div role=\"presentation\">\n        <div data-jsua-style-slot=\"content\" role=\"presentation\"></div>\n      </div>\n    ";
 
     (0, _jsuaStyle.query)(element).each([(0, _jsuaStyle.component)("material-expansion-panel", innerHTML)]);
 
@@ -10165,9 +10172,7 @@ expansionPanel.header = function () {
 };
 
 expansionPanel.toggle = function () {
-  return [_jsuaStyle.component.slot("material-expansion-panel", "toggle"), function (el) {
-    return el.parentElement.removeChild(el.previousSibling);
-  }];
+  return [_jsuaStyle.component.slot("material-expansion-panel", "toggle")];
 };
 
 },{"./color":333,"./text":341,"./util":342,"@lynx-json/jsua-style":15}],336:[function(require,module,exports){
