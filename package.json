@@ -9,7 +9,9 @@
   "scripts": {
     "build-docs": "browserify docs/index.js -s demo -t babelify > ./docs/bundle.js",
     "publish-docs": "npm run build-docs && cp -r docs _publish && cd _publish && git init && git commit --allow-empty -m \"Update docs\" && git checkout -b gh-pages && git add . && git commit -am \"Update docs\" && git push https://github.com/lynx-json/jsua-material.git gh-pages --force && cd ../ && rm -rf _publish",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-browser": "browserify test/index.js -t babelify > ./test-browser/bundle.js; node test-browser/server.js | bash test-browser/saucelabs.sh",
+    "test-node": "mocha test --recursive --compilers js:babel-register --require babel-polyfill",
+    "test": "npm run test-node; npm run test-browser",
     "build": "babel src -d dist",
     "prepublish": "npm run build"
   },
@@ -25,6 +27,7 @@
     "babelify": "^7.3.0",
     "chai": "^3.5.0",
     "get-contrast": "^2.0.0",
+    "jsdom": "^9.12.0",
     "sinon": "^1.17.7"
   },
   "dependencies": {
