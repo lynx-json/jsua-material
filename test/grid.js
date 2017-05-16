@@ -34,7 +34,7 @@ describe("creating a material grid", function () {
     });
 
     it("should calculate the width based on column span (removing gutter width from calculation)", function () {
-      element.firstElementChild.firstElementChild.getAttribute("data-test-column-width").should.equal("calc((100% - (0px * 2) - (16px * 3)) / 3)");
+      element.firstElementChild.firstElementChild.getAttribute("data-test-column-width").should.equal("calc((100% - (16px * 3)) / 3)");
     });
   });
 });
@@ -53,17 +53,5 @@ describe("creating a material grid with a margin", function () {
 
   it("should subtact half a gutter width from the margin and add it to the to the content wrapper", function () {
     element.firstElementChild.getAttribute("data-test-margin").should.equal("calc(-8px + 8px)");
-  });
-
-  describe("when creating a column", function () {
-    beforeEach(function () {
-      query(element).each([
-        el => query(el).map(el => el.firstElementChild.children).each(grid.column(4, 0, true))
-      ]);
-    });
-
-    it("should calculate the width based on column span (removing gutter width and grid margin from calculation)", function () {
-      element.firstElementChild.firstElementChild.getAttribute("data-test-column-width").should.equal("calc((100% - (8px * 2) - (16px * 3)) / 3)");
-    });
   });
 });

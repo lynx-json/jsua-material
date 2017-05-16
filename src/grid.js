@@ -48,13 +48,11 @@ grid.column = function column(span, offset, test) {
     var gridWrapper = element.parentElement;
     var columns = +gridWrapper.getAttribute("data-material-grid-columns");
     var gutter = gridWrapper.getAttribute("data-material-grid-gutter");
-    var margin = gridWrapper.getAttribute("data-material-grid-margin")
 
     var parsedGutter = parseValue(gutter);
-    var parsedMargin = parseValue(margin);
 
     var totalColumns = columns / span;
-    var columnWidth = `calc((100% - (${margin} * 2) - (${gutter} * ${totalColumns})) / ${totalColumns})`;
+    var columnWidth = `calc((100% - (${gutter} * ${totalColumns})) / ${totalColumns})`;
     element.style.width = columnWidth;
 
     if (test) {
