@@ -1,6 +1,6 @@
 {
   "name": "@lynx-json/jsua-material",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "JSUA Material Design Styling Vocabulary",
   "main": "dist/index.js",
   "directories": {
@@ -31,6 +31,6 @@
     "sinon": "^1.17.7"
   },
   "dependencies": {
-    "@lynx-json/jsua-style": "^0.1.1"
+    "@lynx-json/jsua-style": "^0.2.0"
   }
 }
