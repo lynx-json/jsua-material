@@ -19,7 +19,14 @@ function parseValue(gutter) {
 export default function grid(columns, gutter, margin, test) {
   margin = margin || "0px";
   return function (element) {
-    var wrapper = wrapChildren(element);
+    var wrapper;
+
+    if (element.children.length === 1 && element.firstElementChild.getAttribute("data-material-grid-columns")) {
+      wrapper = element.firstElementChild;
+    } else {
+      wrapper = wrapChildren(element);
+    }
+
     var parsedGutter = parseValue(gutter);
     var parsedMargin = parseValue(margin);
 
