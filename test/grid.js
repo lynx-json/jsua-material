@@ -19,22 +19,22 @@ describe("creating a material grid", function () {
   });
 
   it("should create a wrapper around the contents of the element", function () {
-    element.firstElementChild.getAttribute("role").should.equal("presentation");
+    element.children[1].getAttribute("role").should.equal("presentation");
   });
 
   it("should add a half-gutter negative margin to the content wrapper", function () {
-    element.firstElementChild.getAttribute("data-test-margin").should.equal("calc(-8px + 0px)");
+    element.children[1].getAttribute("data-test-margin").should.equal("calc(-8px + 0px)");
   });
 
   describe("when creating a column", function () {
     beforeEach(function () {
       query(element).each([
-        el => query(el).map(el => el.firstElementChild.children).each(grid.column(4, 0, true))
+        el => query(el).map(el => el.children[1].children).each(grid.column(4, 0, true))
       ]);
     });
 
     it("should calculate the width based on column span (removing gutter width from calculation)", function () {
-      element.firstElementChild.firstElementChild.getAttribute("data-test-column-width").should.equal("calc((100% - (16px * 3)) / 3)");
+      element.children[1].firstElementChild.getAttribute("data-test-column-width").should.equal("calc((100% - (16px * 3)) / 3)");
     });
   });
 });
@@ -52,6 +52,6 @@ describe("creating a material grid with a margin", function () {
   });
 
   it("should subtact half a gutter width from the margin and add it to the to the content wrapper", function () {
-    element.firstElementChild.getAttribute("data-test-margin").should.equal("calc(-8px + 8px)");
+    element.children[1].getAttribute("data-test-margin").should.equal("calc(-8px + 8px)");
   });
 });

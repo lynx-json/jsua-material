@@ -3,6 +3,11 @@ import {
   wrapChildren
 } from "./util";
 
+import {
+  query,
+  component
+} from "@lynx-json/jsua-style";
+
 var gutterPattern = () => /^(\d*)([a-z]*)$/;
 
 function parseValue(gutter) {
@@ -17,15 +22,19 @@ function parseValue(gutter) {
 }
 
 export default function grid(columns, gutter, margin, test) {
+  var innerHTML = `
+    <div role="presentation" data-jsua-style-slot="header"></div>
+    <div role="presentation" data-jsua-style-slot="content"></div>
+    <div role="presentation" data-jsua-style-slot="footer"></div>
+  `;
+
   margin = margin || "0px";
   return function (element) {
-    var wrapper;
-
-    if (element.children.length === 1 && element.firstElementChild.getAttribute("data-material-grid-columns")) {
-      wrapper = element.firstElementChild;
-    } else {
-      wrapper = wrapChildren(element);
+    if (!element.matches("[data-jsua-style-component~=material-grid]")) {
+      query(element).each(component("material-grid", innerHTML));
     }
+
+    var wrapper = element.children[1];
 
     var parsedGutter = parseValue(gutter);
     var parsedMargin = parseValue(margin);
@@ -37,16 +46,34 @@ export default function grid(columns, gutter, margin, test) {
       wrapper.setAttribute("data-test-margin", calculatedMargin);
     }
 
-    wrapper.style.display = "flex";
-    wrapper.style.flexGrow = "1";
-    wrapper.style.flexDirection = "row";
-    wrapper.style.flexWrap = "wrap";
-    wrapper.style.maxWidth = "initial";
-    wrapper.setAttribute("role", "presentation");
+    query(wrapper).each([
+      el => el.style.display = "flex",
+      el => el.style.flexDirection = "row",
+      el => el.style.flexWrap = "wrap",
+      el => el.style.flexGrow = 1,
+      el => el.style.maxWidth = "initial",
+      el => el.setAttribute("data-material-grid-columns", columns),
+      el => el.setAttribute("data-material-grid-gutter", gutter),
+      el => el.setAttribute("data-material-grid-margin", margin)
+    ]);
 
-    wrapper.setAttribute("data-material-grid-columns", columns);
-    wrapper.setAttribute("data-material-grid-gutter", gutter);
-    wrapper.setAttribute("data-material-grid-margin", margin);
+    query(element).each([
+      el => el.style.display = "flex",
+      el => el.style.flexDirection = "column",
+      el => el.style.alignItems = "stretch",
+      el => query(el.firstElementChild).each([
+        el => el.style.display = "flex",
+        el => el.style.flexDirection = "column",
+        el => el.style.alignItems = "stretch",
+        el => el.style.flexGrow = 0
+      ]),
+      el => query(el.lastElementChild).each([
+        el => el.style.display = "flex",
+        el => el.style.flexDirection = "column",
+        el => el.style.alignItems = "stretch",
+        el => el.style.flexGrow = 0
+      ])
+    ]);
   };
 }
 
@@ -76,3 +103,21 @@ grid.column = function column(span, offset, test) {
     }
   };
 };
+
+grid.header = function () {
+  return [
+    component.slot("material-grid", "header"),
+    el => el.style.margin = "0px",
+    el => el.style.maxWidth = "100%",
+    el => el.style.width = "initial"
+  ];
+}
+
+grid.footer = function () {
+  return [
+    component.slot("material-grid", "footer"),
+    el => el.style.margin = "0px",
+    el => el.style.maxWidth = "100%",
+    el => el.style.width = "initial"
+  ];
+}
