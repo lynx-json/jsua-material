@@ -109,7 +109,7 @@ grid.header = function () {
     component.slot("material-grid", "header"),
     el => el.style.margin = "0px",
     el => el.style.maxWidth = "100%",
-    el => el.style.width = "initial"
+    el => el.style.width = "auto"
   ];
 }
 
@@ -118,6 +118,6 @@ grid.footer = function () {
     component.slot("material-grid", "footer"),
     el => el.style.margin = "0px",
     el => el.style.maxWidth = "100%",
-    el => el.style.width = "initial"
+    el => el.style.width = "auto"
   ];
 }
