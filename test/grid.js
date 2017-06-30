@@ -15,7 +15,11 @@ describe("creating a material grid", function () {
       <div></div>
     `;
 
-    query(element).each(grid(12, "16px", null, true));
+    query(element).each(grid({
+      columns: 12, 
+      gutter: "16px", 
+      test: true
+    }));
   });
 
   it("should create a wrapper around the contents of the element", function () {
@@ -29,7 +33,10 @@ describe("creating a material grid", function () {
   describe("when creating a column", function () {
     beforeEach(function () {
       query(element).each([
-        el => query(el).map(el => el.children[1].children).each(grid.column(4, 0, true))
+        el => query(el).map(el => el.children[1].children).each(grid.column({
+          span: 4, 
+          test: true
+        }))
       ]);
     });
 
@@ -48,7 +55,12 @@ describe("creating a material grid with a margin", function () {
       <div></div>
     `;
 
-    query(element).each(grid(12, "16px", "8px", true));
+    query(element).each(grid({
+      columns: 12, 
+      gutter: "16px", 
+      margin: "8px", 
+      test: true
+    }));
   });
 
   it("should subtact half a gutter width from the margin and add it to the to the content wrapper", function () {
