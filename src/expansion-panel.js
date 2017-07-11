@@ -19,11 +19,11 @@ import text from "./text";
 export default function expansionPanel(options) {
   return function (element) {
     var innerHTML = `
-      <div role="presentation">
+      <div role="presentation" data-jsua-style-slot="panel-header">
         <div data-jsua-style-slot="header" role="presentation"></div>
         <div data-jsua-style-slot="toggle" data-jsua-style-slot-mode="replace" role="presentation"><i class="material-icons">keyboard_arrow_down</i></div>
       </div>
-      <div role="presentation">
+      <div role="presentation" data-jsua-style-slot="panel-content">
         <div data-jsua-style-slot="content" role="presentation"></div>
       </div>
     `;

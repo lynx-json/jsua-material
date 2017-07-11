@@ -44,9 +44,34 @@ function footer() {
 
 function column(options) {
   options = options || {};
-  var span = options.span, offsetLeft = options.offsetLeft, offsetRight = options.offsetRight, test = options.test;
+  var span = options.span,
+    offsetLeft = options.offsetLeft,
+    offsetRight = options.offsetRight,
+    test = options.test;
+
+  function wrapInCell(element) {
+    var cell = document.createElement("div");
+    cell.style.display = "flex";
+    cell.style.flexDirection = "column";
+    cell.setAttribute("role", "presentation");
+    cell.setAttribute("data-material-grid-cell", "true");
+    element.style.flexShrink = 0;
+
+    element.parentElement.replaceChild(cell, element);
+    cell.appendChild(element);
+
+    return cell;
+  }
+
   return function (element) {
-    var gridWrapper = element.parentElement;
+    var cell;
+    if (!element.parentElement.hasAttribute("data-material-grid-cell")) {
+      cell = wrapInCell(element);
+    } else {
+      cell = element.parentElement;
+    }
+
+    var gridWrapper = cell.parentElement;
     var columns = +gridWrapper.getAttribute("data-material-grid-columns");
     var gutter = gridWrapper.getAttribute("data-material-grid-gutter");
 
@@ -54,41 +79,40 @@ function column(options) {
 
     var totalColumns = columns / span;
     var columnWidth = `calc((100% - (${gutter} * ${totalColumns})) / ${totalColumns})`;
-    element.style.width = columnWidth;
+    cell.style.width = columnWidth;
 
     if (test) {
-      element.setAttribute("data-test-column-width", columnWidth);
+      cell.setAttribute("data-test-column-width", columnWidth);
     }
 
     var margin = parsedGutter.value / 2 + parsedGutter.units;
-    element.style.margin = margin;
+    cell.style.margin = margin;
 
     if (offsetLeft) {
       let percentage = columns / offsetLeft;
       let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + ")";
-      element.style.marginLeft = offsetMargin;
+      cell.style.marginLeft = offsetMargin;
     }
-    
+
     if (offsetRight) {
       let percentage = columns / offsetRight;
       let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + ")";
-      element.style.marginRight = offsetMargin;
+      cell.style.marginRight = offsetMargin;
     }
   };
 }
 
-export default function grid(options) {
-  options = options || {};
-  var columns = options.columns, 
-    gutter = options.gutter, 
-    margin = options.margin, 
-    defaultColumnSize = options.defaultColumnSize, 
+export default function grid(options = {}) {
+  var columns = options.columns,
+    gutter = options.gutter,
+    margin = options.margin,
+    defaultColumnSpan = options.defaultColumnSpan,
     defaultOffsetLeft = options.defaultOffsetLeft,
     defaultOffsetRight = options.defaultOffsetRight,
     test = options.test,
     mapHeader = options.mapHeader,
     mapFooter = options.mapFooter;
-    
+
   var innerHTML = `
     <div role="presentation" data-jsua-style-slot="header"></div>
     <div role="presentation" data-jsua-style-slot="content"></div>
@@ -114,7 +138,7 @@ export default function grid(options) {
     }
 
     query(element).each([
-      
+
       slot("header", mapHeader),
       slot("footer", mapFooter),
       el => el.style.display = "flex",
@@ -129,15 +153,16 @@ export default function grid(options) {
       map(mappers.slot("content"), [
         el => el.style.display = "flex",
         el => el.style.flexDirection = "row",
+        el => el.style.alignItems = "stretch",
         el => el.style.flexWrap = "wrap",
         el => el.style.flexGrow = 1,
         el => el.style.maxWidth = "initial",
         el => el.setAttribute("data-material-grid-columns", columns),
         el => el.setAttribute("data-material-grid-gutter", gutter),
         el => el.setAttribute("data-material-grid-margin", margin),
-        map(mappers.children(), [
+        map(mappers.realChildren(), [
           column({
-            span: defaultColumnSize,
+            span: defaultColumnSpan,
             offsetLeft: defaultOffsetLeft,
             offsetRight: defaultOffsetRight
           })
