@@ -89,13 +89,13 @@ function column(options) {
     cell.style.margin = margin;
 
     if (offsetLeft) {
-      let percentage = columns / offsetLeft;
+      let percentage = parseInt(columns / offsetLeft);
       let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + ")";
       cell.style.marginLeft = offsetMargin;
     }
 
     if (offsetRight) {
-      let percentage = columns / offsetRight;
+      let percentage = parseInt(columns / offsetRight);
       let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + ")";
       cell.style.marginRight = offsetMargin;
     }
