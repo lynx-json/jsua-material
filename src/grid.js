@@ -77,7 +77,7 @@ function column(options) {
 
     var parsedGutter = parseValue(gutter);
 
-    var totalColumns = columns / span;
+    var totalColumns = parseInt(columns / span);
     var columnWidth = `calc((100% - (${gutter} * ${totalColumns})) / ${totalColumns})`;
     cell.style.width = columnWidth;
 
