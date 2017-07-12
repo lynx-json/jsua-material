@@ -16,8 +16,8 @@ describe("creating a material grid", function () {
     `;
 
     query(element).each(grid({
-      columns: 12, 
-      gutter: "16px", 
+      columns: 12,
+      gutter: "16px",
       test: true
     }));
   });
@@ -34,14 +34,15 @@ describe("creating a material grid", function () {
     beforeEach(function () {
       query(element).each([
         el => query(el).map(el => el.children[1].children).each(grid.column({
-          span: 4, 
+          span: 4,
           test: true
         }))
       ]);
     });
 
     it("should calculate the width based on column span (removing gutter width from calculation)", function () {
-      element.children[1].firstElementChild.getAttribute("data-test-column-width").should.equal("calc((100% - (16px * 3)) / 3)");
+      // Note that the -0.1px is to compensate for rounding errors in IE and Edge
+      element.children[1].firstElementChild.getAttribute("data-test-column-width").should.equal("calc(((100% - (16px * 3)) / 3) - 0.1px)");
     });
   });
 });
@@ -56,9 +57,9 @@ describe("creating a material grid with a margin", function () {
     `;
 
     query(element).each(grid({
-      columns: 12, 
-      gutter: "16px", 
-      margin: "8px", 
+      columns: 12,
+      gutter: "16px",
+      margin: "8px",
       test: true
     }));
   });

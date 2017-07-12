@@ -77,8 +77,8 @@ function column(options) {
 
     var parsedGutter = parseValue(gutter);
 
-    var totalColumns = parseInt(columns / span);
-    var columnWidth = `calc((100% - (${gutter} * ${totalColumns})) / ${totalColumns})`;
+    var totalColumns = columns / span;
+    var columnWidth = `calc(((100% - (${gutter} * ${totalColumns})) / ${totalColumns}) - 0.1px)`;
     cell.style.width = columnWidth;
 
     if (test) {
@@ -89,14 +89,14 @@ function column(options) {
     cell.style.margin = margin;
 
     if (offsetLeft) {
-      let percentage = parseInt(columns / offsetLeft);
-      let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + ")";
+      let percentage = columns / offsetLeft;
+      let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + " - 0.1px)";
       cell.style.marginLeft = offsetMargin;
     }
 
     if (offsetRight) {
-      let percentage = parseInt(columns / offsetRight);
-      let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + ")";
+      let percentage = columns / offsetRight;
+      let offsetMargin = "calc(((100% - " + gutter + " * " + percentage + ") / " + percentage + ") + " + (1.5 * parsedGutter.value) + parsedGutter.units + " - 0.1px)";
       cell.style.marginRight = offsetMargin;
     }
   };
