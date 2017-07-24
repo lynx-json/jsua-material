@@ -60,6 +60,11 @@ function column(options) {
     element.parentElement.replaceChild(cell, element);
     cell.appendChild(element);
 
+    query(element).each([
+      when("normal", () => cell.style.display = "flex"),
+      when("visibility", "hidden", () => cell.style.display = "none")
+    ])
+
     return cell;
   }
 
@@ -160,7 +165,7 @@ export default function grid(options = {}) {
         el => el.setAttribute("data-material-grid-columns", columns),
         el => el.setAttribute("data-material-grid-gutter", gutter),
         el => el.setAttribute("data-material-grid-margin", margin),
-        map(mappers.realChildren(), [
+        map(mappers.children(), [
           column({
             span: defaultColumnSpan,
             offsetLeft: defaultOffsetLeft,
