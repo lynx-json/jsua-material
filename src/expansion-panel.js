@@ -51,7 +51,7 @@ export default function expansionPanel(options) {
       el => contentContainer.style.paddingLeft = "24px",
       el => contentContainer.style.paddingRight = "24px",
       el => contentContainer.style.paddingBottom = "16px",
-      el => contentContainer.style.marginRight = "24px",
+      // el => contentContainer.style.marginRight = "24px",
       el => query(el).map(el => el.firstElementChild).each([
         when("visibility", "concealed", el => query(expandCollapseWrapper).each([
           el => el.style.maxHeight = "0px",
