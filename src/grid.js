@@ -166,7 +166,7 @@ export default function grid(options = {}) {
         el => el.setAttribute("data-material-grid-columns", columns),
         el => el.setAttribute("data-material-grid-gutter", gutter),
         el => el.setAttribute("data-material-grid-margin", margin),
-        map(mappers.realChildren(), [
+        map(mappers.children(), [
           column({
             span: defaultColumnSpan,
             offsetLeft: defaultOffsetLeft,
