@@ -161,11 +161,12 @@ export default function grid(options = {}) {
         el => el.style.alignItems = "stretch",
         el => el.style.flexWrap = "wrap",
         el => el.style.flexGrow = 1,
+        el => el.style.maxHeight = "100%", // This removes unncessary scroll bars.
         el => el.style.maxWidth = "initial",
         el => el.setAttribute("data-material-grid-columns", columns),
         el => el.setAttribute("data-material-grid-gutter", gutter),
         el => el.setAttribute("data-material-grid-margin", margin),
-        map(mappers.children(), [
+        map(mappers.realChildren(), [
           column({
             span: defaultColumnSpan,
             offsetLeft: defaultOffsetLeft,
