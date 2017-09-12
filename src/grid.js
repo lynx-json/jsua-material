@@ -9,6 +9,7 @@ import {
   slot,
   map,
   mappers,
+  filter,
   when,
   setState
 } from "@lynx-json/jsua-style";
@@ -70,10 +71,12 @@ function column(options) {
 
   return function (element) {
     var cell;
-    if (!element.parentElement.hasAttribute("data-material-grid-cell")) {
-      cell = wrapInCell(element);
-    } else {
+    if (element.hasAttribute("data-material-grid-cell")) {
+      cell = element;
+    } else if (element.parentElement.hasAttribute("data-material-grid-cell")) {
       cell = element.parentElement;
+    } else {
+      cell = wrapInCell(element);
     }
 
     var gridWrapper = cell.parentElement;
@@ -110,13 +113,19 @@ function column(options) {
 export default function grid(options = {}) {
   var columns = options.columns,
     gutter = options.gutter,
-    margin = options.margin,
+    margin = options.margin || "0px",
     defaultColumnSpan = options.defaultColumnSpan,
     defaultOffsetLeft = options.defaultOffsetLeft,
     defaultOffsetRight = options.defaultOffsetRight,
     test = options.test,
     mapHeader = options.mapHeader,
-    mapFooter = options.mapFooter;
+    mapFooter = options.mapFooter,
+    wrap = options.nowrap ? "nowrap" : "wrap";
+
+  var parsedGutter = parseValue(gutter);
+  var parsedMargin = parseValue(margin);
+
+  var calculatedMargin = `calc(-${parsedGutter.value/2}${parsedGutter.units} + ${parsedMargin.value}${parsedMargin.units})`;
 
   var innerHTML = `
     <div role="presentation" data-jsua-style-slot="header"></div>
@@ -124,26 +133,29 @@ export default function grid(options = {}) {
     <div role="presentation" data-jsua-style-slot="footer"></div>
   `;
 
-  margin = margin || "0px";
-  return function (element) {
-    if (!element.matches("[data-jsua-style-component~=material-grid]")) {
-      query(element).each(component("material-grid", innerHTML));
-    }
-
-    var wrapper = element.children[1];
-
-    var parsedGutter = parseValue(gutter);
-    var parsedMargin = parseValue(margin);
-
-    var calculatedMargin = `calc(-${parsedGutter.value/2}${parsedGutter.units} + ${parsedMargin.value}${parsedMargin.units})`;
-    wrapper.style.margin = calculatedMargin;
-
-    if (test) {
-      wrapper.setAttribute("data-test-margin", calculatedMargin);
-    }
-
-    query(element).each([
-
+  return [
+    filter("[data-jsua-style-component~=material-grid]", el => el.setAttribute("data-jsua-material-grid-reset", true)),
+    filter(":not([data-jsua-material-grid-reset])", component("material-grid", innerHTML)),
+    map(mappers.slot("content"), [
+      el => el.style.margin = calculatedMargin,
+      el => el.style.flexWrap = wrap,
+      el => el.setAttribute("data-material-grid-columns", columns),
+      el => el.setAttribute("data-material-grid-gutter", gutter),
+      el => el.setAttribute("data-material-grid-margin", margin),
+      filter(() => test, el => el.setAttribute("data-test-margin", calculatedMargin))
+    ]),
+    filter("[data-jsua-material-grid-reset]", [
+      map(mappers.slot("content"), [
+        map(mappers.children(), [
+          column({
+            span: defaultColumnSpan,
+            offsetLeft: defaultOffsetLeft,
+            offsetRight: defaultOffsetRight
+          })
+        ])
+      ])
+    ]),
+    filter(":not([data-jsua-material-grid-reset])", [
       slot("header", mapHeader),
       slot("footer", mapFooter),
       el => el.style.display = "flex",
@@ -159,13 +171,9 @@ export default function grid(options = {}) {
         el => el.style.display = "flex",
         el => el.style.flexDirection = "row",
         el => el.style.alignItems = "stretch",
-        el => el.style.flexWrap = "wrap",
         el => el.style.flexGrow = 1,
         el => el.style.maxHeight = "100%", // This removes unncessary scroll bars.
         el => el.style.maxWidth = "initial",
-        el => el.setAttribute("data-material-grid-columns", columns),
-        el => el.setAttribute("data-material-grid-gutter", gutter),
-        el => el.setAttribute("data-material-grid-margin", margin),
         map(mappers.children(), [
           column({
             span: defaultColumnSpan,
@@ -183,8 +191,8 @@ export default function grid(options = {}) {
       when("normal", el => el.style.display = "flex"),
       when("visibility", "hidden", el => el.style.display = "none"),
       setState("normal")
-    ]);
-  };
+    ])
+  ];
 }
 
 grid.column = column;

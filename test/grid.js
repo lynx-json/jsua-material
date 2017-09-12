@@ -64,7 +64,11 @@ describe("creating a material grid with a margin", function () {
     }));
   });
 
-  it("should subtact half a gutter width from the margin and add it to the to the content wrapper", function () {
+  it("should subtract half a gutter width from the margin and add it to the to the content wrapper", function () {
     element.children[1].getAttribute("data-test-margin").should.equal("calc(-8px + 8px)");
   });
+});
+
+describe("redefining grid settings for media changes", function () {
+  it("should reset all columns to the default column span and offset");
 });
