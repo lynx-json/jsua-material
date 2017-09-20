@@ -85,8 +85,9 @@ function column(options) {
 
     var parsedGutter = parseValue(gutter);
 
-    var totalColumns = columns / span;
-    var columnWidth = `calc(((100% - (${gutter} * ${totalColumns})) / ${totalColumns}) - 0.1px)`;
+    var totalColumnsOfThisSize = columns / span;
+    cell.setAttribute("data-jsua-material-grid-column-span", span);
+    var columnWidth = `calc(((100% - (${gutter} * ${totalColumnsOfThisSize})) / ${totalColumnsOfThisSize}) - 0.1px)`;
     cell.style.width = columnWidth;
 
     if (test) {
@@ -119,8 +120,7 @@ export default function grid(options = {}) {
     defaultOffsetRight = options.defaultOffsetRight,
     test = options.test,
     mapHeader = options.mapHeader,
-    mapFooter = options.mapFooter,
-    wrap = options.nowrap ? "nowrap" : "wrap";
+    mapFooter = options.mapFooter
 
   var parsedGutter = parseValue(gutter);
   var parsedMargin = parseValue(margin);
@@ -138,7 +138,7 @@ export default function grid(options = {}) {
     filter(":not([data-jsua-material-grid-reset])", component("material-grid", innerHTML)),
     map(mappers.slot("content"), [
       el => el.style.margin = calculatedMargin,
-      el => el.style.flexWrap = wrap,
+      el => el.style.flexWrap = "wrap",
       el => el.setAttribute("data-material-grid-columns", columns),
       el => el.setAttribute("data-material-grid-gutter", gutter),
       el => el.setAttribute("data-material-grid-margin", margin),
@@ -173,7 +173,7 @@ export default function grid(options = {}) {
         el => el.style.alignItems = "stretch",
         el => el.style.flexGrow = 1,
         el => el.style.maxHeight = "100%", // This removes unncessary scroll bars.
-        el => el.style.maxWidth = "initial",
+        el => el.style.maxWidth = "initial", // This cannot be 100% because of margin offsets.
         map(mappers.children(), [
           column({
             span: defaultColumnSpan,
