@@ -56,9 +56,6 @@ export default function expansionPanel(options) {
         when("visibility", "concealed", el => query(expandCollapseWrapper).each([
           el => el.style.maxHeight = "0px",
           el => el.style.overflowY = "hidden",
-          // overflowX is hidden to avoid unncessary horizontal scroll
-          // when overflowY is hidden
-          el => el.style.overflowX = "hidden",
           el => el.style.opacity = 0,
           el => componentHeader.style.minHeight = "48px",
           text.body(textColor),
