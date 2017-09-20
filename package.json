@@ -1,6 +1,6 @@
 {
   "name": "@lynx-json/jsua-material",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "JSUA Material Design Styling Vocabulary",
   "main": "dist/index.js",
   "directories": {
