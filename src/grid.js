@@ -134,8 +134,8 @@ export default function grid(options = {}) {
   `;
 
   return [
-    // The grid explicitly causes overflow. It needs to be hidden.
-    el => el.style.overflow = "hidden",
+    // // The grid explicitly causes overflow. It needs to be hidden.
+    // el => el.style.overflow = "hidden",
     filter("[data-jsua-style-component~=material-grid]", el => el.setAttribute("data-jsua-material-grid-reset", true)),
     filter(":not([data-jsua-material-grid-reset])", component("material-grid", innerHTML)),
     map(mappers.slot("content"), [
