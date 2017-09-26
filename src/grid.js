@@ -175,7 +175,7 @@ export default function grid(options = {}) {
         el => el.style.alignItems = "stretch",
         el => el.style.flexGrow = 1,
         el => el.style.maxHeight = "100%", // This removes unncessary scroll bars.
-        el => el.style.maxWidth = "initial", // This cannot be 100% because of margin offsets.
+        el => el.style.maxWidth = "none", // This cannot be 100% because of margin offsets.
         map(mappers.children(), [
           column({
             span: defaultColumnSpan,

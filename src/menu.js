@@ -170,7 +170,7 @@ menu.item = function () {
     query(element)
       .each([
         on("mouseover", background.hover()),
-        on("mouseout", el => el.style.backgroundColor = "initial"),
+        on("mouseout", el => el.style.backgroundColor = "transparent"),
         el => el.style.display = "flex",
         el => el.style.flexDirection = "row",
         el => el.style.minHeight = "48px",
