@@ -8,6 +8,7 @@ import menu from "./menu";
 import raisedButton from "./raised-button";
 import text from "./text";
 import textField from "./text-field";
+import header from "./header";
 
 export {
   background,
@@ -19,5 +20,6 @@ export {
   menu,
   raisedButton,
   text,
-  textField
+  textField,
+  header
 };
