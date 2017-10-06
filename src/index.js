@@ -1,6 +1,6 @@
 import background from "./background";
 import card from "./card";
-import color from "./color";
+import color from "./color-scheme";
 import elevation from "./elevation";
 import expansionPanel from "./expansion-panel";
 import grid from "./grid";

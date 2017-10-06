@@ -1,19 +1,19 @@
-import color from "./color";
+import colorScheme from "./color-scheme";
 import {
   getTheme
 } from "./util";
 
 export default function background(backgroundColor, shade) {
-  return el => el.style.backgroundColor = color.getColor(backgroundColor, shade);
+  return el => el.style.backgroundColor = colorScheme.getColor(backgroundColor, shade);
 }
 
 background.primary = function primary(shade) {
-  return background(color.primary, shade);
+  return background(colorScheme.primary, shade);
 };
 
 background.accent = function accent(shade) {
   shade = shade || "A200";
-  return background(color.secondary, shade);
+  return background(colorScheme.secondary, shade);
 };
 
 background.statusBar = function (theme) {

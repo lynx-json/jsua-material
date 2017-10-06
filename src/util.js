@@ -1,4 +1,4 @@
-import color from "./color";
+import colorScheme from "./color-scheme";
 import {
   query,
   on
@@ -19,8 +19,8 @@ var darkTextOpacity = {
 };
 
 export function getTheme(theme) {
-  if (theme) return color.getThemeColors(theme);
-  return color.getThemeColors(color.theme);
+  if (theme) return colorScheme.getThemeColors(theme);
+  return colorScheme.getThemeColors(colorScheme.theme);
 }
 
 export function getDividerStyle(textColor) {
@@ -37,8 +37,8 @@ export function getTextColor(options) {
 
   if (options && options.theme === "light") return "black";
   if (options && options.theme === "dark") return "white";
-  if (color.theme === "light") return "black";
-  if (color.theme === "dark") return "white";
+  if (colorScheme.theme === "light") return "black";
+  if (colorScheme.theme === "dark") return "white";
 
   throw new Error("Unknown text color");
 }

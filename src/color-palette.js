@@ -297,36 +297,36 @@ const colors = {
 
 function getPercent(shade) {
   switch (shade.toString()) {
-    case "50":
-      return 0.9;
-    case "100":
-      return 0.7;
-    case "200":
-      return 0.5;
-    case "300":
-      return 0.333;
-    case "400":
-      return 0.166;
-    case "500":
-      return 0;
-    case "600":
-      return -0.125;
-    case "700":
-      return -0.25;
-    case "800":
-      return -0.375;
-    case "900":
-      return -0.5;
-    case "A100":
-      return 0.7;
-    case "A200":
-      return 0.5;
-    case "A400":
-      return 0.166;
-    case "A700":
-      return -0.25;
-    default:
-      throw new Error("Unknown shade value: " + shade);
+  case "50":
+    return 0.9;
+  case "100":
+    return 0.7;
+  case "200":
+    return 0.5;
+  case "300":
+    return 0.333;
+  case "400":
+    return 0.166;
+  case "500":
+    return 0;
+  case "600":
+    return -0.125;
+  case "700":
+    return -0.25;
+  case "800":
+    return -0.375;
+  case "900":
+    return -0.5;
+  case "A100":
+    return 0.7;
+  case "A200":
+    return 0.5;
+  case "A400":
+    return 0.166;
+  case "A700":
+    return -0.25;
+  default:
+    throw new Error("Unknown shade value: " + shade);
   }
 }
 

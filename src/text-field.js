@@ -12,7 +12,7 @@ import {
 } from "./util";
 
 import text from "./text";
-import color from "./color";
+import colorScheme from "./color-scheme";
 
 function floatingLabel(options) {
   var textColor = getTextColor(options);
@@ -57,16 +57,16 @@ export default function textField(options) {
 
   function updateStateVisualization() {
     function getLabelColor() {
-      if (hasError) return color.error;
-      if (hasFocus) return color.primary;
+      if (hasError) return colorScheme.error;
+      if (hasFocus) return colorScheme.primary;
 
       return getTextColor(options);
     }
 
     function getBorderStyle() {
-      if (hasFocus && hasError) return `2px solid ${color.error}`;
-      if (hasError) return `1px solid ${color.error}`;
-      if (hasFocus) return `2px solid ${color.primary}`;
+      if (hasFocus && hasError) return `2px solid ${colorScheme.error}`;
+      if (hasError) return `1px solid ${colorScheme.error}`;
+      if (hasFocus) return `2px solid ${colorScheme.primary}`;
       return getDividerStyle(options);
     }
 
