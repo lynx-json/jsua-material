@@ -1,17 +1,9 @@
 import {
   getTextColor,
   getPrimaryTextOpacity,
-  getSecondaryTextOpacity
+  getSecondaryTextOpacity,
+  rgba
 } from "./util";
-
-function rgba(color, opacity) {
-  color = parseInt(color.slice(1), 16);
-  var r = color >> 16;
-  var g = color >> 8 & 0x00FF;
-  var b = color & 0x0000ff;
-
-  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-}
 
 export default function text(color, opacity) {
   color = color || getTextColor();

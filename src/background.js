@@ -1,44 +1,51 @@
-import colorScheme from "./color-scheme";
+import * as colorPalette from "./color-palette";
 import {
-  getTheme
+  rgba
 } from "./util";
 
-export default function background(backgroundColor, shade) {
-  return el => el.style.backgroundColor = colorScheme.getColor(backgroundColor, shade);
+export default function background(options = {}) {
+  options.opacity = options.opacity || 1;
+  return el => el.style.backgroundColor = rgba(colorPalette.getColor(options.backgroundColor, options.shade), options.opacity);
 }
 
-background.primary = function primary(shade) {
-  return background(colorScheme.primary, shade);
+background.primary = function primary(options = {}) {
+  options.shade = options.shade || "500";
+  return background(options);
 };
 
-background.accent = function accent(shade) {
-  shade = shade || "A200";
-  return background(colorScheme.secondary, shade);
+background.accent = function accent(options = {}) {
+  options.shade = options.shade || "A200";
+  return background(options);
 };
 
-background.statusBar = function (theme) {
-  var themeColors = getTheme(theme);
-  return background(themeColors[0]);
+background.statusBar = function (options = {}) {
+  options.theme = options.theme || "light";
+  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[0];
+  return background(options);
 };
 
-background.appBar = function (theme) {
-  var themeColors = getTheme(theme);
-  return background(themeColors[1]);
+background.appBar = function (options = {}) {
+  options.theme = options.theme || "light";
+  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[1];
+  return background(options);
 };
 
-background.main = function (theme) {
-  var themeColors = getTheme(theme);
-  return background(themeColors[2]);
+background.main = function (options = {}) {
+  options.theme = options.theme || "light";
+  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[2];
+  return background(options);
 };
 
-background.card = function (theme) {
-  var themeColors = getTheme(theme);
-  return background(themeColors[3]);
+background.card = function (options = {}) {
+  options.theme = options.theme || "light";
+  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[3];
+  return background(options);
 };
 
-background.menu = function (theme) {
-  var themeColors = getTheme(theme);
-  return background(themeColors[3]);
+background.menu = function (options = {}) {
+  options.theme = options.theme || "light";
+  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[3];
+  return background(options);
 };
 
 background.dialog = background.card;

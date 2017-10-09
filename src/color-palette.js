@@ -341,6 +341,20 @@ function shadeColor(color, shade) {
   return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
 }
 
+const lightTheme = [
+  getColor("Grey", 300),
+  getColor("Grey", 100),
+  getColor("Grey", 50),
+  getColor("White")
+];
+
+const darkTheme = [
+  getColor("Black"),
+  getColor("Grey", 900),
+  getColor("#303030"),
+  getColor("Grey", 800)
+];
+
 export function getColor(name, shade) {
   if (name === "White") return "#FFFFFF";
   if (name === "Black") return "#000000";
@@ -361,4 +375,14 @@ export function getColor(name, shade) {
   }
 
   return color;
+}
+
+export function getThemeColors(themeName) {
+  if (themeName === "light") {
+    return lightTheme;
+  } else if (themeName === "dark") {
+    return darkTheme;
+  } else {
+    throw new Error("Theme name must be either 'light' or 'dark'");
+  }
 }

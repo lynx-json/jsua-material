@@ -12,7 +12,6 @@ import {
 } from "./util";
 
 import text from "./text";
-import colorScheme from "./color-scheme";
 
 function floatingLabel(options) {
   var textColor = getTextColor(options);
@@ -57,8 +56,9 @@ export default function textField(options) {
 
   function updateStateVisualization() {
     function getLabelColor() {
-      if (hasError) return colorScheme.error;
-      if (hasFocus) return colorScheme.primary;
+      // TODO: Convert as with background, etc.
+      // if (hasError) return colorScheme.error;
+      // if (hasFocus) return colorScheme.primary;
 
       return getTextColor(options);
     }

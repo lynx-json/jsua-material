@@ -1,29 +1,18 @@
-```js
-function textField(el, options) {
-  query(el).each([
-    on("focusin", raiseEvent(element.label, "material-focus"))
-  ]);
-}
+## Color Revisited
 
-function input(el, options) {
-  query(el).each([
-    on("material-focus", focusedInput)
-  ]);
-}
-
-function label(el, options) {
-  query(el).each([
-    
-    on("material-float", floatingLabel),
-    on("material-focus", focusedLabel),
-    on("material-resting", restingLabel)
-  ]);
-}
-```
+- no more static settings?
 
 ```js
-query("label").each([
-  label,
-  el => label(el, options)
-]);
+const colors: {
+  primary: colorPalette.getColor("#ff0000"),
+  secondary: colorPalette.getColor("#00ff00"),
+  error: colorPalette.getColor("#ff0000"),
+  theme: "light"
+}
+
+background.primary({ color: colors.primary });
+background.accent({ color: colors.secondary });
+background.card({ theme: colors.theme });
+
+
 ```

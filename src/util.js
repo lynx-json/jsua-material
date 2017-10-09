@@ -1,4 +1,4 @@
-import colorScheme from "./color-scheme";
+import colorPalette from "./color-palette";
 import {
   query,
   on
@@ -18,11 +18,6 @@ var darkTextOpacity = {
   divider: 0.12
 };
 
-export function getTheme(theme) {
-  if (theme) return colorScheme.getThemeColors(theme);
-  return colorScheme.getThemeColors(colorScheme.theme);
-}
-
 export function getDividerStyle(textColor) {
   if (textColor === "white") {
     return `1px solid rgba(255, 255, 255, .12)`;
@@ -31,16 +26,13 @@ export function getDividerStyle(textColor) {
   }
 }
 
-export function getTextColor(options) {
-  if (options && options.textColor) return options.textColor;
-  if (options && options.color) return options.color;
+// TODO: Refactor and remove.
+export function getTextColor(options = {}) {
+  if (options.color) return options.color;
 
-  if (options && options.theme === "light") return "black";
-  if (options && options.theme === "dark") return "white";
-  if (colorScheme.theme === "light") return "black";
-  if (colorScheme.theme === "dark") return "white";
+  if (options.theme === "dark") return "white";
 
-  throw new Error("Unknown text color");
+  return "black";
 }
 
 export function getPrimaryTextOpacity(color) {
@@ -101,4 +93,13 @@ export function raiseEvent(element, name, bubble, cancelable) {
   var evt = document.createEvent("Event");
   evt.initEvent(name, bubble, cancelable);
   element.dispatchEvent(evt);
+}
+
+export function rgba(color, opacity) {
+  color = parseInt(color.slice(1), 16);
+  var r = color >> 16;
+  var g = color >> 8 & 0x00FF;
+  var b = color & 0x0000ff;
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
