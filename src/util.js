@@ -4,50 +4,12 @@ import {
   on
 } from "@lynx-json/jsua-style";
 
-var lightTextOpacity = {
-  primary: 1,
-  secondary: 0.7,
-  disabled: 0.5,
-  divider: 0.12
-};
-
-var darkTextOpacity = {
-  primary: 0.87,
-  secondary: 0.54,
-  disabled: 0.38,
-  divider: 0.12
-};
-
 export function getDividerStyle(textColor) {
   if (textColor === "white") {
     return `1px solid rgba(255, 255, 255, .12)`;
   } else {
     return `1px solid rgba(0, 0, 0, .12)`;
   }
-}
-
-// TODO: Refactor and remove.
-export function getTextColor(options = {}) {
-  if (options.color) return options.color;
-
-  if (options.theme === "dark") return "white";
-
-  return "black";
-}
-
-export function getPrimaryTextOpacity(color) {
-  if (color === "white") return lightTextOpacity.primary;
-  return darkTextOpacity.primary;
-}
-
-export function getSecondaryTextOpacity(color) {
-  if (color === "white") return lightTextOpacity.secondary;
-  return darkTextOpacity.secondary;
-}
-
-export function getDisabledTextOpacity(color) {
-  if (color === "white") return lightTextOpacity.disabled;
-  return darkTextOpacity.disabled;
 }
 
 export function wrapChildren(element) {

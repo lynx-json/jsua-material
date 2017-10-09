@@ -20,33 +20,28 @@ background.accent = function accent(options = {}) {
 
 background.statusBar = function (options = {}) {
   options.theme = options.theme || "light";
-  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[0];
+  options.backgroundColor = options.backgroundColor || (options.theme === "light" ? colorPalette.getColor("Grey", 300) : colorPalette.getColor("Black"));
   return background(options);
 };
 
 background.appBar = function (options = {}) {
   options.theme = options.theme || "light";
-  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[1];
+  options.backgroundColor = options.backgroundColor || (options.theme === "light" ? colorPalette.getColor("Grey", 100) : colorPalette.getColor("Grey", 900));
   return background(options);
 };
 
 background.main = function (options = {}) {
   options.theme = options.theme || "light";
-  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[2];
+  options.backgroundColor = options.backgroundColor || (options.theme === "light" ? colorPalette.getColor("Grey", 50) : colorPalette.getColor("#303030"));
   return background(options);
 };
 
 background.card = function (options = {}) {
   options.theme = options.theme || "light";
-  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[3];
+  options.backgroundColor = options.backgroundColor || (options.theme === "light" ? colorPalette.getColor("White") : colorPalette.getColor("Grey", 800));
   return background(options);
 };
 
-background.menu = function (options = {}) {
-  options.theme = options.theme || "light";
-  options.backgroundColor = options.backgroundColor || colorPalette.getThemeColors(options.theme)[3];
-  return background(options);
-};
-
+background.menu = background.card;
 background.dialog = background.card;
 background.hover = background.appBar;
