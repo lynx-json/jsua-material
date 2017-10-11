@@ -8,7 +8,8 @@ import raisedButton from "./raised-button";
 import text from "./text";
 import textField from "./text-field";
 import header from "./header";
-import colorPalette from "./color-palette";
+import * as colorPalette from "./color-palette";
+import border from "./border";
 
 export {
   background,
@@ -21,5 +22,6 @@ export {
   text,
   textField,
   header,
-  colorPalette
+  colorPalette,
+  border
 };

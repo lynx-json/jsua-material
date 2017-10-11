@@ -342,7 +342,6 @@ function shadeColor(color, shade) {
 }
 
 export function getColor(name, shade) {
-  console.log("COLOR", name);
   if (name === "White") return "#FFFFFF";
   if (name === "Black") return "#000000";
 
