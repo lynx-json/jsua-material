@@ -10,6 +10,7 @@ import textField from "./text-field";
 import header from "./header";
 import * as colorPalette from "./color-palette";
 import border from "./border";
+import color from "./color";
 
 export {
   background,
@@ -23,5 +24,6 @@ export {
   textField,
   header,
   colorPalette,
-  border
+  border,
+  color
 };

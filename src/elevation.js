@@ -38,3 +38,4 @@ elevation.none = el => elevation(0);
 elevation.card = el => elevation(2);
 elevation.cardHover = el => elevation(8);
 elevation.menu = el => elevation(8);
+elevation.appBar = el => elevation(4);
