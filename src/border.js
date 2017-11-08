@@ -5,15 +5,21 @@ import {
 } from "./util";
 
 function getDividerColor(options) {
-  if (options.color) {
-    options.color = colorPalette.getColor(options.color);
+  var color = options.color;
+
+  if (typeof color === 'function') {
+    color = color();
+  }
+
+  if (color) {
+    color = colorPalette.getColor(color);
   }
 
   options.theme = options.theme || "light";
-  options.color = options.color || (options.theme === "light" ? "#000000" : "#FFFFFF");
+  color = color || (options.theme === "light" ? "#000000" : "#FFFFFF");
   options.opacity = options.opacity || 0.12;
 
-  return rgba(options.color, options.opacity);
+  return rgba(color, options.opacity);
 }
 
 export default function border(options = {}) {

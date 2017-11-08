@@ -5,7 +5,13 @@ import {
 
 export default function background(options = {}) {
   options.opacity = options.opacity || 1;
-  return el => el.style.backgroundColor = rgba(colorPalette.getColor(options.backgroundColor, options.shade), options.opacity);
+  return function (el) {
+    var backgroundColor = options.backgroundColor;
+    if (typeof options.backgroundColor === 'function') {
+      backgroundColor = options.backgroundColor();
+    }
+    el.style.backgroundColor = rgba(colorPalette.getColor(backgroundColor, options.shade), options.opacity);
+  }
 }
 
 background.primary = function primary(options = {}) {

@@ -7,7 +7,6 @@ import {
 export default function text(options = {}) {
   if (options.color || options.theme) {
     if (options.color) {
-      options.color = colorPalette.getColor(options.color);
       options.opacity = options.opacity || 1;
     }
 
@@ -20,7 +19,15 @@ export default function text(options = {}) {
     el => el.style.fontFamily = "Roboto, sans-serif",
     el => el.style.fontWeight = "400",
     el => el.style.fontSize = "14px",
-    filter(() => !!options.color, el => el.style.color = rgba(options.color, options.opacity))
+    filter(() => !!options.color, function (el) {
+      var color = options.color;
+
+      if (typeof color === 'function') {
+        color = options.color();
+      }
+      color = colorPalette.getColor(color);
+      el.style.color = rgba(color, options.opacity);
+    })
   ];
 }
 

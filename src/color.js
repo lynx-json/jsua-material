@@ -6,7 +6,6 @@ import {
 
 export default function color(options = {}) {
   if (options.color) {
-    options.color = colorPalette.getColor(options.color);
     options.opacity = options.opacity || 1;
   }
 
@@ -15,6 +14,14 @@ export default function color(options = {}) {
   options.opacity = options.opacity || (options.theme === "light" ? 1 : 0.87);
 
   return [
-    filter(() => !!options.color, el => el.style.color = rgba(options.color, options.opacity))
+    filter(() => !!options.color, function (el) {
+      var color = options.color;
+
+      if (typeof color === 'function') {
+        color = options.color();
+      }
+      color = colorPalette.getColor(color);
+      el.style.color = rgba(color, options.opacity);
+    })
   ];
 }
