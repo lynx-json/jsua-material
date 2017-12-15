@@ -20,7 +20,7 @@ export default function color(options = {}) {
       if (typeof color === 'function') {
         color = options.color();
       }
-      color = colorPalette.getColor(color);
+      color = colorPalette.getColor(color, options.shade);
       el.style.color = rgba(color, options.opacity);
     })
   ];
