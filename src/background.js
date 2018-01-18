@@ -7,6 +7,7 @@ export default function background(options = {}) {
   options.opacity = options.opacity || 1;
   return function (el) {
     var backgroundColor = options.backgroundColor;
+    // TODO: Remove. Obsolete.
     if (typeof options.backgroundColor === 'function') {
       backgroundColor = options.backgroundColor();
     }

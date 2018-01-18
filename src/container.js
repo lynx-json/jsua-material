@@ -1,11 +1,7 @@
 import { map, mappers } from '@lynx-json/jsua-style';
 import view from './view';
-import elevation from './elevation';
-import background from './background';
-import padding from './padding';
-import borderRadius from './border-radius';
 
-export default function card() {
+export default function container() {
   return [
     view(),
     map(mappers.slot('material-layout'), [
@@ -14,10 +10,6 @@ export default function card() {
       el => el.style.gridTemplateColumns = '1fr',
       // Experimental
       el => el.style.alignContent = 'start'
-    ]),
-    elevation.card(),
-    background.card(),
-    padding('16px'),
-    borderRadius('2px')
+    ])
   ];
 }

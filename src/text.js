@@ -22,6 +22,7 @@ export default function text(options = {}) {
     filter(() => !!options.color, function (el) {
       var color = options.color;
 
+      // TODO: Remove. Obsolete.
       if (typeof color === 'function') {
         color = options.color();
       }

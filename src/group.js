@@ -1,13 +1,16 @@
-import { select, map, mappers, filter, filters } from "@lynx-json/jsua-style";
+import { map, mappers, adjust } from '@lynx-json/jsua-style';
+import view from './view';
+import filters from './filters';
 
-export default function (options = {}) {
+export default function group() {
   return [
-    el => el.style.display = "grid",
-    el => el.style.gridGap = "24px",
-    el => el.style.alignContent = "start",
-    el => el.style.justifyContent = "start",
-    el => el.style.gridAutoFlow = "column",
-    el => el.style.gridTemplateColumns = "repeat(auto-fill, )"
-    // grid-template-columns: repeat(auto-fit, 186px);
+    view(),
+    map(mappers.slot('material-layout'), [
+      el => el.style.display = 'flex',
+      el => el.style.flexDirection = 'row',
+      el => el.style.flexWrap = 'wrap',
+      map(mappers.children(':not(:last-child)'), el => el.style.marginRight = '0.25em'),
+      adjust(map(mappers.children(filters.shouldHaveStandingLine()), el => el.style.flexBasis = '100%'))
+    ])
   ];
 }
