@@ -362,3 +362,52 @@ export function getColor(name, shade) {
 
   return color;
 }
+
+// static func getColor(inContrastTo: UIColor) -> UIColor {
+//         let redCoefficient = CGFloat(0.2126)
+//         let greenCoefficient = CGFloat(0.7152)
+//         let blueCoefficient = CGFloat(0.0722)
+//         let lowGammaAdjustCoefficient = CGFloat(1 / 12.92)
+//
+//         func adjustGamma(_ component: CGFloat) -> CGFloat {
+//             return pow((component + 0.055) / 1.055, 2.4);
+//         }
+//
+//         func getLuminance(_ color: UIColor) -> CGFloat {
+//             var red : CGFloat = 0
+//             var green : CGFloat = 0
+//             var blue : CGFloat = 0
+//             var alpha: CGFloat = 0
+//
+//             color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+//             let r = red <= 0.03928 ? red * lowGammaAdjustCoefficient : adjustGamma(red)
+//             let g = green <= 0.03928 ? green * lowGammaAdjustCoefficient : adjustGamma(green)
+//             let b = blue < 0.03928 ? blue * lowGammaAdjustCoefficient : adjustGamma(blue)
+//
+//             return r * redCoefficient + g * greenCoefficient + b * blueCoefficient
+//         }
+//
+//         func getContrast(_ colorOne: UIColor, _ colorTwo: UIColor) -> CGFloat {
+//             let luminanceOne = getLuminance(colorOne)
+//             let luminanceTwo = getLuminance(colorTwo)
+//
+//             let l1 = max(luminanceOne, luminanceTwo)
+//             let l2 = min(luminanceOne, luminanceTwo)
+//             return (l1 + 0.05) / (l2 + 0.05);
+//         }
+//
+//         let blackContrast = getContrast(inContrastTo, UIColor.black)
+//         let whiteContrast = getContrast(inContrastTo, UIColor.white)
+//
+//         if blackContrast > whiteContrast {
+//             return UIColor.black
+//         } else {
+//             return UIColor.white
+//         }
+//     }
+// export function getColorInContrastTo(color) {
+//   const redCoefficient = 0.2126
+//   const greenCoefficient = 0.7152
+//   const blueCoefficient = 0.0722
+//   const lowGammaAdjustCoefficient = 1 / 12.92
+// }

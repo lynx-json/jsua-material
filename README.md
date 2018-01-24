@@ -1,17 +1,17 @@
 JSUA Material
 =================================================
 
-[Examples](https://johnhowes.github.io/jsua-material/)
-
-Color
+Components
 -------------------------------------------------
 
-### Color Scheme
+> Alignment properties are normalized, so that all align and justify values
+> use the css grid values of `start`, `end`, `center`, and `stretch`.
+
+### Group
 
 ```js
-
-material.color.primary = "Indigo";
-material.color.secondary = "Yellow";
-material.color.theme = "light";
-
-```
+material.group({
+  alignItems: 'center', // Default 'start'
+  gap: '12px' // Default 0.25 em
+})
+``

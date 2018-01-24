@@ -14,7 +14,12 @@ import color from './color';
 import container from './container';
 import group from './group';
 import padding from './padding';
+import negateContainerPadding from './negate-container-padding';
 import set from './set';
+import footer from './footer';
+import list from './list';
+import table from './table';
+import tableRow from './table-row';
 
 export {
   background,
@@ -33,5 +38,10 @@ export {
   color,
   group,
   padding,
-  set
+  negateContainerPadding,
+  set,
+  footer,
+  list,
+  table,
+  tableRow
 };

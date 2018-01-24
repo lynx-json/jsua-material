@@ -8,11 +8,10 @@ import borderRadius from './border-radius';
 export default function card() {
   return [
     view(),
-    map(mappers.slot('material-layout'), [
+    map(mappers.slot('content'), [
       el => el.style.display = 'grid',
       el => el.style.gridGap = '16px',
       el => el.style.gridTemplateColumns = '1fr',
-      // Experimental
       el => el.style.alignContent = 'start'
     ]),
     elevation.card(),
