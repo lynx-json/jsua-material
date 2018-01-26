@@ -41,6 +41,8 @@ export default function expansionPanel(options = {}) {
     ]),
     map(mappers.slot('header'), el => el.style.flexGrow = 1),
     map(mappers.slot('toggle'), [
+      el => el.style.display = 'flex',
+      el => el.style.alignItems = 'center',
       el => el.style.marginLeft = '16px',
       color({ color: options.color, opacity: 0.38, theme: options.theme }),
       select('i.material-icons', [

@@ -6,9 +6,17 @@ export default function table() {
   return [
     view(),
     map(mappers.slot('content'), [
-      el => el.style.display = 'grid',
-      el => el.style.gridGap = '16px'
-    ])
+      el => el.style.gridGap = '16px',
+      el => el.style.display = 'none'
+    ]),
+    adjust(function (el) {
+      var maxWidth = el.offsetWidth;
+      query(el).map(mappers.slot('content')).each([
+        el => el.style.maxWidth = `${maxWidth}px`,
+        el => el.style.display = 'grid',
+        el => el.style.overflowX = 'auto'
+      ]);
+    })
   ];
 }
 
@@ -46,13 +54,16 @@ function adjustAlignment() {
 
       cells.forEach(function measureCell(cell, index) {
         maxCellProportions[index] = Math.max(maxCellProportions[index] || 0, cell.offsetWidth / totalWidth);
-        maxWidths[index] = Math.max(maxWidths[index] || 0, cell.offsetWidth);
-        minWidths[index] = Math.min(minWidths[index] || cell.offsetWidth, cell.offsetWidth);
+
+        if (index === 0) {
+          maxWidths[index] = Math.max(maxWidths[index] || 0, cell.offsetWidth);
+          minWidths[index] = Math.min(minWidths[index] || cell.offsetWidth, cell.offsetWidth);
+        }
       });
     });
 
     var templateColumns = maxCellProportions.map(getColumnFraction).map((fr, index) => {
-      if (maxWidths[index] === minWidths[index]) {
+      if (index === 0 && maxWidths[index] === minWidths[index]) {
         return 'auto';
       }
       return `${fr}fr`;

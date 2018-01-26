@@ -18,14 +18,15 @@ set.auto = function () {
   return [
     set(),
     map(mappers.slot('content'), [
-      el => el.style.gridTemplateColumns = Array.from(el.children).map(el => "auto").join(" ")
-    ]),
-    adjust([
-      map(mappers.slot('content'), function (el) {
+      el => el.style.gridTemplateColumns = Array.from(el.children).map(el => "auto").join(" "),
+      el => el.style.justifyContent = 'start',
+      adjust(function (el) {
         var maxNaturalWidth = Array.from(el.children)
           .filter(el => !filters.shouldHaveStandingLine()(el))
           .map(el => el.offsetWidth).reduce((acc, cur) => Math.max(acc, cur), 0);
-        el.style.gridTemplateColumns = `repeat(auto-fit, minmax(${Math.max(maxNaturalWidth, 300)}px, 1fr))`;
+        var minimumWidth = Math.max(maxNaturalWidth, el.offsetWidth/3);
+        el.style.gridTemplateColumns = `repeat(auto-fit, minmax(${minimumWidth}px, 1fr))`;
+        el.style.justifyContent = 'stretch';
       })
     ])
   ];

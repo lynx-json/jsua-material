@@ -20,6 +20,8 @@ import footer from './footer';
 import list from './list';
 import table from './table';
 import tableRow from './table-row';
+import textInput from './text-input';
+import flatButton from './flat-button';
 
 export {
   background,
@@ -43,5 +45,7 @@ export {
   footer,
   list,
   table,
-  tableRow
+  tableRow,
+  textInput,
+  flatButton
 };
