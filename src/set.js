@@ -21,10 +21,7 @@ set.auto = function () {
       el => el.style.gridTemplateColumns = Array.from(el.children).map(el => "auto").join(" "),
       el => el.style.justifyContent = 'start',
       adjust(function (el) {
-        var maxNaturalWidth = Array.from(el.children)
-          .filter(el => !filters.shouldHaveStandingLine()(el))
-          .map(el => el.offsetWidth).reduce((acc, cur) => Math.max(acc, cur), 0);
-        var minimumWidth = Math.max(maxNaturalWidth, el.offsetWidth/3);
+        var minimumWidth = el.offsetWidth / 3;
         el.style.gridTemplateColumns = `repeat(auto-fit, minmax(${minimumWidth}px, 1fr))`;
         el.style.justifyContent = 'stretch';
       })
