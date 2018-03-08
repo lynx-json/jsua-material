@@ -2,11 +2,13 @@ import { query, map, mappers, adjust } from '@lynx-json/jsua-style';
 import view from './view';
 import filters from './filters';
 
-export default function table() {
+export default function table(options = {}) {
+  options.gap = options.gap || '16px';
+
   return [
     view(),
     map(mappers.slot('content'), [
-      el => el.style.gridGap = '16px',
+      el => el.style.gridGap = options.gap,
       el => el.style.display = 'none'
     ]),
     adjust(function (el) {

@@ -10,6 +10,7 @@ import textField from './text-field';
 import header from './header';
 import * as colorPalette from './color-palette';
 import border from './border';
+import borderRadius from './border-radius';
 import color from './color';
 import container from './container';
 import group from './group';
@@ -37,6 +38,7 @@ export {
   header,
   colorPalette,
   border,
+  borderRadius,
   color,
   group,
   padding,
