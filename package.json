@@ -3,15 +3,9 @@
   "version": "0.3.17",
   "description": "JSUA Material Design Styling Vocabulary",
   "main": "dist/index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "build-docs": "browserify docs/index.js -s demo -t babelify > ./docs/bundle.js",
     "publish-docs": "npm run build-docs && cp -r docs _publish && cd _publish && git init && git commit --allow-empty -m \"Update docs\" && git checkout -b gh-pages && git add . && git commit -am \"Update docs\" && git push https://github.com/lynx-json/jsua-material.git gh-pages --force && cd ../ && rm -rf _publish",
-    "test-browser": "browserify test/index.js -t babelify > ./test-browser/bundle.js; node test-browser/server.js | bash test-browser/saucelabs.sh",
-    "test-node": "mocha test --recursive --compilers js:babel-register --require babel-polyfill",
-    "test": "npm run test-node; npm run test-browser",
     "build": "babel src -d dist",
     "prepublish": "npm run build"
   },
@@ -20,15 +14,10 @@
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
-    "babel-polyfill": "^6.13.0",
     "babel-preset-env": "^1.1.8",
     "babel-preset-es2015": "^6.13.2",
     "babel-register": "^6.11.6",
-    "babelify": "^7.3.0",
-    "chai": "^3.5.0",
-    "get-contrast": "^2.0.0",
-    "jsdom": "^9.12.0",
-    "sinon": "^1.17.7"
+    "babelify": "^7.3.0"
   },
   "dependencies": {}
 }
